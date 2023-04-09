@@ -15,15 +15,15 @@ class ViewModel: ObservableObject {
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
     
-    private var synthesizer: AVSpeechSynthesizer?
+    private let synthesizer: AVSpeechSynthesizer
+    var enableSpeech: Bool = false
     
-    private let api: ChatGPTAPI
+    private var api: ChatGPTAPI
     
     init(api: ChatGPTAPI, enableSpeech: Bool = false) {
         self.api = api
-        if enableSpeech {
-            synthesizer = .init()
-        }
+        self.enableSpeech = enableSpeech
+        synthesizer = .init()
     }
     
     @MainActor
@@ -84,12 +84,15 @@ class ViewModel: ObservableObject {
     }
     
     func speakLastResponse() {
-        guard let synthesizer, let responseText = self.messages.last?.responseText, !responseText.isEmpty else {
+        if (!enableSpeech) {
+            return
+        }
+        guard let responseText = self.messages.last?.responseText, !responseText.isEmpty else {
             return
         }
         stopSpeaking()
         let utterance = AVSpeechUtterance(string: responseText)
-        utterance.voice = .init(language: "en-US")
+        utterance.voice = .init()
         utterance.rate = 0.5
         utterance.pitchMultiplier = 0.8
         utterance.postUtteranceDelay = 0.2
@@ -97,7 +100,19 @@ class ViewModel: ObservableObject {
     }
     
     func stopSpeaking() {
-        synthesizer?.stopSpeaking(at: .immediate)
+        synthesizer.stopSpeaking(at: .immediate)
     }
     
+    func disableProxy() {
+        api.disableProxy()
+    }
+    
+    func useProxy(proxy: String) {
+        api.useProxy(proxy: proxy)
+    }
+    
+    func updateAPI(api: ChatGPTAPI) {
+        api.history = self.api.history
+        self.api = api
+    }
 }

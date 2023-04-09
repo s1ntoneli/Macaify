@@ -15,13 +15,17 @@ class ChatGPTAPI: @unchecked Sendable {
     
     private let apiKey: String
     private var historyList = [Message]()
+    
+    private var baseURL: String
     private let urlSession = URLSession.shared
     private var urlRequest: URLRequest {
-        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        headers.forEach {  urlRequest.setValue($1, forHTTPHeaderField: $0) }
-        return urlRequest
+        get {
+            let url = URL(string: "\(baseURL)/v1/chat/completions")!
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "POST"
+            headers.forEach {  urlRequest.setValue($1, forHTTPHeaderField: $0) }
+            return urlRequest
+        }
     }
     
     let dateFormatter: DateFormatter = {
@@ -44,11 +48,34 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5) {
+    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5, baseURL: String? = nil) {
         self.apiKey = apiKey
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
+        if let baseURL = baseURL {
+            self.baseURL = baseURL
+        } else {
+            self.baseURL = "https://api.openai.com"
+        }
+    }
+    
+    func disableProxy() {
+        self.baseURL = "https://api.openai.com"
+    }
+    
+    func useProxy(proxy: String) {
+        self.baseURL = proxy
+    }
+    
+    var history: [Message] {
+        get {
+            historyList
+        }
+        set(newValue) {
+            historyList.removeAll()
+            historyList.append(contentsOf: newValue)
+        }
     }
     
     private func generateMessages(from text: String) -> [Message] {
