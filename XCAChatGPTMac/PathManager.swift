@@ -29,10 +29,10 @@ class PathManager: ObservableObject {
         }
     }
 
-    func toChat(_ command: Command) {
+    func toChat(_ command: Command, msg: String? = nil) {
         if (path.count > 0) {
             path.removeLast(path.count)
         }
-        to(target: .chat(command: command))
+        to(target: .chat(command: command, msg: msg))
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MacContentView: View {
     @StateObject var pathManager = PathManager.shared
-    @StateObject var vm: ViewModel
 
     var body: some View {
         NavigationStack(path: $pathManager.path) {
@@ -20,7 +19,7 @@ struct MacContentView: View {
                     case .addCommand: addCommandView
                     case .editCommand(let command): makeEditCommandView(command)
                     case .setting: settingView
-                    case .chat(let command): makeChatView(command)
+                    case .chat(let command, let msg): makeChatView(command, msg: msg)
                     }
                 }
         }
@@ -28,7 +27,7 @@ struct MacContentView: View {
     }
     
     var mainView: some View {
-        MainView(vm: vm)
+        MainView()
     }
     
     var addCommandView: some View {
@@ -41,8 +40,8 @@ struct MacContentView: View {
         }
     }
 
-    func makeChatView(_ command: Command)-> some View {
-        ChatView(id: command.id)
+    func makeChatView(_ command: Command, msg: String?)-> some View {
+        ChatView(id: command.id, msg: msg)
     }
 
     func makeEditCommandView(_ command: Command)-> some View {
@@ -55,7 +54,7 @@ enum Target: Hashable {
     case setting
     case addCommand
     case editCommand(command: Command)
-    case chat(command: Command)
+    case chat(command: Command, msg: String? = nil)
 }
 
 //struct MacContentView_Previews: PreviewProvider {
