@@ -86,5 +86,6 @@ struct AddCommandView: View {
             .padding()
 //            .background(Color(.secondarySystemBackground))
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

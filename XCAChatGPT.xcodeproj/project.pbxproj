@@ -23,6 +23,13 @@
 		696B6B8929E1953500845C71 /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8829E1953500845C71 /* MacContentView.swift */; };
 		696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8A29E1A34A00845C71 /* CommandStore.swift */; };
 		696B6B8E29E1D96800845C71 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8D29E1D96800845C71 /* ChatView.swift */; };
+		696B6B9029E2907700845C71 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8F29E2907700845C71 /* Color.swift */; };
+		696B6B9229E29E3900845C71 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9129E29E3900845C71 /* Themes.swift */; };
+		696B6B9429E2AEA100845C71 /* CommandDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9329E2AEA100845C71 /* CommandDetailView.swift */; };
+		696B6B9729E2B2A700845C71 /* PurpleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9629E2B2A700845C71 /* PurpleButtonStyle.swift */; };
+		696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9829E400AF00845C71 /* InputEditor.swift */; };
+		696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9A29E67F3300845C71 /* MyTextField.swift */; };
+		696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -110,6 +117,13 @@
 		696B6B8829E1953500845C71 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
 		696B6B8A29E1A34A00845C71 /* CommandStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandStore.swift; sourceTree = "<group>"; };
 		696B6B8D29E1D96800845C71 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		696B6B8F29E2907700845C71 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		696B6B9129E29E3900845C71 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		696B6B9329E2AEA100845C71 /* CommandDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandDetailView.swift; sourceTree = "<group>"; };
+		696B6B9629E2B2A700845C71 /* PurpleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurpleButtonStyle.swift; sourceTree = "<group>"; };
+		696B6B9829E400AF00845C71 /* InputEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEditor.swift; sourceTree = "<group>"; };
+		696B6B9A29E67F3300845C71 /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
+		696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButtonStyle.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* XCAChatGPTMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCAChatGPTMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -214,6 +228,7 @@
 				696B6B7A29E17A7C00845C71 /* ModelSelectionManager.swift */,
 				696B6B7C29E17ABD00845C71 /* KeyboardShortcutManager.swift */,
 				696B6B8A29E1A34A00845C71 /* CommandStore.swift */,
+				696B6B9329E2AEA100845C71 /* CommandDetailView.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -226,9 +241,18 @@
 			path = chat;
 			sourceTree = "<group>";
 		};
+		696B6B9529E2B29300845C71 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				696B6B9629E2B2A700845C71 /* PurpleButtonStyle.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
+				696B6B9529E2B29300845C71 /* components */,
 				696B6B6C29E16F7C00845C71 /* business */,
 				8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */,
 				8B057588298E52C000A56C9A /* Assets.xcassets */,
@@ -236,6 +260,8 @@
 				8B05758A298E52C000A56C9A /* Preview Content */,
 				696B6B8629E1911300845C71 /* PathManager.swift */,
 				696B6B8829E1953500845C71 /* MacContentView.swift */,
+				696B6B8F29E2907700845C71 /* Color.swift */,
+				696B6B9129E29E3900845C71 /* Themes.swift */,
 			);
 			path = XCAChatGPTMac;
 			sourceTree = "<group>";
@@ -258,6 +284,9 @@
 				8B91C019298ADF7F0079AF26 /* MessageRowView.swift */,
 				8B91C013298ADC560079AF26 /* ViewModel.swift */,
 				8B91C015298ADC9D0079AF26 /* MessageRow.swift */,
+				696B6B9829E400AF00845C71 /* InputEditor.swift */,
+				696B6B9A29E67F3300845C71 /* MyTextField.swift */,
+				696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -546,6 +575,7 @@
 			files = (
 				696B6B6F29E16FA100845C71 /* HotKeyManager.swift in Sources */,
 				696B6B7429E1702500845C71 /* HotKeyConstants.swift in Sources */,
+				696B6B9029E2907700845C71 /* Color.swift in Sources */,
 				696B6B8529E18AF800845C71 /* AddCommandView.swift in Sources */,
 				8B057597298E52DD00A56C9A /* MessageRow.swift in Sources */,
 				696B6B8E29E1D96800845C71 /* ChatView.swift in Sources */,
@@ -554,8 +584,12 @@
 				696B6B8129E187B000845C71 /* AppInfo.swift in Sources */,
 				696B6B7B29E17A7C00845C71 /* ModelSelectionManager.swift in Sources */,
 				696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */,
+				696B6B9729E2B2A700845C71 /* PurpleButtonStyle.swift in Sources */,
 				696B6B7D29E17ABD00845C71 /* KeyboardShortcutManager.swift in Sources */,
 				8B057594298E52D900A56C9A /* ContentView.swift in Sources */,
+				696B6B9229E29E3900845C71 /* Themes.swift in Sources */,
+				696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */,
+				696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */,
 				696B6B8929E1953500845C71 /* MacContentView.swift in Sources */,
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,
@@ -564,6 +598,8 @@
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
 				696B6B7929E179BC00845C71 /* SettingView.swift in Sources */,
 				8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */,
+				696B6B9429E2AEA100845C71 /* CommandDetailView.swift in Sources */,
+				696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */,
 				8B057596298E52DD00A56C9A /* ViewModel.swift in Sources */,
 				696B6B8729E1911300845C71 /* PathManager.swift in Sources */,
 			);

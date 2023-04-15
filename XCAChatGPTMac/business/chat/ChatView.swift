@@ -16,18 +16,17 @@ struct ChatView: View {
     }
     var pathManager: PathManager = PathManager.shared
     var commandStore: CommandStore = CommandStore.shared
-    let vm: ViewModel
+    @ObservedObject var vm: ViewModel
     @AppStorage("proxyAddress") private var proxyAddress = ""
     @AppStorage("useProxy") private var useProxy = false
 
-    init(id: UUID) {
+    init(id: UUID, msg: String? = nil) {
         self.id = id
-//        self.command = command
-//        self.vm = ViewModel(api: ChatGPTAPI(apiKey: APIKeyManager.shared.key ?? "", model: ModelSelectionManager.shared.selectedModel.name, systemPrompt: command.protmp, temperature: 0.5, baseURL: _useProxy.wrappedValue ? _proxyAddress.wrappedValue : nil), enableSpeech: true)
         self.vm = commandStore.commandViewModel(for: id)
-        print("proxy \(useProxy) \(proxyAddress)")
+        print("proxy \(useProxy) \(proxyAddress) \(msg)")
+        self.vm.inputMessage = msg ?? ""
     }
-    
+
     var body: some View {
         VStack {
             titleBar
@@ -43,6 +42,9 @@ struct ChatView: View {
                 Image(systemName: "chevron.backward")
                     .foregroundColor(.blue)
             }
+            .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+            .keyboardShortcut(.init("b"), modifiers: .command)
+
             Spacer()
             Text(command.name)
                 .font(.headline)
@@ -50,13 +52,25 @@ struct ChatView: View {
             Spacer()
             Button(action: {
                 // 编辑按钮的响应
+                print("button down")
                 pathManager.to(target: .editCommand(command: command))
             }) {
                 Image(systemName: "lineweight")
-                    .foregroundColor(.red)
+                    .foregroundColor(.blue)
             }
+            .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+            .keyboardShortcut(.delete)
         }
         .padding()
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            Task { [self] in
+                print("run task sendTapped")
+                if (!self.vm.inputMessage.isEmpty) {
+                    await self.vm.sendTapped()
+                }
+            }
+        }
     }
 }
 //

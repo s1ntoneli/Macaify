@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct ContentView: View {
-        
+    
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool
@@ -36,11 +36,11 @@ struct ContentView: View {
                         isTextFieldFocused = false
                     }
                 }
-                #if os(iOS) || os(macOS)
+#if os(iOS) || os(macOS)
                 Divider()
                 bottomView(image: "profile", proxy: proxy)
                 Spacer()
-                #endif
+#endif
             }
             .onChange(of: vm.messages.last?.responseText) { _ in  scrollToBottom(proxy: proxy)
             }
@@ -50,48 +50,58 @@ struct ContentView: View {
     
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .top, spacing: 8) {
-            if image.hasPrefix("http"), let url = URL(string: image) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                } placeholder: {
-                    ProgressView()
+            InputEditor(placeholder: "", text: $vm.inputMessage, onShiftEnter: {
+                Task { @MainActor in
+                    isTextFieldFocused = false
+                    scrollToBottom(proxy: proxy)
+                    await vm.sendTapped()
                 }
-
-            } else {
-                Image(image)
-                    .resizable()
-                    .frame(width: 30, height: 30)
-            }
-            
-            TextField("Send message", text: $vm.inputMessage, axis: .vertical)
-                #if os(iOS) || os(macOS)
-                .textFieldStyle(.roundedBorder)
-                #endif
-                .focused($isTextFieldFocused)
-                .disabled(vm.isInteractingWithChatGPT)
+            })
+            .frame(height: 40)
+#if os(iOS) || os(macOS)
+            .textFieldStyle(.roundedBorder)
+#endif
+            .focused($isTextFieldFocused)
+            .disabled(vm.isInteractingWithChatGPT)
             
             if vm.isInteractingWithChatGPT {
                 DotLoadingView().frame(width: 60, height: 30)
             } else {
-                Button {
-                    Task { @MainActor in
-                        isTextFieldFocused = false
-                        scrollToBottom(proxy: proxy)
-                        await vm.sendTapped()
+                HStack {
+                    Button {
+                        Task { @MainActor in
+                            isTextFieldFocused = false
+                            scrollToBottom(proxy: proxy)
+                            await vm.sendTapped()
+                        }
+                    } label: {
+                        HStack {
+                            Text("发送 ↩")
+                        }
                     }
-                } label: {
-                    Image(systemName: "paperplane.circle.fill")
-                        .rotationEffect(.degrees(45))
-                        .font(.system(size: 30))
+#if os(macOS)
+                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+                    .keyboardShortcut(.defaultAction)
+                    .foregroundColor(Color.gray.opacity(0.5))
+#endif
+                    .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    
+                    Button {
+                        Task { @MainActor in
+                            print("mini")
+                            NSApplication.shared.windows.first?.miniaturize(nil)
+                        }
+                    } label: {
+                        HStack {
+                            Text("使用最后的回答 ⌘↩")
+                        }
+                    }
+#if os(macOS)
+                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .foregroundColor(Color.gray.opacity(0.5))
+#endif
                 }
-                #if os(macOS)
-                .buttonStyle(.borderless)
-                .keyboardShortcut(.defaultAction)
-                .foregroundColor(.accentColor)
-                #endif
-                .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
         }
         .padding(.horizontal, 16)
@@ -107,7 +117,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))
+            ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "")))
         }
     }
 }
