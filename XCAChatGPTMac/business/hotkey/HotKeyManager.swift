@@ -46,9 +46,5 @@ class HotKeyManager {
 //            self.window.makeKeyAndOrderFront(nil)
             app?.activate(options: [.activateAllWindows])
         }
-        
-        KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name("tab", default: .init(.tab) )) {
-            print("tab")
-        }
     }
 }

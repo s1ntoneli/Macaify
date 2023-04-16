@@ -9,48 +9,44 @@ import SwiftUI
 
 struct CommandDetailView: View {
     
-    let command: Command
-    
+    @EnvironmentObject var pathManager: PathManager
+    @State var command: Command
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Image(systemName: "app.fill")
-                    .resizable()
-                    .frame(width: 48, height: 48)
-                Spacer()
-                Button(action: {
-                    // 点击设置按钮的响应
-                }) {
-                    Image(systemName: "gear")
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Image(systemName: "app.fill")
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                    Spacer()
+                    PlainButton(icon: "lineweight") {
+                        print("edit command \(command.id) \(command.name)")
+                        pathManager.to(target: .editCommand(command: command))
+                    }
+                }
+                HStack(alignment: .bottom) {
+                    Text(command.name)
                         .font(.title)
                 }
-                .buttonStyle(.plain)
-            }
-            HStack(alignment: .bottom) {
-                Text(command.name)
-                    .font(.title)
-
+                .padding(.top, 8)
+                
                 Text(command.shortcutDescription)
                     .font(.title2)
                     .opacity(0.5)
+                Text(command.protmp)
+                    .font(.title3)
+                    .opacity(0.7)
+                    .padding(.top, 12)
+                Spacer()
             }
-            .padding(.top, 12)
-            Text("prompt")
-                .font(.subheadline)
-                .padding(.top)
-            Text(command.protmp)
-                .font(.title3)
-            Spacer()
-//            Button(action: {
-//                // 点击开始聊天按钮的响应
-//            }) {
-//                Text("编辑 ⌘E")
-//                    .fontWeight(.bold)
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: .infinity)
-//            }
-//            .buttonStyle(PurpleButtonStyle())
+            .padding(.all, 24)
         }
-        .padding(.all, 24)
+        .onAppear {
+            print("detailView onAppear")
+        }
+        .onDisappear {
+            print("detailView onDisappear")
+        }
     }
 }

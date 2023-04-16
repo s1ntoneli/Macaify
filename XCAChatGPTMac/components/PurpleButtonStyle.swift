@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct PurpleButtonStyle: ButtonStyle {
+    var background: Color = Color.hex(0x8654E2)
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
             .foregroundColor(.white)
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.hex(0x8654E2))
+            .background(background)
             .cornerRadius(12)
             .scaleEffect(configuration.isPressed ? 0.9 : 1)
             .animation(.spring())

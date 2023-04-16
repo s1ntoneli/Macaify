@@ -50,16 +50,11 @@ struct ChatView: View {
                 .font(.headline)
                 .fontWeight(.bold)
             Spacer()
-            Button(action: {
+            PlainButton(icon: "lineweight", shortcut: .init("e"), modifiers: .command, action: {
                 // 编辑按钮的响应
                 print("button down")
                 pathManager.to(target: .editCommand(command: command))
-            }) {
-                Image(systemName: "lineweight")
-                    .foregroundColor(.blue)
-            }
-            .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-            .keyboardShortcut(.delete)
+            })
         }
         .padding()
         .navigationBarBackButtonHidden(true)

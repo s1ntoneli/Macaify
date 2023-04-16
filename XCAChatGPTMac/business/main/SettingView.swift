@@ -11,108 +11,90 @@ import KeyboardShortcuts
 struct SettingView: View {
     // 返回按钮的操作
     var onBackButtonTap: () -> Void
-
+    
     // openai-api-key
     @State private var apiKey: String = APIKeyManager.shared.getAPIKey()
-
+    
     // 热键设置
     @State private var shortcut = KeyboardShortcutManager.shared.getShortcut()
-
+    
     // 模型选择
     @State private var selectedModelIndex = ModelSelectionManager.shared.selectIndex
     
     @AppStorage("proxyAddress") private var proxyAddress = ""
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
-
+    
     var body: some View {
         VStack {
             // 顶部导航栏
-            HStack {
-                Button(action: onBackButtonTap) {
-                    Image(systemName: "chevron.left")
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-
+            ConfigurableView(onBack: { onBackButtonTap() }, title: "全局设置", showLeftButton: true) {}
+            
             // 设置项
-            VStack(alignment: .leading, spacing: 20) {
-                // openai-api-key
+            List {
                 VStack(alignment: .leading) {
-                    Text("openai-api-key")
-                        .font(.headline)
+                    Text("openai-api-key").font(.headline)
                     TextField("输入API密钥", text: $apiKey)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(CustomTextFieldStyle())
                 }
-
-                // 热键设置
+                
                 VStack(alignment: .leading) {
-                    Text("热键设置")
-                        .font(.headline)
+                    Text("热键设置").font(.headline)
                     Form {
                         KeyboardShortcuts.Recorder("", name: .quickAsk)
                     }
                 }
-
-                // 模型选择
+                .padding(.top, 12)
+                
                 VStack(alignment: .leading) {
-                    Text("模型选择")
-                        .font(.headline)
-                    Picker(selection: $selectedModelIndex, label: Text("选择模型")) {
+                    Text("模型选择").font(.headline)
+                    Picker(selection: $selectedModelIndex, label: Text("") ) {
                         ForEach(0..<ModelSelectionManager.shared.models.count) { index in
                             Text(ModelSelectionManager.shared.models[index].name)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
+                    .frame(maxWidth: 200)
                 }
-
-                // 模型选择
+                .padding(.top, 12)
+                
                 VStack(alignment: .leading) {
-                    Text("使用代理")
-                        .font(.headline)
-                    Toggle("Use Proxy", isOn: $useProxy)
+                    Text("使用代理").font(.headline)
+                    Toggle("启用", isOn: $useProxy)
                     TextField("Proxy address", text: $proxyAddress)
                         .disabled(!useProxy)
+                        .textFieldStyle(CustomTextFieldStyle())
                 }
-                // 模型选择
+                .padding(.top, 12)
+                
                 VStack(alignment: .leading) {
                     Text("开启语音聊天")
                         .font(.headline)
-                    Toggle("Use Voice", isOn: $useVoice)
+                    Toggle("启用", isOn: $useVoice)
                 }
+                .padding(.top, 12)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-
+            
             Spacer()
-
+            
             // 底部按钮
             HStack {
-                Button(action: {
-                    // 点击重置按钮
-//                    KeyboardShortcutManager.shared.resetShortcut()
-                    shortcut = KeyboardShortcutManager.shared.getShortcut()
-                }) {
-                    Text("重置")
-                        .foregroundColor(.red)
-                }
                 Spacer()
-                Button(action: {
+                PlainButton(icon: "tray.full",label: "保存设置", shortcut: .init("s"), modifiers: .command, action: {
                     // 点击保存按钮
-//                    KeyboardShortcutManager.shared.setShortcut(shortcut)
                     ModelSelectionManager.shared.setSelectedModelIndex(selectedModelIndex)
                     // 保存 openai-api-key 到 Keychain
                     APIKeyManager.shared.setAPIKey(apiKey)
-                }) {
-                    Text("保存")
-                }
+                    onBackButtonTap()
+                })
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
         }
         .navigationBarBackButtonHidden(true)
+        .background(.white)
     }
 }
 //

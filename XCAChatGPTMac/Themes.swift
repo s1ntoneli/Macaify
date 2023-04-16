@@ -16,4 +16,6 @@ extension Color {
     static let accent = Color("Accent")
     
     static let divider = Color.hex(0xEBECEE, alpha: 0.7)
+    
+    static let transparent = Color.hex(0xFFFFFF, alpha: 0)
 }
