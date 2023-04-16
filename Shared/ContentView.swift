@@ -47,7 +47,7 @@ struct ContentView: View {
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
     }
-    
+
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .top, spacing: 8) {
             InputEditor(placeholder: "", text: $vm.inputMessage, onShiftEnter: {
@@ -81,11 +81,19 @@ struct ContentView: View {
                     }
 #if os(macOS)
                     .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-                    .keyboardShortcut(.defaultAction)
+                    .keyboardShortcut(.return)
                     .foregroundColor(Color.gray.opacity(0.5))
 #endif
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    
+                    .onKeyPressed(.enter) { event in
+                        Task { @MainActor in
+                            isTextFieldFocused = false
+                            scrollToBottom(proxy: proxy)
+                            await vm.sendTapped()
+                        }
+                        return true
+                    }
+
                     Button {
                         Task { @MainActor in
                             print("mini")

@@ -11,6 +11,7 @@ import KeyboardShortcuts
 
 struct MainView: View {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.isEnabled) private var isEnabled: Bool
 
     @EnvironmentObject var commandStore: CommandStore
     
@@ -21,10 +22,13 @@ struct MainView: View {
     // 添加 AddCommandView 的显示状态变量
     @State private var isAddCommandViewPresented = false
     @FocusState var focus:FocusedField?
-
-    // 选中的列表项下标
-    @State private var selectedItemIndex = 0
     
+    var selectedItemIndex: Int {
+        get {
+            commandStore.selectedItemIndex
+        }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // 搜索框
@@ -34,17 +38,15 @@ struct MainView: View {
                     .resizable()
                     .foregroundColor(Color.text)
                     .frame(width: 20, height: 20)
-                TextField("写下你的问题", text: $searchText, onCommit: {
-                    if(!searchText.isEmpty) {
-                        startChat(commandStore.commands[selectedItemIndex], searchText)
-                    }
-                })
-//                .focused($focus, equals: .name)
-                .focused(commandStore.$focus, equals: .name)
-                .textFieldStyle(.plain)
-                .padding()
-                .font(.system(size: 20))
-                .foregroundColor(Color.text)
+                TextField("写下你的问题", text: $searchText)
+                    .disabled(!isEnabled)
+                //                .focused($focus, equals: .name)
+                    .focusable()
+                //                .focused(commandStore.$focus, equals: .name)
+                    .textFieldStyle(.plain)
+                    .padding()
+                    .font(.system(size: 20))
+                    .foregroundColor(Color.text)
             }
             .padding(.horizontal)
             Divider().background(Color.divider)
@@ -73,31 +75,21 @@ struct MainView: View {
                 print("onAppear")
                 focus = .name
             }
-//            KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name("upArrow", default: .init(.upArrow) )) {
-//                print("up")
-//                selectedItemIndex = (selectedItemIndex - 1 + commandStore.commands.count) % commandStore.commands.count
-//            }
-//            KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name("downArrow", default: .init(.downArrow) )) {
-//                print("down")
-//                selectedItemIndex = (selectedItemIndex + 1) % commandStore.commands.count
-//            }
-//            KeyboardShortcuts.onKeyUp(for: KeyboardShortcuts.Name("edit", default: .init(.e, modifiers: [.command]) )) {
-//                pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
-//            }
         }
-        .onChange(of: scenePhase) { s in
-            switch s {
-            case .background:
-                print("background")
-
-            case .inactive:
-                print("mainView inactive")
-            case .active:
-                print("mainView active")
-                
-            @unknown default:
-                print("default")
-            }
+        .onKeyPressed(.upArrow) { event in
+            print("upArrow")
+            commandStore.selectedItemIndex = (selectedItemIndex - 1 + commandStore.commands.count) % commandStore.commands.count
+            return true
+        }
+        .onKeyPressed(.downArrow) { event in
+            print("downArrow")
+            commandStore.selectedItemIndex = (selectedItemIndex + 1 + commandStore.commands.count) % commandStore.commands.count
+            return true
+        }
+        .onKeyPressed(.enter) { event in
+            print("enter")
+            startChat(commandStore.commands[selectedItemIndex], searchText)
+            return true
         }
     }
     
@@ -109,9 +101,8 @@ struct MainView: View {
                 .foregroundColor(.text)
                 .bold()
                 .font(.headline)
-            ForEach(0..<commandStore.commands.count) { index in
-                let command = commandStore.commands[index]
-                makeCommandItem(command, selected: index == selectedItemIndex)
+            ForEach(commandStore.commands) { command in
+                makeCommandItem(command, selected: commandStore.commands[selectedItemIndex].id == command.id)
                     .onTapGesture {
                         pathManager.toChat(command, msg: searchText)
                     }
@@ -123,7 +114,16 @@ struct MainView: View {
     }
     
     var details: some View {
-        CommandDetailView(command: commandStore.commands[selectedItemIndex])
+        ZStack {
+            if (commandStore.commands.indices.contains(selectedItemIndex)) {
+                CommandDetailView(command: commandStore.commands[selectedItemIndex])
+                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
+                        if (type == .keyDown) {
+                            pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
+                        }
+                    })
+            }
+        }
     }
     
     var bottomBar: some View {
@@ -138,18 +138,13 @@ struct MainView: View {
             }
             Spacer()
             HStack {
-                Button(action: {
+                PlainButton(icon: "gear", label: "全局设置 ⌘P", shortcut: .init("p"), modifiers: .command) {
                     // 点击设置按钮
-                    //                            self.showSettings = true
                     pathManager.to(target: .setting)
-                }) {
-                    Image(systemName: "gear")
                 }
-                Button(action: {
+                PlainButton(icon: "plus.circle", label: "添加指令 ⌘N", shortcut: .init("n"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .addCommand)
-                }) {
-                    Image(systemName: "plus.circle")
                 }
             }
         }
@@ -166,7 +161,7 @@ struct MainView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 24)
                     .foregroundColor(Color.hex(0xFFB717))
-                VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .center, spacing: 8) {
                     Text(command.name)
                         .font(.title2)
                         .foregroundColor(Color.hex(0x37414F))
@@ -186,7 +181,7 @@ struct MainView: View {
     
     func startChat(_ command: Command,_ searchText: String) {
         pathManager.toChat(command, msg: searchText)
-        self.searchText = ""
+        self.searchText.removeAll()
     }
 }
 

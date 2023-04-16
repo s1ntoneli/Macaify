@@ -32,6 +32,9 @@ struct XCAChatGPTMacApp: App {
                     
                 }
         }
+        .commands {
+            CommandGroup(replacing: .newItem) {}
+        }
         .windowStyle(.hiddenTitleBar) // Hide the title bar
         .onChange(of: scenePhase) { s in
             switch s {
@@ -57,7 +60,7 @@ struct XCAChatGPTMacApp: App {
                     Text("XCA ChatGPT")
                         .font(.title)
                     Spacer()
-                    
+
                     Button {
                         guard !vm.isInteractingWithChatGPT else { return }
                         vm.clearMessages()
@@ -66,9 +69,8 @@ struct XCAChatGPTMacApp: App {
                             .symbolRenderingMode(.multicolor)
                             .font(.system(size: 24))
                     }
-                    
                     .buttonStyle(.borderless)
-                    
+
                     Button {
                         exit(0)
                     } label: {
@@ -86,7 +88,7 @@ struct XCAChatGPTMacApp: App {
             .frame(width: 480, height: 576)
         }.menuBarExtraStyle(.window)
     }
-    
+
     func hideTitleBar() {
         guard let window = NSApplication.shared.windows.first else {  return }
         window.standardWindowButton(.closeButton)?.isHidden = true
@@ -138,3 +140,48 @@ extension AppDelegate: NSWindowDelegate {
         return false
     }
 }
+//
+//import Cocoa
+//
+//class CustomWindow: NSWindow {
+//    override func keyDown(with event: NSEvent) {
+//        NotificationCenter.default.post(name: .keyPressed, object: event)
+//    }
+//}
+//
+//extension Notification.Name {
+//    static let keyPressed = Notification.Name("keyPressed")
+//}
+//
+//class AppDelegate: NSObject, NSApplicationDelegate {
+//    var window: NSWindow!
+//
+//    func applicationDidFinishLaunching(_ aNotification: Notification) {
+//        let contentView = TContentView()
+//
+//        window = CustomWindow(contentRect: NSRect(x: 0, y: 0, width: 480, height: 300), styleMask: [], backing: .buffered, defer: false)
+//        window.center()
+//        window.setFrameAutosaveName("Main Window1")
+//        window.setFrame(NSRect(x: 0, y: 0, width: 1000, height: 1000), display: true)
+//        window.contentView = NSHostingView(rootView: contentView)
+//        window.makeKeyAndOrderFront(nil)
+//    }
+//}
+//
+////import SwiftUI
+//
+//struct TContentView: View {
+//    @State private var key: String = ""
+//
+//    var body: some View {
+//        VStack {
+//            Text("Hello, World!")
+//            Text("Key pressed: \(key)")
+//        }.onReceive(NotificationCenter.default.publisher(for: .keyPressed)) { event in
+//            if let event = event.object as? NSEvent {
+//                key = event.characters!
+//            }
+//        }
+//        .frame(width: 1000, height: 1000)
+//    }
+//}

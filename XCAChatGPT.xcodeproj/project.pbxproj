@@ -30,6 +30,10 @@
 		696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9829E400AF00845C71 /* InputEditor.swift */; };
 		696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9A29E67F3300845C71 /* MyTextField.swift */; };
 		696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */; };
+		696B6BA029EAD2E100845C71 /* KeyEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9F29EAD2E100845C71 /* KeyEvents.swift */; };
+		696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA229EB10E600845C71 /* KeyAction.swift */; };
+		696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */; };
+		696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA629EB29AD00845C71 /* PlainButton.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -124,6 +128,10 @@
 		696B6B9829E400AF00845C71 /* InputEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEditor.swift; sourceTree = "<group>"; };
 		696B6B9A29E67F3300845C71 /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButtonStyle.swift; sourceTree = "<group>"; };
+		696B6B9F29EAD2E100845C71 /* KeyEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEvents.swift; sourceTree = "<group>"; };
+		696B6BA229EB10E600845C71 /* KeyAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyAction.swift; sourceTree = "<group>"; };
+		696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableHeaderView.swift; sourceTree = "<group>"; };
+		696B6BA629EB29AD00845C71 /* PlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainButton.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* XCAChatGPTMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCAChatGPTMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,13 +253,33 @@
 			isa = PBXGroup;
 			children = (
 				696B6B9629E2B2A700845C71 /* PurpleButtonStyle.swift */,
+				696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */,
+				696B6BA629EB29AD00845C71 /* PlainButton.swift */,
 			);
 			path = components;
+			sourceTree = "<group>";
+		};
+		696B6B9E29EAD2CF00845C71 /* debuging */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = debuging;
+			sourceTree = "<group>";
+		};
+		696B6BA129EB105700845C71 /* KeyEvents */ = {
+			isa = PBXGroup;
+			children = (
+				696B6B9F29EAD2E100845C71 /* KeyEvents.swift */,
+				696B6BA229EB10E600845C71 /* KeyAction.swift */,
+			);
+			path = KeyEvents;
 			sourceTree = "<group>";
 		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BA129EB105700845C71 /* KeyEvents */,
+				696B6B9E29EAD2CF00845C71 /* debuging */,
 				696B6B9529E2B29300845C71 /* components */,
 				696B6B6C29E16F7C00845C71 /* business */,
 				8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */,
@@ -584,11 +612,15 @@
 				696B6B8129E187B000845C71 /* AppInfo.swift in Sources */,
 				696B6B7B29E17A7C00845C71 /* ModelSelectionManager.swift in Sources */,
 				696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */,
+				696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */,
+				696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */,
+				696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */,
 				696B6B9729E2B2A700845C71 /* PurpleButtonStyle.swift in Sources */,
 				696B6B7D29E17ABD00845C71 /* KeyboardShortcutManager.swift in Sources */,
 				8B057594298E52D900A56C9A /* ContentView.swift in Sources */,
 				696B6B9229E29E3900845C71 /* Themes.swift in Sources */,
 				696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */,
+				696B6BA029EAD2E100845C71 /* KeyEvents.swift in Sources */,
 				696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */,
 				696B6B8929E1953500845C71 /* MacContentView.swift in Sources */,
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,

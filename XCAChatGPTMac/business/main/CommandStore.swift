@@ -14,7 +14,10 @@ class CommandStore: ObservableObject {
     static let shared = CommandStore()
 
     @Published var commands: [Command] = []
+
     @FocusState var focus:FocusedField?
+    // 选中的列表项下标
+    @Published var selectedItemIndex = 0
 
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
@@ -28,6 +31,7 @@ class CommandStore: ObservableObject {
 
     init() {
         loadCommands()
+        updateSelectedIndex()
     }
     
     func focusName() {
@@ -42,16 +46,25 @@ class CommandStore: ObservableObject {
             commands.append(command)
         }
         saveCommands()
+        updateSelectedIndex()
     }
     
     func removeCommand(at indexSet: IndexSet) {
         commands.remove(atOffsets: indexSet)
         saveCommands()
+        updateSelectedIndex()
+    }
+    
+    func removeCommand(by id: UUID) {
+        commands.removeAll(where: { $0.id == id })
+        saveCommands()
+        updateSelectedIndex()
     }
     
     func removeCommand(_ command: Command) {
         commands.removeAll(where: { $0.id == command.id })
         saveCommands()
+        updateSelectedIndex()
     }
 
     func commandViewModel(for id: UUID) -> ViewModel {
@@ -91,6 +104,16 @@ class CommandStore: ObservableObject {
             userDefaults.set(data, forKey: commandsKey)
         } catch {
             print("Error encoding commands: \(error.localizedDescription)")
+        }
+    }
+    
+    private func updateSelectedIndex() {
+        let count = commands.count
+        if (selectedItemIndex >= count) {
+            selectedItemIndex = count - 1
+        }
+        if (selectedItemIndex < 0) {
+            selectedItemIndex = 0
         }
     }
 }

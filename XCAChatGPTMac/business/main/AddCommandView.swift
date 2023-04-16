@@ -10,58 +10,65 @@ import AppKit
 import KeyboardShortcuts
 
 struct AddCommandView: View {
-    @Environment(\.presentationMode) var presentationMode
+
     @EnvironmentObject var commandStore: CommandStore
+    @EnvironmentObject var pathManager: PathManager
     @State var id: UUID = UUID()
     @State var commandName = ""
     @State var prompt = ""
     @State var shortcut = ""
     @State var autoAddSelectedText = false
+    var isNew: Bool {
+        get {
+            !commandStore.commands.contains(where: { $0.id == id })
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .foregroundColor(.blue)
-                }
-                Spacer()
-                Text("添加指令")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                Spacer()
-                Button(action: {
-                    // 删除按钮的响应
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
+            ConfigurableView(onBack: { pathManager.back() }, title: isNew ? "添加指令" : "编辑指令", showLeftButton: true) {
+                if !isNew {
+                    PlainButton(icon: "trash", shortcut: .init("d"), modifiers: .command) {
+                        // 删除按钮的响应
+                        commandStore.removeCommand(by: id)
+                        pathManager.toMain()
+                    }
                 }
             }
-            .padding()
-//            .background(Color(.secondarySystemBackground))
-            
-            // 中间设置项
-            Form {
-                Section(header: Text("指令名称")) {
-                    TextField("eg: SwiftUI Master", text: $commandName)
+
+
+            List {
+                VStack(alignment: .leading) {
+                    Text("指令名字").font(.headline)
+                    TextField("eg: SwiftUI 大师", text: $commandName)
+                        .textFieldStyle(CustomTextFieldStyle())
                 }
-                Section(header: Text("系统提示")) {
+                VStack(alignment: .leading) {
+                    Text("系统提示").font(.headline)
                     TextField("请填写系统提示", text: $prompt)
+                        .textFieldStyle(CustomTextFieldStyle())
+                        .lineLimit(4)
+                        .frame(height: 40)
                 }
-                Section(header: Text("热键")) {
+                .padding(.top, 12)
+                VStack(alignment: .leading) {
+                    Text("热键").font(.headline)
                     Form {
                         KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(id.uuidString))
                     }
                 }
-                Section(header: Text("自动添加选中文本")) {
+                .padding(.top, 12)
+                VStack(alignment: .leading) {
+                    Text("自动添加选中文本").font(.headline)
                     Toggle(isOn: $autoAddSelectedText) {
                         Text("启用")
                     }
                 }
+                .padding(.top, 12)
             }
-            Color.clear
+            .padding(.horizontal)
+
+            Spacer()
 
             // 底部信息栏
             HStack {
@@ -73,19 +80,33 @@ struct AddCommandView: View {
                         .font(.footnote)
                 }
                 Spacer()
-                Button("保存") {
+                PlainButton(icon: "tray.full", label: "保存指令", shortcut: .init("s"), modifiers: .command) {
                     // 保存按钮的响应
                     commandStore.addCommand(id: id, title: commandName, prompt: prompt, shortcut: shortcut, autoAddSelectedText: autoAddSelectedText)
+                    pathManager.back()
                 }
-                .frame(width: 80)
-                .padding(.vertical, 10)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(5)
             }
             .padding()
-//            .background(Color(.secondarySystemBackground))
         }
+        .background(Color(.white))
         .navigationBarBackButtonHidden(true)
+    }
+}
+struct CustomTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(.vertical, 12)
+            .padding(.horizontal, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
+                    )
+            )
+
+            .foregroundColor(Color(.systemGray))
+            .font(.body)
     }
 }
