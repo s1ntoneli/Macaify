@@ -24,12 +24,13 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        ForEach(vm.messages) { message in
-                            MessageRowView(message: message) { message in
+                        ForEach(0..<vm.messages.count, id: \.self) { index in
+                            let message = vm.messages[index]
+                            MessageRowView(message: message, tag: "\(vm.messages.count - index)") { message in
                                 Task { @MainActor in
                                     await vm.retry(message: message)
                                 }
-                            }
+                            }.id(message.id)
                         }
                     }
                     .onTapGesture {
@@ -42,7 +43,11 @@ struct ContentView: View {
                 Spacer()
 #endif
             }
-            .onChange(of: vm.messages.last?.responseText) { _ in  scrollToBottom(proxy: proxy)
+            .onChange(of: vm.messages.last?.responseText) { _ in
+                scrollToBottom(proxy: proxy)
+            }
+            .onAppear {
+                scrollToBottom(proxy: proxy)
             }
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
@@ -68,54 +73,32 @@ struct ContentView: View {
                 DotLoadingView().frame(width: 60, height: 30)
             } else {
                 HStack {
-                    Button {
+                    PlainButton(label: "发送 ↩", shortcut: .return, action: {
                         Task { @MainActor in
-                            isTextFieldFocused = false
                             scrollToBottom(proxy: proxy)
                             await vm.sendTapped()
                         }
-                    } label: {
-                        HStack {
-                            Text("发送 ↩")
-                        }
-                    }
-#if os(macOS)
-                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-                    .keyboardShortcut(.return)
-                    .foregroundColor(Color.gray.opacity(0.5))
-#endif
+                    })
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    .onKeyPressed(.enter) { event in
-                        Task { @MainActor in
-                            isTextFieldFocused = false
-                            scrollToBottom(proxy: proxy)
-                            await vm.sendTapped()
-                        }
-                        return true
-                    }
+                    .opacity(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
 
-                    Button {
+                    PlainButton(label: "使用最后的回答 ⌘↩", shortcut: .return, modifiers: .command) {
+                        print("mini")
                         Task { @MainActor in
                             print("mini")
+                            copy(text: vm.messages.last?.responseText ?? "")
                             NSApplication.shared.windows.first?.miniaturize(nil)
                         }
-                    } label: {
-                        HStack {
-                            Text("使用最后的回答 ⌘↩")
-                        }
                     }
-#if os(macOS)
-                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-                    .keyboardShortcut(.return, modifiers: .command)
-                    .foregroundColor(Color.gray.opacity(0.5))
-#endif
+                    .disabled(vm.messages.last?.responseText?.isEmpty ?? true)
+                    .opacity(vm.messages.last?.responseText?.isEmpty ?? true ? 0.5 : 1)
                 }
             }
         }
         .padding(.horizontal, 16)
         .padding(.top, 12)
     }
-    
+
     private func scrollToBottom(proxy: ScrollViewProxy) {
         guard let id = vm.messages.last?.id else { return }
         proxy.scrollTo(id, anchor: .bottomTrailing)

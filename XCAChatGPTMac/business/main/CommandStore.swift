@@ -15,13 +15,16 @@ class CommandStore: ObservableObject {
 
     @Published var commands: [Command] = []
 
-    @FocusState var focus:FocusedField?
     // 选中的列表项下标
     @Published var selectedItemIndex = 0
 
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
     private var viewModels: [UUID: ViewModel] = [:]
+    
+    var useVoice: Bool {
+        UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
+    }
     
     let menuBarCommand = Command(name: "showMenuBar", icon: "", protmp: "", shortcut: "", autoAddSelectedText: false)
     
@@ -32,10 +35,6 @@ class CommandStore: ObservableObject {
     init() {
         loadCommands()
         updateSelectedIndex()
-    }
-    
-    func focusName() {
-        self.focus = .name
     }
 
     func addCommand(id: UUID, title: String, prompt: String, shortcut: String, autoAddSelectedText: Bool) {
@@ -48,7 +47,7 @@ class CommandStore: ObservableObject {
         saveCommands()
         updateSelectedIndex()
     }
-    
+
     func removeCommand(at indexSet: IndexSet) {
         commands.remove(atOffsets: indexSet)
         saveCommands()
@@ -105,6 +104,7 @@ class CommandStore: ObservableObject {
         } catch {
             print("Error encoding commands: \(error.localizedDescription)")
         }
+        HotKeyManager.initHotKeys()
     }
     
     private func updateSelectedIndex() {

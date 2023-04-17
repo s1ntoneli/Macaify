@@ -59,12 +59,16 @@ struct ChatView: View {
         .padding()
         .navigationBarBackButtonHidden(true)
         .onAppear {
+            print("chatView onAppear \(command.name)")
             Task { [self] in
                 print("run task sendTapped")
                 if (!self.vm.inputMessage.isEmpty) {
                     await self.vm.sendTapped()
                 }
             }
+        }
+        .onDisappear {
+            print("chatView onDisappear \(command.name)")
         }
     }
 }

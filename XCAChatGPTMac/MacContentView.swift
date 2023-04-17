@@ -9,21 +9,35 @@ import SwiftUI
 
 struct MacContentView: View {
     @StateObject var pathManager = PathManager.shared
+    @State var lastTarget: Target?
 
     var body: some View {
         NavigationStack(path: $pathManager.path) {
             mainView
                 .navigationDestination(for: Target.self) { target in
-                    switch target {
-                    case .main: mainView
-                    case .addCommand: addCommandView
-                    case .editCommand(let command): makeEditCommandView(command)
-                    case .setting: settingView
-                    case .chat(let command, let msg): makeChatView(command, msg: msg)
+                    ZStack {
+//                        log(target)
+                        switch target {
+                        case .main: mainView
+                        case .addCommand: addCommandView
+                        case .editCommand(let command): makeEditCommandView(command)
+                        case .setting: settingView
+                        case .chat(let command, let msg): ChatView(id: command.id, msg: msg)
+                        }
                     }
                 }
         }
         .environmentObject(pathManager)
+    }
+    
+    func log(_ target: Target) -> some View {
+        Task {
+            print("log \(target)")
+            lastTarget = target
+        }
+//        lastTarget = target
+        return ZStack {
+        }
     }
     
     var mainView: some View {
@@ -40,8 +54,9 @@ struct MacContentView: View {
         }
     }
 
-    func makeChatView(_ command: Command, msg: String?)-> some View {
-        ChatView(id: command.id, msg: msg)
+    func makeChatView(_ command: Command, msg: String?) -> some View {
+        print("makeChatView \(command.name) \(msg)")
+        return ChatView(id: command.id, msg: msg).id(command.id)
     }
 
     func makeEditCommandView(_ command: Command)-> some View {
@@ -62,3 +77,13 @@ enum Target: Hashable {
 //        MacContentView()
 //    }
 //}
+
+struct TView: View {
+    
+    init() {
+        print("TView test")
+    }
+    var body: some View {
+        Text("test 0")
+    }
+}

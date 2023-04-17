@@ -13,10 +13,9 @@ struct PlainButton: View, Identifiable {
     let label: String
     let backgroundColor: Color
     let cornerRadius: CGFloat
-    let shortcut: KeyEquivalent?
-    let modifiers: EventModifiers
+    var shortcut: KeyEquivalent?
+    var modifiers: EventModifiers = []
     let action: () -> Void
-
 
     init(icon: String = "",
          label: String = "",

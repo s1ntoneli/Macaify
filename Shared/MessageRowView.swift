@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import MarkdownUI
 
 struct MessageRowView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     let message: MessageRow
+    var tag: String = ""
     let retryCallback: (MessageRow) -> Void
-    
+
     var imageSize: CGSize {
         #if os(iOS) || os(macOS)
         CGSize(width: 25, height: 25)
@@ -25,20 +27,20 @@ struct MessageRowView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            messageRow(text: message.sendText, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
+            messageRow(text: message.sendText, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5), isResponse: false)
             
             if let text = message.responseText {
-                Divider()
-                messageRow(text: text, image: message.responseImage, bgColor: colorScheme == .light ? .gray.opacity(0.1) : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
-                Divider()
+//                Divider().padding(.horizontal)
+                messageRow(text: text, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT, isResponse: true)
+//                Divider().padding(.horizontal)
             }
         }
     }
     
-    func messageRow(text: String, image: String, bgColor: Color, responseError: String? = nil, showDotLoading: Bool = false) -> some View {
+    func messageRow(text: String, image: String, bgColor: Color, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true) -> some View {
         #if os(watchOS)
         VStack(alignment: .leading, spacing: 8) {
-            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading)
+            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading, isResponse: isResponse)
         }
         
         .padding(16)
@@ -46,7 +48,7 @@ struct MessageRowView: View {
         .background(bgColor)
         #else
         HStack(alignment: .top, spacing: 24) {
-            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading)
+            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading, isResponse: isResponse)
         }
         #if os(tvOS)
         .padding(32)
@@ -59,7 +61,7 @@ struct MessageRowView: View {
     }
     
     @ViewBuilder
-    func messageRowContent(text: String, image: String, responseError: String? = nil, showDotLoading: Bool = false) -> some View {
+    func messageRowContent(text: String, image: String, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true) -> some View {
         if image.hasPrefix("http"), let url = URL(string: image) {
             AsyncImage(url: url) { image in
                 image
@@ -77,15 +79,20 @@ struct MessageRowView: View {
         
         VStack(alignment: .leading) {
             if !text.isEmpty {
-                #if os(tvOS)
-                responseTextView(text: text)
-                #else
-                Text(text)
-                    .multilineTextAlignment(.leading)
-                    #if os(iOS) || os(macOS)
-                    .textSelection(.enabled)
-                    #endif
-                #endif
+//                #if os(tvOS)
+//                responseTextView(text: text)
+//                #else
+//                Text(text)
+//                    .multilineTextAlignment(.leading)
+//                    #if os(iOS) || os(macOS)
+//                    .textSelection(.enabled)
+//                    #endif
+//                #endif
+                Markdown {
+                    text
+                }
+                .markdownTheme(.gitHub)
+                .textSelection(.enabled)
             }
             
             if let error = responseError {
@@ -109,7 +116,22 @@ struct MessageRowView: View {
                 DotLoadingView()
                     .frame(width: 60, height: 30)
                 #endif
-                
+            }
+
+            if responseError == nil && !showDotLoading && isResponse && !text.isEmpty {
+                HStack {
+//                    PlainButton(icon: "doc.on.doc", label: "复制") {
+                    PlainButton(icon: "doc.on.doc", label: "复制", shortcut: .init(tag.first!), modifiers: .command) {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(text, forType: .string)
+                    }
+//                    PlainButton(icon: "doc.on.doc", label: "复制并隐藏") {
+                    PlainButton(icon: "doc.on.doc", label: "复制并隐藏", shortcut: .init(tag.first!), modifiers: [.control]) {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(text, forType: .string)
+                        NSApplication.shared.windows.first?.miniaturize(nil)
+                    }
+                }
             }
         }
     }
@@ -126,7 +148,7 @@ struct MessageRowView: View {
             if char == "\n" {
                 currentLineSum += 1
             }
-            
+
             if currentLineSum >= maxLinesPerRow {
                 rows.append(currentRowText)
                 currentLineSum = 0
