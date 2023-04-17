@@ -121,12 +121,6 @@ struct MainView: View {
 //                    ForEach(commandStore.commands) {command in
                         CommandDetailView(command: $commandStore.commands[selectedItemIndex])
                         //                    .keyboardShortcut(.init("e"), modifiers: .command)
-                            .onTapGesture {
-                                print("ontapped")
-                                //                        if (type == .keyDown) {
-                                pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
-                                //                        }
-                            }
                             .id(commandStore.commands[selectedItemIndex].id)
 //                    }
                 }
