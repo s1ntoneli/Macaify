@@ -36,7 +36,6 @@ struct AddCommandView: View {
                 }
             }
 
-
             List {
                 VStack(alignment: .leading) {
                     Text("指令名字").font(.headline)

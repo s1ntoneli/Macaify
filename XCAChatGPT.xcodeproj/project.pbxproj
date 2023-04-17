@@ -34,6 +34,13 @@
 		696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA229EB10E600845C71 /* KeyAction.swift */; };
 		696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */; };
 		696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA629EB29AD00845C71 /* PlainButton.swift */; };
+		696B6BA929EC055C00845C71 /* SelectedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BA829EC055C00845C71 /* SelectedText.swift */; };
+		696B6BAC29EC160700845C71 /* StartupPasteboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BAB29EC160700845C71 /* StartupPasteboardManager.swift */; };
+		696B6BAF29EC41AF00845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BAE29EC41AF00845C71 /* MarkdownUI */; };
+		696B6BB129EC424400845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BB029EC424400845C71 /* MarkdownUI */; };
+		696B6BB329EC427800845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BB229EC427800845C71 /* MarkdownUI */; };
+		696B6BB629EC428400845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BB529EC428400845C71 /* MarkdownUI */; };
+		696B6BB829EC4BE100845C71 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BB729EC4BE100845C71 /* MainViewModel.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -132,6 +139,10 @@
 		696B6BA229EB10E600845C71 /* KeyAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyAction.swift; sourceTree = "<group>"; };
 		696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableHeaderView.swift; sourceTree = "<group>"; };
 		696B6BA629EB29AD00845C71 /* PlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainButton.swift; sourceTree = "<group>"; };
+		696B6BA829EC055C00845C71 /* SelectedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedText.swift; sourceTree = "<group>"; };
+		696B6BAB29EC160700845C71 /* StartupPasteboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupPasteboardManager.swift; sourceTree = "<group>"; };
+		696B6BB429EC427C00845C71 /* XCAChatGPTWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "XCAChatGPTWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		696B6BB729EC4BE100845C71 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* XCAChatGPTMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCAChatGPTMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -169,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				696B6B7229E16FF100845C71 /* KeyboardShortcuts in Frameworks */,
+				696B6BB129EC424400845C71 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696B6BB629EC428400845C71 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696B6BB329EC427800845C71 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +204,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696B6BAF29EC41AF00845C71 /* MarkdownUI in Frameworks */,
 				8B612E2A29D68CE3008DF5AF /* GPTEncoder in Frameworks */,
 				696B6B6B29E16F5900845C71 /* KeyboardShortcuts in Frameworks */,
 			);
@@ -237,6 +252,7 @@
 				696B6B7C29E17ABD00845C71 /* KeyboardShortcutManager.swift */,
 				696B6B8A29E1A34A00845C71 /* CommandStore.swift */,
 				696B6B9329E2AEA100845C71 /* CommandDetailView.swift */,
+				696B6BB729EC4BE100845C71 /* MainViewModel.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -262,6 +278,7 @@
 		696B6B9E29EAD2CF00845C71 /* debuging */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BA829EC055C00845C71 /* SelectedText.swift */,
 			);
 			path = debuging;
 			sourceTree = "<group>";
@@ -275,9 +292,18 @@
 			path = KeyEvents;
 			sourceTree = "<group>";
 		};
+		696B6BAA29EC15F000845C71 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				696B6BAB29EC160700845C71 /* StartupPasteboardManager.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BAA29EC15F000845C71 /* utils */,
 				696B6BA129EB105700845C71 /* KeyEvents */,
 				696B6B9E29EAD2CF00845C71 /* debuging */,
 				696B6B9529E2B29300845C71 /* components */,
@@ -322,6 +348,7 @@
 		8B0575F4298FA9D800A56C9A /* XCAChatGPTWatch Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BB429EC427C00845C71 /* XCAChatGPTWatch-Watch-App-Info.plist */,
 				8B0575F5298FA9D800A56C9A /* XCAChatGPTWatchApp.swift */,
 				8B0575F9298FA9DA00A56C9A /* Assets.xcassets */,
 				8B0575FB298FA9DA00A56C9A /* Preview Content */,
@@ -420,6 +447,7 @@
 			name = XCAChatGPTMac;
 			packageProductDependencies = (
 				696B6B7129E16FF100845C71 /* KeyboardShortcuts */,
+				696B6BB029EC424400845C71 /* MarkdownUI */,
 			);
 			productName = XCAChatGPTMac;
 			productReference = 8B057582298E52C000A56C9A /* XCAChatGPTMac.app */;
@@ -455,6 +483,9 @@
 			dependencies = (
 			);
 			name = "XCAChatGPTWatch Watch App";
+			packageProductDependencies = (
+				696B6BB529EC428400845C71 /* MarkdownUI */,
+			);
 			productName = "XCAChatGPTWatch Watch App";
 			productReference = 8B0575F0298FA9D800A56C9A /* XCAChatGPTWatch Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -472,6 +503,9 @@
 			dependencies = (
 			);
 			name = XCAChatGPTTV;
+			packageProductDependencies = (
+				696B6BB229EC427800845C71 /* MarkdownUI */,
+			);
 			productName = XCAChatGPTTV;
 			productReference = 8B057611298FBDB600A56C9A /* XCAChatGPTTV.app */;
 			productType = "com.apple.product-type.application";
@@ -492,6 +526,7 @@
 			packageProductDependencies = (
 				8B612E2929D68CE3008DF5AF /* GPTEncoder */,
 				696B6B6A29E16F5900845C71 /* KeyboardShortcuts */,
+				696B6BAE29EC41AF00845C71 /* MarkdownUI */,
 			);
 			productName = XCAChatGPT;
 			productReference = 8B91C000298AD09E0079AF26 /* XCAChatGPT.app */;
@@ -536,6 +571,7 @@
 			packageReferences = (
 				8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */,
 				696B6B6929E16F5900845C71 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = 8B91C001298AD09E0079AF26 /* Products */;
 			projectDirPath = "";
@@ -610,6 +646,8 @@
 				8B057593298E52D900A56C9A /* ChatGPTAPI.swift in Sources */,
 				8B82463529B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
 				696B6B8129E187B000845C71 /* AppInfo.swift in Sources */,
+				696B6BAC29EC160700845C71 /* StartupPasteboardManager.swift in Sources */,
+				696B6BA929EC055C00845C71 /* SelectedText.swift in Sources */,
 				696B6B7B29E17A7C00845C71 /* ModelSelectionManager.swift in Sources */,
 				696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */,
 				696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */,
@@ -634,6 +672,7 @@
 				696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */,
 				8B057596298E52DD00A56C9A /* ViewModel.swift in Sources */,
 				696B6B8729E1911300845C71 /* PathManager.swift in Sources */,
+				696B6BB829EC4BE100845C71 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +835,7 @@
 				DEVELOPMENT_TEAM = 5C2XD9H2JS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "XCAChatGPTWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = XCAChatGPTWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -826,6 +866,7 @@
 				DEVELOPMENT_TEAM = 5C2XD9H2JS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "XCAChatGPTWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = XCAChatGPTWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -1141,6 +1182,14 @@
 				kind = branch;
 			};
 		};
+		696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alfianlosari/GPTEncoder.git";
@@ -1161,6 +1210,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 696B6B6929E16F5900845C71 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		696B6BAE29EC41AF00845C71 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		696B6BB029EC424400845C71 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		696B6BB229EC427800845C71 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		696B6BB529EC428400845C71 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
 		};
 		8B612E2929D68CE3008DF5AF /* GPTEncoder */ = {
 			isa = XCSwiftPackageProductDependency;

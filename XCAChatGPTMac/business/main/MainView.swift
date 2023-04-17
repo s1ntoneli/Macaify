@@ -14,7 +14,7 @@ struct MainView: View {
     @Environment(\.isEnabled) private var isEnabled: Bool
 
     @EnvironmentObject var commandStore: CommandStore
-    
+
     @EnvironmentObject var pathManager: PathManager
     // 搜索关键字
     @State private var searchText = ""
@@ -40,13 +40,14 @@ struct MainView: View {
                     .frame(width: 20, height: 20)
                 TextField("写下你的问题", text: $searchText)
                     .disabled(!isEnabled)
-                //                .focused($focus, equals: .name)
                     .focusable()
-                //                .focused(commandStore.$focus, equals: .name)
                     .textFieldStyle(.plain)
                     .padding()
                     .font(.system(size: 20))
                     .foregroundColor(Color.text)
+                    .onChange(of: searchText) { newValue in
+                        MainViewModel.shared.searchText = newValue
+                    }
             }
             .padding(.horizontal)
             Divider().background(Color.divider)
@@ -116,12 +117,24 @@ struct MainView: View {
     var details: some View {
         ZStack {
             if (commandStore.commands.indices.contains(selectedItemIndex)) {
-                CommandDetailView(command: commandStore.commands[selectedItemIndex])
-                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
-                        if (type == .keyDown) {
-                            pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
-                        }
-                    })
+                ZStack {
+//                    ForEach(commandStore.commands) {command in
+                        CommandDetailView(command: $commandStore.commands[selectedItemIndex])
+                        //                    .keyboardShortcut(.init("e"), modifiers: .command)
+                            .onTapGesture {
+                                print("ontapped")
+                                //                        if (type == .keyDown) {
+                                pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
+                                //                        }
+                            }
+                            .id(commandStore.commands[selectedItemIndex].id)
+//                    }
+                }
+//                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
+//                        if (type == .keyDown) {
+//                            pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
+//                        }
+//                    })
             }
         }
     }

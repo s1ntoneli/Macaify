@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct CommandDetailView: View {
-    
+    @Environment(\.scenePhase) private var scenePhase
+
     @EnvironmentObject var pathManager: PathManager
-    @State var command: Command
+    @Binding var command: Command
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Image(systemName: "app.fill")
+                    Image("profile")
                         .resizable()
                         .frame(width: 48, height: 48)
                     Spacer()
-                    PlainButton(icon: "lineweight") {
+                    PlainButton(icon: "lineweight", shortcut: .init("e"), modifiers: .command) {
                         print("edit command \(command.id) \(command.name)")
                         pathManager.to(target: .editCommand(command: command))
                     }

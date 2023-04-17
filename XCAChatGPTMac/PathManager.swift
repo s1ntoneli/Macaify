@@ -33,17 +33,18 @@ class PathManager: ObservableObject {
     }
     
     func toMain() {
-        if (path.count > 0) {
-            path.removeLast(path.count)
-            pathStack.removeLast(path.count)
+        while (path.count > 0) {
+            path.removeLast()
+            pathStack.removeLast()
         }
     }
 
     func toChat(_ command: Command, msg: String? = nil) {
-        if (path.count > 0) {
-            path.removeLast(path.count)
-            pathStack.removeLast(path.count)
+        print("toChat")
+        while (path.count > 0) {
+            path.removeLast()
+            pathStack.removeLast()
         }
-        to(target: .chat(command: command, msg: msg))
+        self.to(target: .chat(command: command, msg: msg))
     }
 }
