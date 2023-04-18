@@ -55,7 +55,7 @@ struct ContentView: View {
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .top, spacing: 8) {
-            InputEditor(placeholder: "", text: $vm.inputMessage, onShiftEnter: {
+            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
                 Task { @MainActor in
                     isTextFieldFocused = false
                     scrollToBottom(proxy: proxy)

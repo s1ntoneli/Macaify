@@ -23,6 +23,7 @@ struct AddCommandView: View {
             !commandStore.commands.contains(where: { $0.id == id })
         }
     }
+    @FocusState var isTextFieldFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,16 +39,34 @@ struct AddCommandView: View {
 
             List {
                 VStack(alignment: .leading) {
+                    Color.clear
                     Text("指令名字").font(.headline)
                     TextField("eg: SwiftUI 大师", text: $commandName)
                         .textFieldStyle(CustomTextFieldStyle())
+                        .focused($isTextFieldFocused)
                 }
+                .onTapGesture {
+                    isTextFieldFocused = true
+                }
+
                 VStack(alignment: .leading) {
                     Text("系统提示").font(.headline)
-                    TextField("请填写系统提示", text: $prompt)
-                        .textFieldStyle(CustomTextFieldStyle())
+                    TextEditor(text: $prompt)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
+                                )
+                        )
+
+                        .foregroundColor(.text)
+                        .font(.body)
                         .lineLimit(4)
-                        .frame(height: 40)
+                        .frame(maxHeight: 160)
                 }
                 .padding(.top, 12)
                 VStack(alignment: .leading) {
@@ -104,8 +123,7 @@ struct CustomTextFieldStyle: TextFieldStyle {
                             .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
                     )
             )
-
-            .foregroundColor(Color(.systemGray))
+            .foregroundColor(.text)
             .font(.body)
     }
 }
