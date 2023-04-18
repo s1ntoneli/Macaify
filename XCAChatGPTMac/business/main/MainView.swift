@@ -21,7 +21,7 @@ struct MainView: View {
     @State private var showSettings = false
     // 添加 AddCommandView 的显示状态变量
     @State private var isAddCommandViewPresented = false
-    @FocusState var focus:FocusedField?
+    @FocusState private var focus:FocusedField?
     
     var selectedItemIndex: Int {
         get {
@@ -38,7 +38,7 @@ struct MainView: View {
                     .resizable()
                     .foregroundColor(Color.text)
                     .frame(width: 20, height: 20)
-                TextField("写下你的问题", text: $searchText)
+                TextField("写下你的问题 Tab", text: $searchText)
                     .disabled(!isEnabled)
                     .focusable()
                     .textFieldStyle(.plain)

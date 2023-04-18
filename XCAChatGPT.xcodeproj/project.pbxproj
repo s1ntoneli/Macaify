@@ -143,7 +143,7 @@
 		696B6BAB29EC160700845C71 /* StartupPasteboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupPasteboardManager.swift; sourceTree = "<group>"; };
 		696B6BB429EC427C00845C71 /* XCAChatGPTWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "XCAChatGPTWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		696B6BB729EC4BE100845C71 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		8B057582298E52C000A56C9A /* XCAChatGPTMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCAChatGPTMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B05758B298E52C000A56C9A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -400,7 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				8B91C000298AD09E0079AF26 /* XCAChatGPT.app */,
-				8B057582298E52C000A56C9A /* XCAChatGPTMac.app */,
+				8B057582298E52C000A56C9A /* Found.app */,
 				8B0575EB298FA9D800A56C9A /* XCAChatGPTWatch.app */,
 				8B0575F0298FA9D800A56C9A /* XCAChatGPTWatch Watch App.app */,
 				8B057611298FBDB600A56C9A /* XCAChatGPTTV.app */,
@@ -432,9 +432,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8B057581298E52C000A56C9A /* XCAChatGPTMac */ = {
+		8B057581298E52C000A56C9A /* Found */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8B057590298E52C000A56C9A /* Build configuration list for PBXNativeTarget "XCAChatGPTMac" */;
+			buildConfigurationList = 8B057590298E52C000A56C9A /* Build configuration list for PBXNativeTarget "Found" */;
 			buildPhases = (
 				8B05757E298E52C000A56C9A /* Sources */,
 				8B05757F298E52C000A56C9A /* Frameworks */,
@@ -444,13 +444,13 @@
 			);
 			dependencies = (
 			);
-			name = XCAChatGPTMac;
+			name = Found;
 			packageProductDependencies = (
 				696B6B7129E16FF100845C71 /* KeyboardShortcuts */,
 				696B6BB029EC424400845C71 /* MarkdownUI */,
 			);
 			productName = XCAChatGPTMac;
-			productReference = 8B057582298E52C000A56C9A /* XCAChatGPTMac.app */;
+			productReference = 8B057582298E52C000A56C9A /* Found.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8B0575EA298FA9D800A56C9A /* XCAChatGPTWatch */ = {
@@ -578,7 +578,7 @@
 			projectRoot = "";
 			targets = (
 				8B91BFFF298AD09E0079AF26 /* XCAChatGPT */,
-				8B057581298E52C000A56C9A /* XCAChatGPTMac */,
+				8B057581298E52C000A56C9A /* Found */,
 				8B0575EA298FA9D800A56C9A /* XCAChatGPTWatch */,
 				8B0575EF298FA9D800A56C9A /* XCAChatGPTWatch Watch App */,
 				8B057610298FBDB600A56C9A /* XCAChatGPTTV */,
@@ -751,6 +751,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Found;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -781,6 +782,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Found;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1119,7 +1121,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8B057590298E52C000A56C9A /* Build configuration list for PBXNativeTarget "XCAChatGPTMac" */ = {
+		8B057590298E52C000A56C9A /* Build configuration list for PBXNativeTarget "Found" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B05758E298E52C000A56C9A /* Debug */,
