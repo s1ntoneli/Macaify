@@ -42,7 +42,7 @@ struct OnKeyPressed: ViewModifier {
 
         func updateNSView(_ nsView: NSView, context: Context) {
         }
-        
+
         class Coordinator: NSObject {
             var parent: KeyboardListener
             var nsView: NSView?

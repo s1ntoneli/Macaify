@@ -34,35 +34,34 @@ class HotKeyManager {
                 print("top is found \(NSApplication.shared.isActive)")
                 let isActive = NSApplication.shared.isActive
 
-                StartupPasteboardManager.shared.startup { text in
-                    if (command.autoAddSelectedText) {
+                if (command.autoAddSelectedText) {
+                    StartupPasteboardManager.shared.startup { text in
                         let text = isActive ? MainViewModel.shared.searchText : text
                         switch PathManager.shared.top {
-                        case .chat(_, _):
+                        case .chat(_, _,_):
                             print("tapped")
                             PathManager.shared.toChat(command, msg: text)
                             if let text = text, !text.isEmpty {
                                 let vm = CommandStore.shared.commandViewModel(command)
                                 vm.inputMessage = text
                                 Task {
-                                    await vm.sendTapped()
+                                    if (!vm.isInteractingWithChatGPT) {
+                                        await vm.sendTapped()
+                                    }
                                 }
                             }
                         default:
                             PathManager.shared.toChat(command, msg: text)
                         }
-                    } else {
-                        PathManager.shared.toChat(command)
+
+                        resume()
                     }
-                    StartupPasteboardManager.shared.consumed()
                 }
 
-                let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.antiless.XCAChatGPTMac").first
-                print("app is nil ? \(app)")
-                app?.activate(options: [ .activateIgnoringOtherApps])
-
-                guard let window = NSApplication.shared.windows.first else {  return }
-                window.deminiaturize(nil)
+                if !command.autoAddSelectedText {
+                    resume()
+                    PathManager.shared.toChat(command)
+                }
             }
         }
 
@@ -74,5 +73,32 @@ class HotKeyManager {
 //            self.window.makeKeyAndOrderFront(nil)
             app?.activate(options: [.activateAllWindows])
         }
+
+        // MARK: - QuickOpen
+        NSWorkspace.shared.runningApplications.forEach { app in
+            if let id = app.bundleIdentifier, !id.isEmpty {
+                print("register hotkey \(id)")
+                KeyboardShortcuts.onKeyDown(for: .init(id)) {
+                    print("onKeyDown \(id)")
+                    let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id)
+                    if appURL != nil {
+                        do {
+                            try NSWorkspace.shared.launchApplication(at: appURL!, configuration: [:])
+                        } catch {
+                            print("")
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+private func resume(bundleId: String = "com.antiless.XCAChatGPTMac") {
+    let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleId).first
+    print("app is nil ? \(app)")
+    app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])
+
+    guard let window = NSApplication.shared.windows.first else {  return }
+    window.deminiaturize(nil)
 }

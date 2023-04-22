@@ -25,6 +25,18 @@ struct SettingView: View {
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
     
+    
+    @FocusState private var focusField: FocusField?
+    
+    private enum FocusField {
+        case title
+        case shortcut
+        case model
+        case proxy
+        case proxyUrl
+        case useVoice
+    }
+
     var body: some View {
         VStack {
             // 顶部导航栏
@@ -32,21 +44,27 @@ struct SettingView: View {
             
             // 设置项
             List {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 12) {
                     Text("openai-api-key").font(.headline)
-                    TextField("输入API密钥", text: $apiKey)
-                        .textFieldStyle(CustomTextFieldStyle())
-                }
-                
-                VStack(alignment: .leading) {
-                    Text("热键设置").font(.headline)
-                    Form {
-                        KeyboardShortcuts.Recorder("", name: .quickAsk)
+                    TextField("输入API密钥", text: $apiKey, onCommit: {
+                        print("onCommit")
+                        focusField = .proxyUrl
+                    })
+                    .textFieldStyle(CustomTextFieldStyle())
+                    .focusable(true)
+                    .focused($focusField, equals: .title)
+                    .onSubmit {
+                        print("onSubmit")
+                        focusField = .proxyUrl
                     }
-                }
-                .padding(.top, 12)
-                
-                VStack(alignment: .leading) {
+                    
+                    VStack(alignment: .leading) {
+                        Text("热键设置").font(.headline)
+                        Form {
+                            KeyboardShortcuts.Recorder("", name: .quickAsk)
+                        }
+                    }
+                    
                     Text("模型选择").font(.headline)
                     Picker(selection: $selectedModelIndex, label: Text("") ) {
                         ForEach(0..<ModelSelectionManager.shared.models.count) { index in
@@ -55,24 +73,24 @@ struct SettingView: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(maxWidth: 200)
-                }
-                .padding(.top, 12)
-                
-                VStack(alignment: .leading) {
-                    Text("使用代理").font(.headline)
+                    Text("使用代理")
+                        .font(.headline)
                     Toggle("启用", isOn: $useProxy)
+                        .focusable(true)
+                        .focused($focusField, equals: .proxy)
+
                     TextField("Proxy address", text: $proxyAddress)
                         .disabled(!useProxy)
                         .textFieldStyle(CustomTextFieldStyle())
-                }
-                .padding(.top, 12)
-                
-                VStack(alignment: .leading) {
+                        .focusable()
+                        .focused($focusField, equals: .proxyUrl)
+
                     Text("开启语音聊天")
                         .font(.headline)
                     Toggle("启用", isOn: $useVoice)
+                        .focusable()
+                        .focused($focusField, equals: .useVoice)
                 }
-                .padding(.top, 12)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
@@ -95,6 +113,11 @@ struct SettingView: View {
         }
         .navigationBarBackButtonHidden(true)
         .background(.white)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                focusField = .title
+            }
+        }
     }
 }
 //

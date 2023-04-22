@@ -14,28 +14,33 @@ struct ConfigurableView<Content: View>: View {
     @ViewBuilder let actions: Content
     
     var body: some View {
-        HStack {
-            if showLeftButton {
-                Button(action: {
-                    // left button action
-                    onBack()
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .foregroundColor(.blue)
+        ZStack {
+            HStack {
+                if showLeftButton {
+                    Button(action: {
+                        // left button action
+                        onBack()
+                    }) {
+                        Image(systemName: "chevron.backward")
+                            .foregroundColor(.blue)
+                    }
+                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+                    .keyboardShortcut(.init("b"), modifiers: .command)
                 }
-                .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-                .keyboardShortcut(.init("b"), modifiers: .command)
+                
+                Spacer()
+                
+                actions
             }
-            
-            Spacer()
-            
-            Text(title)
-                .font(.headline)
-                .fontWeight(.bold)
-            
-            Spacer()
-            
-            actions
+            HStack(alignment: .center) {
+                Spacer()
+                
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.bold)
+
+                Spacer()
+            }
         }
         .padding()
     }

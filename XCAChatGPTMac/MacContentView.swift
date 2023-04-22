@@ -22,7 +22,8 @@ struct MacContentView: View {
                         case .addCommand: addCommandView
                         case .editCommand(let command): makeEditCommandView(command)
                         case .setting: settingView
-                        case .chat(let command, let msg): ChatView(id: command.id, msg: msg)
+                        case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
+                        case .playground: playground
                         }
                     }
                 }
@@ -53,10 +54,15 @@ struct MacContentView: View {
             pathManager.back()
         }
     }
+    
+    var playground: some View {
+        PromptPlayground()
+//        AppQuickOpen()
+    }
 
-    func makeChatView(_ command: Command, msg: String?) -> some View {
-        print("makeChatView \(command.name) \(msg)")
-        return ChatView(id: command.id, msg: msg).id(command.id)
+    func makeChatView(_ command: Command, msg: String?, mode: ChatMode = .normal) -> some View {
+        print("makeChatView \(command.name) \(msg) \(mode)")
+        return ChatView(command: command, msg: msg, mode: mode).id(command.id)
     }
 
     func makeEditCommandView(_ command: Command)-> some View {
@@ -68,8 +74,9 @@ enum Target: Hashable {
     case main
     case setting
     case addCommand
+    case playground
     case editCommand(command: Command)
-    case chat(command: Command, msg: String? = nil)
+    case chat(command: Command, msg: String? = nil, mode: ChatMode = .normal)
 }
 
 //struct MacContentView_Previews: PreviewProvider {

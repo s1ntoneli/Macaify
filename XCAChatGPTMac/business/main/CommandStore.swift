@@ -31,6 +31,10 @@ class CommandStore: ObservableObject {
     var menuViewModel: ViewModel {
         commandViewModel(menuBarCommand)
     }
+    
+    var selectedCommandOrDefault: Command {
+        commands.indices.contains(selectedItemIndex) ? commands[selectedItemIndex] : Command.empty
+    }
 
     init() {
         loadCommands()
@@ -40,6 +44,16 @@ class CommandStore: ObservableObject {
     func addCommand(id: UUID, title: String, prompt: String, shortcut: String, autoAddSelectedText: Bool) {
         let command = Command(id: id, name: title, icon: "", protmp: prompt, shortcut: shortcut, autoAddSelectedText: autoAddSelectedText)
         if let index = commands.firstIndex(where: { $0.id == id }) {
+            commands[index] = command
+        } else {
+            commands.append(command)
+        }
+        saveCommands()
+        updateSelectedIndex()
+    }
+    
+    func addCommand(command: Command) {
+        if let index = commands.firstIndex(where: { $0.id == command.id }) {
             commands[index] = command
         } else {
             commands.append(command)
@@ -67,7 +81,7 @@ class CommandStore: ObservableObject {
     }
 
     func commandViewModel(for id: UUID) -> ViewModel {
-        let command = commands.first(where: { $0.id == id })!
+        let command = commands.first(where: { $0.id == id }) ?? Command.empty
         return commandViewModel(command)
     }
 
@@ -128,5 +142,11 @@ extension Command {
     
     var shortcutDescription: String {
         KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(id.uuidString))?.description ?? ""
+    }
+    
+    static var empty: Command {
+        get {
+            Command(name: "", icon: "", protmp: "", shortcut: "", autoAddSelectedText: false)
+        }
     }
 }

@@ -39,12 +39,14 @@ class PathManager: ObservableObject {
         }
     }
 
-    func toChat(_ command: Command, msg: String? = nil) {
+    func toChat(_ command: Command, msg: String? = nil, mode: ChatMode = .normal) {
         print("toChat")
-        while (path.count > 0) {
+        switch top {
+        case .chat(_,_,_):
             path.removeLast()
             pathStack.removeLast()
+        default: break
         }
-        self.to(target: .chat(command: command, msg: msg))
+        self.to(target: .chat(command: command, msg: msg, mode: mode))
     }
 }

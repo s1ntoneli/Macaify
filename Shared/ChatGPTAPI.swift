@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import GPTEncoder
 
 class ChatGPTAPI: @unchecked Sendable {
     
+    private let gptEncoder = GPTEncoder()
     private let systemMessage: Message
     private let temperature: Double
     private let model: String
@@ -81,7 +83,9 @@ class ChatGPTAPI: @unchecked Sendable {
     private func generateMessages(from text: String) -> [Message] {
         var messages = [systemMessage] + historyList + [Message(role: "user", content: text)]
         
-        if messages.contentCount > (4000 * 4) {
+        let token =  messages.token
+//        print("msg token \(token) \(messages)")
+        if token > 4000 {
             _ = historyList.removeFirst()
             messages = generateMessages(from: text)
         }

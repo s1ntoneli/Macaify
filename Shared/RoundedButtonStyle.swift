@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RoundedButtonStyle: ButtonStyle {
     let cornerRadius: CGFloat
+    var backgroundColor: Color = .white
+    var pressedBackgroundColor: Color = Color.gray.opacity(0.1)
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -18,10 +20,10 @@ struct RoundedButtonStyle: ButtonStyle {
                 Group {
                     if configuration.isPressed {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .fill(Color.gray.opacity(0.1))
+                            .fill(pressedBackgroundColor)
                     } else {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .fill(Color.white)
+                            .fill(backgroundColor)
                             .overlay(
                                 RoundedRectangle(cornerRadius: cornerRadius)
                                     .stroke(Color.gray.opacity(0.2), lineWidth: 1)

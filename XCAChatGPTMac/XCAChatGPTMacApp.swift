@@ -26,11 +26,10 @@ struct XCAChatGPTMacApp: App {
     private var windowView: some Scene {
         WindowGroup {
             MacContentView()
+//            AppQuickOpen()
                 .environmentObject(commandStore)
                 .ignoresSafeArea(.all)
-                .onAppear {
-                    
-                }
+                .onAppear {}
         }
         .commands {
             CommandGroup(replacing: .newItem) {}
