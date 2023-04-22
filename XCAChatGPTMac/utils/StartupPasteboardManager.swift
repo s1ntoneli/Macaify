@@ -14,15 +14,15 @@ class StartupPasteboardManager {
     var lastPasted: String?
 
     func startup(task: @escaping (_ text: String?) -> Void) {
+        let oldValue = getLatestTextFromPasteboard().text
+        print("oldClip \(oldValue)")
         performGlobalCopyShortcut()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { // wait 0.05s for copy.
             let cp = getLatestTextFromPasteboard()
-            print(cp.text, cp.time)
-            if (cp.text != self.lastPasted) {
-                self.currentPasted = cp.text
-            }
-            task(self.currentPasted)
+            print("newClip", cp.text, cp.time)
+            var newValue = cp.text == oldValue ? "" : cp.text
+            task(newValue)
         }
     }
 

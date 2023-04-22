@@ -28,6 +28,13 @@ struct MainView: View {
             commandStore.selectedItemIndex
         }
     }
+    
+    init() {
+//        commandStore.$selectedItemIndex
+//            .sink { newValue in
+//
+//            }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -50,6 +57,7 @@ struct MainView: View {
                     }
             }
             .padding(.horizontal)
+
             Divider().background(Color.divider)
             
             HStack(spacing: 0) {
@@ -57,16 +65,16 @@ struct MainView: View {
                     HStack(spacing: 0) {
                         commands
                             .frame(width: reader.size.width * 0.7)
-                        
+
                         Divider()
                             .background(Color.divider)
-                        
+
                         details
                             .frame(width: reader.size.width * 0.3)
                     }
                 }
             }
-            
+
             // 底部信息栏
             bottomBar
         }
@@ -89,29 +97,38 @@ struct MainView: View {
         }
         .onKeyPressed(.enter) { event in
             print("enter")
-            startChat(commandStore.commands[selectedItemIndex], searchText)
+            startChat(commandStore.selectedCommandOrDefault, searchText)
             return true
         }
     }
     
     var commands: some View {
         // 列表
-        List {
-            Text("常用操作")
-                .padding(.bottom, 6)
-                .foregroundColor(.text)
-                .bold()
-                .font(.headline)
-            ForEach(commandStore.commands) { command in
-                makeCommandItem(command, selected: commandStore.commands[selectedItemIndex].id == command.id)
-                    .onTapGesture {
-                        pathManager.toChat(command, msg: searchText)
+        ScrollViewReader { proxy in
+            List {
+                Text("常用操作")
+                    .padding(.bottom, 6)
+                    .foregroundColor(.text)
+                    .bold()
+                    .font(.headline)
+                ForEach(commandStore.commands) { command in
+                    makeCommandItem(command, selected: commandStore.commands[selectedItemIndex].id == command.id)
+                        .onTapGesture {
+                            pathManager.toChat(command, msg: searchText)
+                        }
+                        .id(command.id)
+                }
+                .onDelete(perform: commandStore.removeCommand)
+                .onChange(of: commandStore.selectedItemIndex) { newValue in
+                    print("selectedItem changed newValue \(newValue)")
+                    withAnimation {
+                        proxy.scrollTo(commandStore.commands[selectedItemIndex].id, anchor: .bottomLeading)
                     }
+                }
             }
-            .onDelete(perform: commandStore.removeCommand)
+            .padding(.horizontal, 0)
+            .padding(.vertical, 8)
         }
-        .padding(.horizontal, 0)
-        .padding(.vertical, 8)
     }
     
     var details: some View {
@@ -149,9 +166,13 @@ struct MainView: View {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }
-                PlainButton(icon: "plus.circle", label: "添加指令 ⌘N", shortcut: .init("n"), modifiers: .command) {
+                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加指令 ⌘N", shortcut: .init("n"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .addCommand)
+                }
+                PlainButton(icon: "sparkles.rectangle.stack", label: "指令广场 ⌘L", shortcut: .init("l"), modifiers: .command) {
+                    // 点击添加指令按钮
+                    pathManager.to(target: .playground)
                 }
             }
         }

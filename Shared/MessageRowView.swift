@@ -129,7 +129,8 @@ struct MessageRowView: View {
                     PlainButton(icon: "doc.on.doc", label: "复制并隐藏", shortcut: .init(tag.first!), modifiers: [.command, .shift]) {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(text, forType: .string)
-                        NSApplication.shared.windows.first?.miniaturize(nil)
+//                        NSApplication.shared.windows.first?.miniaturize(nil)
+                        NSApplication.shared.hide(nil)
                     }
                 }
             }

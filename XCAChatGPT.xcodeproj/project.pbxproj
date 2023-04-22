@@ -41,6 +41,16 @@
 		696B6BB329EC427800845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BB229EC427800845C71 /* MarkdownUI */; };
 		696B6BB629EC428400845C71 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BB529EC428400845C71 /* MarkdownUI */; };
 		696B6BB829EC4BE100845C71 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BB729EC4BE100845C71 /* MainViewModel.swift */; };
+		696B6BBD29F10A8000845C71 /* GPTEncoder in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BBC29F10A8000845C71 /* GPTEncoder */; };
+		696B6BBF29F1178900845C71 /* MessageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BBE29F1178900845C71 /* MessageExtension.swift */; };
+		696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BC129F219A800845C71 /* PromptPlayground.swift */; };
+		696B6BC429F21B7600845C71 /* PromptStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BC329F21B7600845C71 /* PromptStore.swift */; };
+		696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BC529F21B9D00845C71 /* PromptTemplate.swift */; };
+		696B6BC829F23C0B00845C71 /* QuickOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BC729F23C0B00845C71 /* QuickOpen.swift */; };
+		696B6BCA29F23D4100845C71 /* AppQuickOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BC929F23D4100845C71 /* AppQuickOpen.swift */; };
+		696B6BCD29F418B100845C71 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BCC29F418B100845C71 /* AlertToast */; };
+		696B6BCF29F418C200845C71 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BCE29F418C200845C71 /* AlertToast */; };
+		696B6BD129F447FF00845C71 /* prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = 696B6BD029F447FF00845C71 /* prompts.json */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -143,6 +153,13 @@
 		696B6BAB29EC160700845C71 /* StartupPasteboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupPasteboardManager.swift; sourceTree = "<group>"; };
 		696B6BB429EC427C00845C71 /* XCAChatGPTWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "XCAChatGPTWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		696B6BB729EC4BE100845C71 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		696B6BBE29F1178900845C71 /* MessageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageExtension.swift; sourceTree = "<group>"; };
+		696B6BC129F219A800845C71 /* PromptPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptPlayground.swift; sourceTree = "<group>"; };
+		696B6BC329F21B7600845C71 /* PromptStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptStore.swift; sourceTree = "<group>"; };
+		696B6BC529F21B9D00845C71 /* PromptTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptTemplate.swift; sourceTree = "<group>"; };
+		696B6BC729F23C0B00845C71 /* QuickOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickOpen.swift; sourceTree = "<group>"; };
+		696B6BC929F23D4100845C71 /* AppQuickOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQuickOpen.swift; sourceTree = "<group>"; };
+		696B6BD029F447FF00845C71 /* prompts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = prompts.json; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -180,7 +197,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				696B6B7229E16FF100845C71 /* KeyboardShortcuts in Frameworks */,
+				696B6BCF29F418C200845C71 /* AlertToast in Frameworks */,
 				696B6BB129EC424400845C71 /* MarkdownUI in Frameworks */,
+				696B6BBD29F10A8000845C71 /* GPTEncoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				696B6BAF29EC41AF00845C71 /* MarkdownUI in Frameworks */,
+				696B6BCD29F418B100845C71 /* AlertToast in Frameworks */,
 				8B612E2A29D68CE3008DF5AF /* GPTEncoder in Frameworks */,
 				696B6B6B29E16F5900845C71 /* KeyboardShortcuts in Frameworks */,
 			);
@@ -216,6 +236,7 @@
 		696B6B6C29E16F7C00845C71 /* business */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BC029F2199700845C71 /* prompts */,
 				696B6B8C29E1D96000845C71 /* chat */,
 				696B6B7529E178C700845C71 /* main */,
 				696B6B6D29E16F8500845C71 /* hotkey */,
@@ -279,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				696B6BA829EC055C00845C71 /* SelectedText.swift */,
+				696B6BC929F23D4100845C71 /* AppQuickOpen.swift */,
 			);
 			path = debuging;
 			sourceTree = "<group>";
@@ -300,9 +322,21 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
+		696B6BC029F2199700845C71 /* prompts */ = {
+			isa = PBXGroup;
+			children = (
+				696B6BC129F219A800845C71 /* PromptPlayground.swift */,
+				696B6BC329F21B7600845C71 /* PromptStore.swift */,
+				696B6BC529F21B9D00845C71 /* PromptTemplate.swift */,
+				696B6BC729F23C0B00845C71 /* QuickOpen.swift */,
+			);
+			path = prompts;
+			sourceTree = "<group>";
+		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BD029F447FF00845C71 /* prompts.json */,
 				696B6BAA29EC15F000845C71 /* utils */,
 				696B6BA129EB105700845C71 /* KeyEvents */,
 				696B6B9E29EAD2CF00845C71 /* debuging */,
@@ -341,6 +375,7 @@
 				696B6B9829E400AF00845C71 /* InputEditor.swift */,
 				696B6B9A29E67F3300845C71 /* MyTextField.swift */,
 				696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */,
+				696B6BBE29F1178900845C71 /* MessageExtension.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -448,6 +483,8 @@
 			packageProductDependencies = (
 				696B6B7129E16FF100845C71 /* KeyboardShortcuts */,
 				696B6BB029EC424400845C71 /* MarkdownUI */,
+				696B6BBC29F10A8000845C71 /* GPTEncoder */,
+				696B6BCE29F418C200845C71 /* AlertToast */,
 			);
 			productName = XCAChatGPTMac;
 			productReference = 8B057582298E52C000A56C9A /* Found.app */;
@@ -527,6 +564,7 @@
 				8B612E2929D68CE3008DF5AF /* GPTEncoder */,
 				696B6B6A29E16F5900845C71 /* KeyboardShortcuts */,
 				696B6BAE29EC41AF00845C71 /* MarkdownUI */,
+				696B6BCC29F418B100845C71 /* AlertToast */,
 			);
 			productName = XCAChatGPT;
 			productReference = 8B91C000298AD09E0079AF26 /* XCAChatGPT.app */;
@@ -572,6 +610,7 @@
 				8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */,
 				696B6B6929E16F5900845C71 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				696B6BCB29F418B100845C71 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 8B91C001298AD09E0079AF26 /* Products */;
 			projectDirPath = "";
@@ -591,6 +630,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				696B6BD129F447FF00845C71 /* prompts.json in Resources */,
 				8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */,
 				8B057589298E52C000A56C9A /* Assets.xcassets in Resources */,
 			);
@@ -638,7 +678,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				696B6B6F29E16FA100845C71 /* HotKeyManager.swift in Sources */,
+				696B6BBF29F1178900845C71 /* MessageExtension.swift in Sources */,
 				696B6B7429E1702500845C71 /* HotKeyConstants.swift in Sources */,
+				696B6BCA29F23D4100845C71 /* AppQuickOpen.swift in Sources */,
 				696B6B9029E2907700845C71 /* Color.swift in Sources */,
 				696B6B8529E18AF800845C71 /* AddCommandView.swift in Sources */,
 				8B057597298E52DD00A56C9A /* MessageRow.swift in Sources */,
@@ -649,12 +691,14 @@
 				696B6BAC29EC160700845C71 /* StartupPasteboardManager.swift in Sources */,
 				696B6BA929EC055C00845C71 /* SelectedText.swift in Sources */,
 				696B6B7B29E17A7C00845C71 /* ModelSelectionManager.swift in Sources */,
+				696B6BC429F21B7600845C71 /* PromptStore.swift in Sources */,
 				696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */,
 				696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */,
 				696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */,
 				696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */,
 				696B6B9729E2B2A700845C71 /* PurpleButtonStyle.swift in Sources */,
 				696B6B7D29E17ABD00845C71 /* KeyboardShortcutManager.swift in Sources */,
+				696B6BC829F23C0B00845C71 /* QuickOpen.swift in Sources */,
 				8B057594298E52D900A56C9A /* ContentView.swift in Sources */,
 				696B6B9229E29E3900845C71 /* Themes.swift in Sources */,
 				696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */,
@@ -662,7 +706,9 @@
 				696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */,
 				696B6B8929E1953500845C71 /* MacContentView.swift in Sources */,
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,
+				696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,
+				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
 				696B6B7F29E17D4B00845C71 /* APIKeyManager.swift in Sources */,
 				696B6B7729E178D300845C71 /* MainView.swift in Sources */,
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
@@ -1068,7 +1114,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 5C2XD9H2JS;
+				DEVELOPMENT_TEAM = JR3AZ5PXVT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1081,7 +1127,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfianlosari.XCAChatGPT;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.found;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1097,7 +1143,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 5C2XD9H2JS;
+				DEVELOPMENT_TEAM = JR3AZ5PXVT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1110,7 +1156,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfianlosari.XCAChatGPT;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.found;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1194,6 +1240,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		696B6BCB29F418B100845C71 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alfianlosari/GPTEncoder.git";
@@ -1234,6 +1288,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 696B6BAD29EC41AF00845C71 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
+		};
+		696B6BBC29F10A8000845C71 /* GPTEncoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */;
+			productName = GPTEncoder;
+		};
+		696B6BCC29F418B100845C71 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BCB29F418B100845C71 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		696B6BCE29F418C200845C71 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 696B6BCB29F418B100845C71 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		8B612E2929D68CE3008DF5AF /* GPTEncoder */ = {
 			isa = XCSwiftPackageProductDependency;

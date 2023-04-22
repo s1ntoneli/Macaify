@@ -6,23 +6,29 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ChatView: View {
-    let id: UUID
-    var command: Command {
+    let command: Command
+    let mode: ChatMode
+    var id: UUID {
         get {
-            commandStore.commands.first(where: {$0.id == id})!
+            command.id
         }
     }
+    
     var pathManager: PathManager = PathManager.shared
     var commandStore: CommandStore = CommandStore.shared
     @ObservedObject var vm: ViewModel
     @AppStorage("proxyAddress") private var proxyAddress = ""
     @AppStorage("useProxy") private var useProxy = false
 
-    init(id: UUID, msg: String? = nil) {
-        self.id = id
-        self.vm = commandStore.commandViewModel(for: id)
+    @State private var showToast = false
+
+    init(command: Command, msg: String? = nil, mode: ChatMode = .normal) {
+        self.command = command
+        self.mode = mode
+        self.vm = commandStore.commandViewModel(command)
         print("proxy \(useProxy) \(proxyAddress) \(msg)")
         self.vm.inputMessage = msg ?? ""
     }
@@ -30,33 +36,28 @@ struct ChatView: View {
     var body: some View {
         VStack {
             titleBar
+                .zIndex(100)
+                .toast(isPresenting: $showToast){
+                    // `.alert` is the default displayMode
+                    AlertToast(displayMode: .hud, type: .regular, title: "已添加到常用", style: .style(backgroundColor: .white))
+                    
+                    //Choose .hud to toast alert from the top of the screen
+                    //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
+                }
+
             ContentView(vm: self.vm)
         }.background(.white)
     }
 
     var titleBar: some View {
-        HStack {
-            Button(action: {
-                pathManager.back()
-            }) {
-                Image(systemName: "chevron.backward")
-                    .foregroundColor(.blue)
+        ConfigurableView(onBack: {
+            pathManager.back()
+        }, title: command.name , showLeftButton: true, actions: {
+            switch mode {
+            case .normal: normalActions
+            case .trial: trialActions
             }
-            .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-            .keyboardShortcut(.init("b"), modifiers: .command)
-
-            Spacer()
-            Text(command.name)
-                .font(.headline)
-                .fontWeight(.bold)
-            Spacer()
-            PlainButton(icon: "lineweight", shortcut: .init("e"), modifiers: .command, action: {
-                // 编辑按钮的响应
-                print("button down")
-                pathManager.to(target: .editCommand(command: command))
-            })
-        }
-        .padding()
+        })
         .navigationBarBackButtonHidden(true)
         .onAppear {
             print("chatView onAppear \(command.name)")
@@ -71,6 +72,23 @@ struct ChatView: View {
             print("chatView onDisappear \(command.name)")
         }
     }
+    
+    var normalActions: some View {
+        PlainButton(icon: "square.stack.3d.up", shortcut: .init("e"), modifiers: .command, action: {
+            // 编辑按钮的响应
+            print("button down")
+            pathManager.to(target: .editCommand(command: command))
+        })
+    }
+    
+    var trialActions: some View {
+        PlainButton(icon: "rectangle.stack.badge.plus", label: "添加到常用", backgroundColor: Color.purple, pressedBackgroundColor: Color.purple.opacity(0.8), foregroundColor: .white, shortcut: .init("e"), modifiers: .command, action: {
+            // 编辑按钮的响应
+            print("添加到常用 \(command.name)")
+            commandStore.addCommand(command: command)
+            showToast = true
+        })
+    }
 }
 //
 //struct ChatView_Previews: PreviewProvider {
@@ -78,3 +96,8 @@ struct ChatView: View {
 //        ChatView()
 //    }
 //}
+
+enum ChatMode {
+    case normal
+    case trial
+}

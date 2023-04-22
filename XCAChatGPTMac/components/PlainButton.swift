@@ -11,7 +11,9 @@ struct PlainButton: View, Identifiable {
     let id = UUID()
     let icon: String
     let label: String
-    let backgroundColor: Color
+    var backgroundColor: Color
+    var pressedBackgroundColor: Color
+    var foregroundColor: Color
     let cornerRadius: CGFloat
     var shortcut: KeyEquivalent?
     var modifiers: EventModifiers = []
@@ -19,7 +21,9 @@ struct PlainButton: View, Identifiable {
 
     init(icon: String = "",
          label: String = "",
-         backgroundColor: Color = .transparent,
+         backgroundColor: Color = .white,
+         pressedBackgroundColor: Color = Color.gray.opacity(0.1),
+         foregroundColor: Color = Color.text,
          cornerRadius: CGFloat = 6,
          shortcut: KeyEquivalent? = nil,
          modifiers: EventModifiers = [],
@@ -28,6 +32,8 @@ struct PlainButton: View, Identifiable {
         self.icon = icon
         self.label = label
         self.backgroundColor = backgroundColor
+        self.pressedBackgroundColor = pressedBackgroundColor
+        self.foregroundColor = foregroundColor
         self.cornerRadius = cornerRadius
         self.shortcut = shortcut
         self.modifiers = modifiers
@@ -43,10 +49,11 @@ struct PlainButton: View, Identifiable {
                     Text(label)
                 }
             }
-            .background(backgroundColor)
-            .cornerRadius(cornerRadius)
         }
-            .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
+            .buttonStyle(RoundedButtonStyle(cornerRadius: 6, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor))
+            .cornerRadius(cornerRadius)
+            .foregroundColor(foregroundColor)
+        
         if let shortcut = shortcut {
             btn.keyboardShortcut(shortcut, modifiers: modifiers)
         } else {

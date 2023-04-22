@@ -87,7 +87,8 @@ struct ContentView: View {
                         Task { @MainActor in
                             print("mini")
                             copy(text: vm.messages.last?.responseText ?? "")
-                            NSApplication.shared.windows.first?.miniaturize(nil)
+                            NSApplication.shared.hide(nil)
+//                            NSApplication.shared.windows.first?.miniaturize(nil)
                         }
                     }
                     .disabled(vm.messages.last?.responseText?.isEmpty ?? true)

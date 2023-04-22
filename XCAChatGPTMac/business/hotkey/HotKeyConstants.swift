@@ -9,8 +9,9 @@ import Foundation
 import KeyboardShortcuts
 
 extension KeyboardShortcuts.Name {
-    static let quickAsk = Self("quickAsk", default: .init(.k, modifiers: [.command, .option]))
+    static let quickAsk = Self("quickAsk", default: .init(.space, modifiers: .option))
     static let menuBar = Self("menuBar", default: .init(.m, modifiers: [.command, .option]))
+    static let search = Self("search", default: .init(.k, modifiers: .command))
 }
 
 extension Command {

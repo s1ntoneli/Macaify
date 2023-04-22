@@ -24,7 +24,7 @@ enum OutputType: Identifiable {
 class TokenizerViewModel: ObservableObject, @unchecked Sendable {
     
     let tokenizer = GPTEncoder()
-    
+
     @Published var inputText = ""
     @Published var output: TokenOutput?
     @Published var isTokenizing = false

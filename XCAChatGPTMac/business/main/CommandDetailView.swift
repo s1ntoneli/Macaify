@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MarkdownUI
 
 struct CommandDetailView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -21,7 +22,7 @@ struct CommandDetailView: View {
                         .resizable()
                         .frame(width: 48, height: 48)
                     Spacer()
-                    PlainButton(icon: "lineweight", shortcut: .init("e"), modifiers: .command) {
+                    PlainButton(icon: "square.stack.3d.up", label: "编辑 ⌘E", shortcut: .init("e"), modifiers: .command) {
                         print("edit command \(command.id) \(command.name)")
                         pathManager.to(target: .editCommand(command: command))
                     }
@@ -35,7 +36,7 @@ struct CommandDetailView: View {
                 Text(command.shortcutDescription)
                     .font(.title2)
                     .opacity(0.5)
-                Text(command.protmp)
+                Markdown(command.protmp)
                     .font(.title3)
                     .opacity(0.7)
                     .padding(.top, 12)

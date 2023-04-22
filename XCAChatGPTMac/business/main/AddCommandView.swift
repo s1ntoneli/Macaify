@@ -18,18 +18,27 @@ struct AddCommandView: View {
     @State var prompt = ""
     @State var shortcut = ""
     @State var autoAddSelectedText = false
+    
+    @FocusState private var focusField: FocusField?
+    
+    private enum FocusField {
+        case title
+        case prompt
+        case shortcut
+        case autoAddText
+    }
+
     var isNew: Bool {
         get {
             !commandStore.commands.contains(where: { $0.id == id })
         }
     }
-    @FocusState var isTextFieldFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
             ConfigurableView(onBack: { pathManager.back() }, title: isNew ? "添加指令" : "编辑指令", showLeftButton: true) {
                 if !isNew {
-                    PlainButton(icon: "trash", shortcut: .init("d"), modifiers: .command) {
+                    PlainButton(icon: "rectangle.stack.badge.minus", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
                         // 删除按钮的响应
                         commandStore.removeCommand(by: id)
                         pathManager.toMain()
@@ -39,17 +48,17 @@ struct AddCommandView: View {
 
             List {
                 VStack(alignment: .leading) {
-                    Color.clear
                     Text("指令名字").font(.headline)
-                    TextField("eg: SwiftUI 大师", text: $commandName)
+                    TextField("输入指令名称方便记忆", text: $commandName, onCommit: {
+                        print("onCommit")
+                        focusField = .prompt })
+                    .focusable(true)
+                            .onSubmit {
+                                print("onSumbit")
+                                focusField = .prompt
+                            }
                         .textFieldStyle(CustomTextFieldStyle())
-                        .focused($isTextFieldFocused)
-                }
-                .onTapGesture {
-                    isTextFieldFocused = true
-                }
-
-                VStack(alignment: .leading) {
+                        .focused($focusField, equals: .title)
                     Text("系统提示").font(.headline)
                     TextEditor(text: $prompt)
                         .padding(.vertical, 12)
@@ -62,21 +71,22 @@ struct AddCommandView: View {
                                         .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
                                 )
                         )
-
                         .foregroundColor(.text)
                         .font(.body)
-                        .lineLimit(4)
+                        .lineLimit(4...6)
                         .frame(maxHeight: 160)
-                }
-                .padding(.top, 12)
-                VStack(alignment: .leading) {
+                        .frame(minHeight: 64)
+                        .focusable(true) { focused in
+                            focusField = .prompt
+                        }
+                        .focused($focusField, equals: .prompt)
+                    Spacer(minLength: 12)
                     Text("热键").font(.headline)
                     Form {
                         KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(id.uuidString))
                     }
-                }
-                .padding(.top, 12)
-                VStack(alignment: .leading) {
+                    Spacer(minLength: 12)
+
                     Text("自动添加选中文本").font(.headline)
                     Toggle(isOn: $autoAddSelectedText) {
                         Text("启用")
@@ -105,6 +115,14 @@ struct AddCommandView: View {
                 }
             }
             .padding()
+            .onAppear {
+                print("AddCommandView onAppear")
+                focusField = .title
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    focusField = .title
+                }
+            }
         }
         .background(Color(.white))
         .navigationBarBackButtonHidden(true)
