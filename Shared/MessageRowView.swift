@@ -31,16 +31,20 @@ struct MessageRowView: View {
             
             if let text = message.responseText {
 //                Divider().padding(.horizontal)
-                messageRow(text: text, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT, isResponse: true)
+                messageRow(text: text, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT, isResponse: true, clearContextAfterThis: message.clearContextAfterThis)
 //                Divider().padding(.horizontal)
+            }
+            
+            if message.clearContextAfterThis {
+                divider
             }
         }
     }
     
-    func messageRow(text: String, image: String, bgColor: Color, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true) -> some View {
+    func messageRow(text: String, image: String, bgColor: Color, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true, clearContextAfterThis: Bool = false) -> some View {
         #if os(watchOS)
         VStack(alignment: .leading, spacing: 8) {
-            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading, isResponse: isResponse)
+            messageRowContent(text: text, image: image, responseError: responseError, showDotLoading: showDotLoading, isResponse: isResponse, clearContextAfterThis: false)
         }
         
         .padding(16)
@@ -61,7 +65,7 @@ struct MessageRowView: View {
     }
     
     @ViewBuilder
-    func messageRowContent(text: String, image: String, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true) -> some View {
+    func messageRowContent(text: String, image: String, responseError: String? = nil, showDotLoading: Bool = false, isResponse: Bool = true, clearContextAfterThis: Bool = false) -> some View {
         if image.hasPrefix("http"), let url = URL(string: image) {
             AsyncImage(url: url) { image in
                 image
@@ -134,6 +138,10 @@ struct MessageRowView: View {
                     }
                 }
             }
+            
+//            if isResponse && message.clearContextAfterThis {
+//                divider
+//            }
         }
     }
     
@@ -161,7 +169,6 @@ struct MessageRowView: View {
         return rows
     }
     
-    
     func responseTextView(text: String) -> some View {
         ForEach(rowsFor(text: text), id: \.self) { text in
             Text(text)
@@ -171,6 +178,23 @@ struct MessageRowView: View {
     }
     #endif
     
+    var divider: some View {
+        HStack(alignment: .center, spacing: 10) {
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(.divider)
+            Text("新聊天")
+                .font(.body)
+                .foregroundColor(.text)
+                .opacity(0.5)
+                .frame(height: 1)
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(.divider)
+        }
+        .padding()
+        .padding(.bottom, 24)
+    }
 }
 
 struct MessageRowView_Previews: PreviewProvider {

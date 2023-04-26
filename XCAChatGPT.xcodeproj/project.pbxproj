@@ -55,6 +55,7 @@
 		696B6BD629F6A33000845C71 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD529F6A33000845C71 /* Persistence.swift */; };
 		696B6BD929F6BA4100845C71 /* GPTConversationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */; };
 		696B6BDB29F77B8700845C71 /* GPTAnswerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */; };
+		696B6BDD29F8A6B300845C71 /* DropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDC29F8A6B300845C71 /* DropdownView.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -168,6 +169,7 @@
 		696B6BD529F6A33000845C71 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTConversationExtensions.swift; sourceTree = "<group>"; };
 		696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTAnswerExtensions.swift; sourceTree = "<group>"; };
+		696B6BDC29F8A6B300845C71 /* DropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownView.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				8B91C011298AD0CE0079AF26 /* ChatGPTAPI.swift */,
 				8B82463329B1F49F0069B8F7 /* ChatGPTAPIModels.swift */,
 				8B91C005298AD09E0079AF26 /* ContentView.swift */,
+				696B6BDC29F8A6B300845C71 /* DropdownView.swift */,
 				8B91C017298ADF4E0079AF26 /* DotLoadingView.swift */,
 				8B91C019298ADF7F0079AF26 /* MessageRowView.swift */,
 				8B91C013298ADC560079AF26 /* ViewModel.swift */,
@@ -726,6 +729,7 @@
 				696B6BA029EAD2E100845C71 /* KeyEvents.swift in Sources */,
 				696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */,
 				696B6B8929E1953500845C71 /* MacContentView.swift in Sources */,
+				696B6BDD29F8A6B300845C71 /* DropdownView.swift in Sources */,
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,
 				696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,

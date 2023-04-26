@@ -46,6 +46,9 @@ struct ContentView: View {
             .onChange(of: vm.messages.last?.responseText) { _ in
                 scrollToBottom(proxy: proxy)
             }
+            .onChange(of: vm.messages.last?.clearContextAfterThis) { _ in
+                scrollToBottom(proxy: proxy)
+            }
             .onAppear {
                 scrollToBottom(proxy: proxy)
             }
@@ -55,6 +58,17 @@ struct ContentView: View {
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .top, spacing: 8) {
+            Button {
+                vm.clearMessages()
+            } label: {
+                Image(systemName: "clear")
+            }
+            Button {
+                vm.clearContext()
+            } label: {
+                Image(systemName: "lasso.sparkles")
+            }
+
             InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
                 Task { @MainActor in
                     isTextFieldFocused = false
@@ -102,14 +116,14 @@ struct ContentView: View {
 
     private func scrollToBottom(proxy: ScrollViewProxy) {
         guard let id = vm.messages.last?.id else { return }
-        proxy.scrollTo(id, anchor: .bottomTrailing)
+        proxy.scrollTo(id, anchor: .bottom)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "")))
+            ContentView(vm: ViewModel(conversation: GPTConversation(), api: ChatGPTAPI(apiKey: "")))
         }
     }
 }

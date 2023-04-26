@@ -13,7 +13,7 @@ struct MainView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.isEnabled) private var isEnabled: Bool
 
-    @EnvironmentObject var commandStore: ConversationViewModel
+    @EnvironmentObject var convViewModel: ConversationViewModel
 
     @EnvironmentObject var pathManager: PathManager
     // 搜索关键字
@@ -25,7 +25,7 @@ struct MainView: View {
     
     var selectedItemIndex: Int {
         get {
-            commandStore.selectedItemIndex
+            convViewModel.selectedItemIndex
         }
     }
     
@@ -87,17 +87,17 @@ struct MainView: View {
         }
         .onKeyPressed(.upArrow) { event in
             print("upArrow")
-            commandStore.selectedItemIndex = (selectedItemIndex - 1 + commandStore.conversations.count) % commandStore.conversations.count
+            convViewModel.selectedItemIndex = (selectedItemIndex - 1 + convViewModel.conversations.count) % convViewModel.conversations.count
             return true
         }
         .onKeyPressed(.downArrow) { event in
             print("downArrow")
-            commandStore.selectedItemIndex = (selectedItemIndex + 1 + commandStore.conversations.count) % commandStore.conversations.count
+            convViewModel.selectedItemIndex = (selectedItemIndex + 1 + convViewModel.conversations.count) % convViewModel.conversations.count
             return true
         }
         .onKeyPressed(.enter) { event in
             print("enter")
-            startChat(commandStore.selectedCommandOrDefault, searchText)
+            startChat(convViewModel.selectedCommandOrDefault, searchText)
             return true
         }
     }
@@ -111,18 +111,18 @@ struct MainView: View {
                     .foregroundColor(.text)
                     .bold()
                     .font(.headline)
-                ForEach(commandStore.conversations) { command in
-                    makeCommandItem(command, selected: commandStore.conversations[selectedItemIndex].id == command.id)
+                ForEach(convViewModel.conversations) { command in
+                    makeCommandItem(command, selected: convViewModel.conversations[selectedItemIndex].id == command.id)
                         .onTapGesture {
                             pathManager.toChat(command, msg: searchText)
                         }
                         .id(command.id)
                 }
-                .onDelete(perform: commandStore.removeCommand)
-                .onChange(of: commandStore.selectedItemIndex) { newValue in
+                .onDelete(perform: convViewModel.removeCommand)
+                .onChange(of: convViewModel.selectedItemIndex) { newValue in
                     print("selectedItem changed newValue \(newValue)")
                     withAnimation {
-                        proxy.scrollTo(commandStore.conversations[selectedItemIndex].id, anchor: .bottomLeading)
+                        proxy.scrollTo(convViewModel.conversations[selectedItemIndex].id, anchor: .bottomLeading)
                     }
                 }
             }
@@ -133,12 +133,12 @@ struct MainView: View {
     
     var details: some View {
         ZStack {
-            if (commandStore.conversations.indices.contains(selectedItemIndex)) {
+            if (convViewModel.conversations.indices.contains(selectedItemIndex)) {
                 ZStack {
 //                    ForEach(commandStore.commands) {command in
-                        CommandDetailView(command: $commandStore.conversations[selectedItemIndex])
+                        CommandDetailView(command: $convViewModel.conversations[selectedItemIndex])
                         //                    .keyboardShortcut(.init("e"), modifiers: .command)
-                            .id(commandStore.conversations[selectedItemIndex].id)
+                            .id(convViewModel.conversations[selectedItemIndex].id)
 //                    }
                 }
 //                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in

@@ -15,6 +15,7 @@ struct ConversationPreferenceView: View {
     @EnvironmentObject var pathManager: PathManager
     @State var conversation: GPTConversation
     @State var autoAddSelectedText: Bool
+    @State var oneTimeChat: Bool
     let mode: ConversationPreferenceMode
 
     @FocusState private var focusField: FocusField?
@@ -22,6 +23,7 @@ struct ConversationPreferenceView: View {
     init(conversation: GPTConversation, mode: ConversationPreferenceMode) {
         self.conversation = conversation
         self.autoAddSelectedText = conversation.autoAddSelectedText
+        self.oneTimeChat = conversation.withContext
         self.mode = mode
     }
     
@@ -55,17 +57,19 @@ struct ConversationPreferenceView: View {
 
             List {
                 VStack(alignment: .leading) {
-                    Text("指令名字").font(.headline)
-                    TextField("输入指令名称方便记忆", text: $conversation.name, onCommit: {
-                        print("onCommit")
-                        focusField = .prompt })
-                    .focusable(true)
-                            .onSubmit {
-                                print("onSumbit")
-                                focusField = .prompt
-                            }
+                    Group {
+                        Text("指令名字").font(.headline)
+                        TextField("输入指令名称方便记忆", text: $conversation.name, onCommit: {
+                            print("onCommit")
+                            focusField = .prompt })
+                        .focusable(true)
+                        .onSubmit {
+                            print("onSumbit")
+                            focusField = .prompt
+                        }
                         .textFieldStyle(CustomTextFieldStyle())
                         .focused($focusField, equals: .title)
+                    }
                     Text("系统提示").font(.headline)
                     TextEditor(text: $conversation.prompt)
                         .padding(.vertical, 12)
@@ -94,12 +98,9 @@ struct ConversationPreferenceView: View {
                     }
                     Spacer(minLength: 12)
 
-                    Text("自动添加选中文本").font(.headline)
-                    Toggle(isOn: $autoAddSelectedText) {
-                        Text("启用")
-                    }.onChange(of: autoAddSelectedText) { newValue in
-                        conversation.autoAddSelectedText = newValue
-                    }
+                    autoAddText
+                    Spacer(minLength: 12)
+                    useContext
                 }
                 .padding(.top, 12)
             }
@@ -143,6 +144,28 @@ struct ConversationPreferenceView: View {
         }
         .background(Color(.white))
         .navigationBarBackButtonHidden(true)
+    }
+    
+    var useContext: some View {
+        Group {
+            Text("使用上下文").font(.headline)
+            Toggle(isOn: $oneTimeChat) {
+                Text("启用")
+            }.onChange(of: oneTimeChat) { newValue in
+                conversation.withContext = newValue
+            }
+        }
+    }
+    
+    var autoAddText: some View {
+        Group {
+            Text("自动添加选中文本").font(.headline)
+            Toggle(isOn: $autoAddSelectedText) {
+                Text("启用")
+            }.onChange(of: autoAddSelectedText) { newValue in
+                conversation.autoAddSelectedText = newValue
+            }
+        }
     }
 }
 struct CustomTextFieldStyle: TextFieldStyle {

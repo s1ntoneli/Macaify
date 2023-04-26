@@ -19,17 +19,43 @@ class ViewModel: ObservableObject {
     var enableSpeech: Bool = false
     
     private var api: ChatGPTAPI
+    private var conversation: GPTConversation
     
-    init(api: ChatGPTAPI, enableSpeech: Bool = false) {
+    init(conversation: GPTConversation, api: ChatGPTAPI, enableSpeech: Bool = false) {
+        self.conversation = conversation
         self.api = api
         self.enableSpeech = enableSpeech
         synthesizer = .init()
+        messages = conversation.own!.array.map({ answer in
+            let answer = answer as! GPTAnswer
+            return MessageRow(isInteractingWithChatGPT: false, sendImage: "profile", sendText: answer.prompt, responseImage: "openai", responseText: answer.response, clearContextAfterThis: answer.contextClearedAfterThis)
+        })
+        api.withContext = conversation.withContext
+        updateAPIHistory()
+        startObserve()
+    }
+    
+    func startObserve() {
+        
+    }
+    
+    func updateAPIHistory() {
+        // 携带上下文
+        let lastCleared = messages.lastIndex { msg in msg.clearContextAfterThis }
+        let startIndex = lastCleared == nil ? 0 : lastCleared! + 1
+        api.history = messages[startIndex..<messages.count].map { msg in
+            [Message(role: "user", content: msg.sendText), Message(role: "assistant", content: msg.responseText ?? "")]
+        }
+        .flatMap { msgs in msgs }
+        print("new history \(api.history)")
     }
     
     @MainActor
     func sendTapped() async {
         let text = inputMessage
         inputMessage = ""
+        print("withContext ? ", conversation.withContext)
+        api.withContext = conversation.withContext
         await send(text: text)
     }
     
@@ -37,8 +63,22 @@ class ViewModel: ObservableObject {
     func clearMessages() {
         stopSpeaking()
         api.deleteHistoryList()
+        PersistenceController.shared.clearAnswers(conversation: conversation)
         withAnimation { [weak self] in
             self?.messages = []
+        }
+    }
+    
+    @MainActor
+    func clearContext() {
+        stopSpeaking()
+        api.deleteHistoryList()
+        PersistenceController.shared.clearContext(conversation: conversation)
+        if var last = self.messages.last {
+            print("clearContext on \(last)")
+            last.clearContextAfterThis = true
+            self.messages[messages.count - 1] = last
+            print("clearContext after \(self.messages)")
         }
     }
     
@@ -78,9 +118,9 @@ class ViewModel: ObservableObject {
         
         messageRow.isInteractingWithChatGPT = false
         self.messages[self.messages.count - 1] = messageRow
+        PersistenceController.shared.addAnswer(conversation: conversation, role: "user", response: messageRow.responseText ?? "", prompt: messageRow.sendText, parentId: (conversation.own?.array.last as? GPTAnswer)?.uuid)
         isInteractingWithChatGPT = false
         speakLastResponse()
-        
     }
     
     func speakLastResponse() {

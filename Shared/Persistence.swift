@@ -149,12 +149,12 @@ struct PersistenceController {
         }
     }
 
-    func addAnswer(conversation: GPTConversation, role: String, text: String, prompt: String, parentId: UUID? = nil, contextClearedAfterThis: Bool = false) {
+    func addAnswer(conversation: GPTConversation, role: String, response: String, prompt: String, parentId: UUID? = nil, contextClearedAfterThis: Bool = false) {
         let viewContext = container.viewContext
         let newItem = GPTAnswer(context: viewContext)
         newItem.uuid = UUID()
         newItem.role = role
-        newItem.response = text
+        newItem.response = response
         newItem.prompt = prompt
         newItem.parentMessageId = parentId
         newItem.contextClearedAfterThis = contextClearedAfterThis

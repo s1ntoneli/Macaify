@@ -69,16 +69,16 @@ class ConversationViewModel: ObservableObject {
         return commandViewModel(command)
     }
 
-    func commandViewModel(_ command: GPTConversation) -> ViewModel {
-        let id = command.id
+    func commandViewModel(_ conversation: GPTConversation) -> ViewModel {
+        let id = conversation.id
         let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
-        let api = command.API
+        let api = conversation.API
         if let viewModel = viewModels[id] {
             viewModel.updateAPI(api: api)
             viewModel.enableSpeech = useVoice
             return viewModel
         } else {
-            let viewModel = ViewModel(api: api, enableSpeech: useVoice)
+            let viewModel = ViewModel(conversation: conversation, api: api, enableSpeech: useVoice)
             viewModels[id] = viewModel
             return viewModel
         }
