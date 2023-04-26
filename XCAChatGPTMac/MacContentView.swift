@@ -46,7 +46,7 @@ struct MacContentView: View {
     }
     
     var addCommandView: some View {
-        AddCommandView()
+        ConversationPreferenceView(conversation: GPTConversation(""), mode: .add)
     }
     
     var settingView: some View {
@@ -60,13 +60,13 @@ struct MacContentView: View {
 //        AppQuickOpen()
     }
 
-    func makeChatView(_ command: Command, msg: String?, mode: ChatMode = .normal) -> some View {
+    func makeChatView(_ command: GPTConversation, msg: String?, mode: ChatMode = .normal) -> some View {
         print("makeChatView \(command.name) \(msg) \(mode)")
         return ChatView(command: command, msg: msg, mode: mode).id(command.id)
     }
 
-    func makeEditCommandView(_ command: Command)-> some View {
-        AddCommandView(id: command.id, commandName: command.name, prompt: command.protmp, shortcut: command.shortcut, autoAddSelectedText: command.autoAddSelectedText)
+    func makeEditCommandView(_ command: GPTConversation)-> some View {
+        ConversationPreferenceView(conversation: command, mode: .edit)
     }
 }
 
@@ -75,8 +75,8 @@ enum Target: Hashable {
     case setting
     case addCommand
     case playground
-    case editCommand(command: Command)
-    case chat(command: Command, msg: String? = nil, mode: ChatMode = .normal)
+    case editCommand(command: GPTConversation)
+    case chat(command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal)
 }
 
 //struct MacContentView_Previews: PreviewProvider {

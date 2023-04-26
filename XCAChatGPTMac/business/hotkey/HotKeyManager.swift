@@ -26,7 +26,7 @@ class HotKeyManager {
             window.deminiaturize(nil)
         }
 
-        CommandStore.shared.commands.forEach { command in
+        ConversationViewModel.shared.conversations.forEach { command in
             KeyboardShortcuts.onKeyDown(for: command.Name) { [self] in
                 NSLog("key pressed")
 
@@ -42,7 +42,7 @@ class HotKeyManager {
                             print("tapped")
                             PathManager.shared.toChat(command, msg: text)
                             if let text = text, !text.isEmpty {
-                                let vm = CommandStore.shared.commandViewModel(command)
+                                let vm = ConversationViewModel.shared.commandViewModel(command)
                                 vm.inputMessage = text
                                 Task {
                                     if (!vm.isInteractingWithChatGPT) {

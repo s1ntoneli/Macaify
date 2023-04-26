@@ -14,12 +14,12 @@ extension KeyboardShortcuts.Name {
     static let search = Self("search", default: .init(.k, modifiers: .command))
 }
 
-extension Command {
+extension GPTConversation {
     var Name: KeyboardShortcuts.Name {
-        KeyboardShortcuts.Name(id.uuidString)
+        KeyboardShortcuts.Name(uuid.uuidString)
     }
     
     func NameWithDefault(shortcut: KeyboardShortcuts.Name.Shortcut) -> KeyboardShortcuts.Name {
-        return KeyboardShortcuts.Name(id.uuidString, default: shortcut)
+        return KeyboardShortcuts.Name(uuid.uuidString, default: shortcut)
     }
 }

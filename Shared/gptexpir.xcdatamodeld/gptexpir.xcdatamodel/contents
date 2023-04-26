@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="GPTAnswer" representedClassName="GPTAnswer" syncable="YES" codeGenerationType="class">
+        <attribute name="contextClearedAfterThis_" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="parentMessageId_" attributeType="UUID" defaultValueString="" usesScalarValueType="NO"/>
+        <attribute name="prompt_" attributeType="String" defaultValueString=""/>
+        <attribute name="response_" attributeType="String" defaultValueString=""/>
+        <attribute name="role_" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp_" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="uuid_" attributeType="UUID" defaultValueString="" usesScalarValueType="NO"/>
+        <relationship name="belongsTo" maxCount="1" deletionRule="Nullify" destinationEntity="GPTConversation" inverseName="own" inverseEntity="GPTConversation"/>
+    </entity>
+    <entity name="GPTConversation" representedClassName="GPTConversation" syncable="YES" codeGenerationType="class">
+        <attribute name="autoAddSelectedText_" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="desc_" attributeType="String" defaultValueString=""/>
+        <attribute name="icon_" attributeType="String" defaultValueString=""/>
+        <attribute name="name_" attributeType="String" defaultValueString="&quot;&quot;"/>
+        <attribute name="prompt_" attributeType="String" defaultValueString=""/>
+        <attribute name="shortcut_" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp_" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="uuid_" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="own" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GPTAnswer" inverseName="belongsTo" inverseEntity="GPTAnswer"/>
+    </entity>
+</model>

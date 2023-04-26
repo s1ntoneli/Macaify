@@ -9,7 +9,7 @@ import SwiftUI
 import AlertToast
 
 struct ChatView: View {
-    let command: Command
+    let command: GPTConversation
     let mode: ChatMode
     var id: UUID {
         get {
@@ -18,14 +18,14 @@ struct ChatView: View {
     }
     
     var pathManager: PathManager = PathManager.shared
-    var commandStore: CommandStore = CommandStore.shared
+    var commandStore: ConversationViewModel = ConversationViewModel.shared
     @ObservedObject var vm: ViewModel
     @AppStorage("proxyAddress") private var proxyAddress = ""
     @AppStorage("useProxy") private var useProxy = false
 
     @State private var showToast = false
 
-    init(command: Command, msg: String? = nil, mode: ChatMode = .normal) {
+    init(command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal) {
         self.command = command
         self.mode = mode
         self.vm = commandStore.commandViewModel(command)

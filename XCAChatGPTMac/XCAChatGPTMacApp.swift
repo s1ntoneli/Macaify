@@ -14,8 +14,8 @@ struct XCAChatGPTMacApp: App {
 //    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    @StateObject var vm = CommandStore.shared.menuViewModel
-    @StateObject var commandStore = CommandStore.shared
+//    @StateObject var vm = CommandStore.shared.menuViewModel
+    @StateObject var commandStore = ConversationViewModel.shared
     @StateObject private var appState = AppState()
     
     var body: some Scene {
@@ -51,42 +51,42 @@ struct XCAChatGPTMacApp: App {
             }
         }
     }
-    
-    private var menuView: some Scene {
-        MenuBarExtra("XCA ChatGPT", image: "icon") {
-            VStack(spacing: 0) {
-                HStack {
-                    Text("XCA ChatGPT")
-                        .font(.title)
-                    Spacer()
-
-                    Button {
-                        guard !vm.isInteractingWithChatGPT else { return }
-                        vm.clearMessages()
-                    } label: {
-                        Image(systemName: "trash")
-                            .symbolRenderingMode(.multicolor)
-                            .font(.system(size: 24))
-                    }
-                    .buttonStyle(.borderless)
-
-                    Button {
-                        exit(0)
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .symbolRenderingMode(.multicolor)
-                            .font(.system(size: 24))
-                    }
-
-                    .buttonStyle(.borderless)
-                }
-                .padding()
-
-                ContentView(vm: vm)
-            }
-            .frame(width: 480, height: 576)
-        }.menuBarExtraStyle(.window)
-    }
+//
+//    private var menuView: some Scene {
+//        MenuBarExtra("XCA ChatGPT", image: "icon") {
+//            VStack(spacing: 0) {
+//                HStack {
+//                    Text("XCA ChatGPT")
+//                        .font(.title)
+//                    Spacer()
+//
+//                    Button {
+//                        guard !vm.isInteractingWithChatGPT else { return }
+//                        vm.clearMessages()
+//                    } label: {
+//                        Image(systemName: "trash")
+//                            .symbolRenderingMode(.multicolor)
+//                            .font(.system(size: 24))
+//                    }
+//                    .buttonStyle(.borderless)
+//
+//                    Button {
+//                        exit(0)
+//                    } label: {
+//                        Image(systemName: "xmark.circle.fill")
+//                            .symbolRenderingMode(.multicolor)
+//                            .font(.system(size: 24))
+//                    }
+//
+//                    .buttonStyle(.borderless)
+//                }
+//                .padding()
+//
+//                ContentView(vm: vm)
+//            }
+//            .frame(width: 480, height: 576)
+//        }.menuBarExtraStyle(.window)
+//    }
 
     func hideTitleBar() {
         guard let window = NSApplication.shared.windows.first else {  return }

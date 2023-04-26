@@ -13,7 +13,7 @@ struct MainView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.isEnabled) private var isEnabled: Bool
 
-    @EnvironmentObject var commandStore: CommandStore
+    @EnvironmentObject var commandStore: ConversationViewModel
 
     @EnvironmentObject var pathManager: PathManager
     // 搜索关键字
@@ -87,12 +87,12 @@ struct MainView: View {
         }
         .onKeyPressed(.upArrow) { event in
             print("upArrow")
-            commandStore.selectedItemIndex = (selectedItemIndex - 1 + commandStore.commands.count) % commandStore.commands.count
+            commandStore.selectedItemIndex = (selectedItemIndex - 1 + commandStore.conversations.count) % commandStore.conversations.count
             return true
         }
         .onKeyPressed(.downArrow) { event in
             print("downArrow")
-            commandStore.selectedItemIndex = (selectedItemIndex + 1 + commandStore.commands.count) % commandStore.commands.count
+            commandStore.selectedItemIndex = (selectedItemIndex + 1 + commandStore.conversations.count) % commandStore.conversations.count
             return true
         }
         .onKeyPressed(.enter) { event in
@@ -111,8 +111,8 @@ struct MainView: View {
                     .foregroundColor(.text)
                     .bold()
                     .font(.headline)
-                ForEach(commandStore.commands) { command in
-                    makeCommandItem(command, selected: commandStore.commands[selectedItemIndex].id == command.id)
+                ForEach(commandStore.conversations) { command in
+                    makeCommandItem(command, selected: commandStore.conversations[selectedItemIndex].id == command.id)
                         .onTapGesture {
                             pathManager.toChat(command, msg: searchText)
                         }
@@ -122,7 +122,7 @@ struct MainView: View {
                 .onChange(of: commandStore.selectedItemIndex) { newValue in
                     print("selectedItem changed newValue \(newValue)")
                     withAnimation {
-                        proxy.scrollTo(commandStore.commands[selectedItemIndex].id, anchor: .bottomLeading)
+                        proxy.scrollTo(commandStore.conversations[selectedItemIndex].id, anchor: .bottomLeading)
                     }
                 }
             }
@@ -133,12 +133,12 @@ struct MainView: View {
     
     var details: some View {
         ZStack {
-            if (commandStore.commands.indices.contains(selectedItemIndex)) {
+            if (commandStore.conversations.indices.contains(selectedItemIndex)) {
                 ZStack {
 //                    ForEach(commandStore.commands) {command in
-                        CommandDetailView(command: $commandStore.commands[selectedItemIndex])
+                        CommandDetailView(command: $commandStore.conversations[selectedItemIndex])
                         //                    .keyboardShortcut(.init("e"), modifiers: .command)
-                            .id(commandStore.commands[selectedItemIndex].id)
+                            .id(commandStore.conversations[selectedItemIndex].id)
 //                    }
                 }
 //                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
@@ -180,7 +180,7 @@ struct MainView: View {
         .padding(.vertical, 10)
     }
     
-    func makeCommandItem(_ command: Command, selected: Bool) -> some View {
+    func makeCommandItem(_ command: GPTConversation, selected: Bool) -> some View {
         return ZStack {
             Color.clear
             HStack(alignment: .center) {
@@ -207,21 +207,21 @@ struct MainView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
     
-    func startChat(_ command: Command,_ searchText: String) {
+    func startChat(_ command: GPTConversation,_ searchText: String) {
         pathManager.toChat(command, msg: searchText)
         self.searchText.removeAll()
     }
 }
 
 // 列表项数据模型
-struct Command: Identifiable, Hashable, Codable {
-    var id = UUID()
-    let name: String
-    let icon: String
-    let protmp: String
-    let shortcut: String
-    let autoAddSelectedText: Bool
-}
+//struct GPTConversation: Identifiable, Hashable, Codable {
+//    var id = UUID()
+//    let name: String
+//    let icon: String
+//    let protmp: String
+//    let shortcut: String
+//    let autoAddSelectedText: Bool
+//}
 
 enum FocusedField:Hashable{
     case name

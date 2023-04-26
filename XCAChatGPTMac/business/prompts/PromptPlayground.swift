@@ -31,10 +31,10 @@ struct PromptPlayground: View {
                 searchbar
             }
             .zIndex(100)
-            .toast(isPresenting: $showToast){
+            .toast(isPresenting: $showToast) {
                 // `.alert` is the default displayMode
                 AlertToast(displayMode: .hud, type: .regular, title: "已添加到常用", style: .style(backgroundColor: .white))
-                
+
                 //Choose .hud to toast alert from the top of the screen
                 //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
             }
@@ -141,7 +141,7 @@ struct PromptPlayground: View {
                     PlainButton(icon: "rectangle.stack.badge.plus", label: "添加到常用", backgroundColor: Color.purple, pressedBackgroundColor: Color.purple.opacity(0.8), foregroundColor: .white, shortcut: .init("e"), modifiers: .command, action: {
                         // 编辑按钮的响应
                         print("添加到常用 \(prompt.title)")
-                        CommandStore.shared.addCommand(command: prompt.command)
+                        ConversationViewModel.shared.addCommand(command: prompt.command)
                         showToast = true
                     })
                 }
