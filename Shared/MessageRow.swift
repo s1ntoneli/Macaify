@@ -21,4 +21,6 @@ struct MessageRow: Identifiable {
     
     var responseError: String?
     
+    var clearContextAfterThis: Bool = false
+    
 }

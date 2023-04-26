@@ -30,7 +30,7 @@ struct ChatView: View {
         self.mode = mode
         self.vm = commandStore.commandViewModel(command)
         print("proxy \(useProxy) \(proxyAddress) \(msg)")
-        self.vm.inputMessage = msg ?? ""
+        setMessage(msg: msg)
     }
 
     var body: some View {
@@ -88,6 +88,11 @@ struct ChatView: View {
             commandStore.addCommand(command: command)
             showToast = true
         })
+    }
+    
+    @MainActor
+    func setMessage(msg: String?) {
+        self.vm.inputMessage = msg ?? ""
     }
 }
 //

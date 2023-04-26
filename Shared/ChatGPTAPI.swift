@@ -17,7 +17,9 @@ class ChatGPTAPI: @unchecked Sendable {
     
     private let apiKey: String
     private var historyList = [Message]()
-    
+    // 携带上下文
+    var withContext: Bool
+
     private var baseURL: String
     private let urlSession = URLSession.shared
     private var urlRequest: URLRequest {
@@ -50,11 +52,12 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5, baseURL: String? = nil) {
+    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5, baseURL: String? = nil, withContext: Bool = true) {
         self.apiKey = apiKey
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
+        self.withContext = withContext
         if let baseURL = baseURL {
             self.baseURL = baseURL
         } else {
@@ -81,20 +84,34 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
     private func generateMessages(from text: String) -> [Message] {
-        var messages = [systemMessage] + historyList + [Message(role: "user", content: text)]
+        var messages: [Message] = []
+        messages += [systemMessage]
+        if withContext {
+            messages += historyList
+        }
+        messages += [Message(role: "user", content: text)]
         
         let token =  messages.token
 //        print("msg token \(token) \(messages)")
         if token > 4000 {
-            _ = historyList.removeFirst()
-            messages = generateMessages(from: text)
+            if withContext && !historyList.isEmpty {
+                _ = historyList.removeFirst()
+                messages = generateMessages(from: text)
+            } else {
+                let lastIndex = max(1, text.count - 100)
+                let start = text.index(text.startIndex, offsetBy: 0)
+                let end = text.index(text.startIndex, offsetBy: max(0, text.count - 100))
+                messages = generateMessages(from: String(text[start...end]))
+            }
         }
         return messages
     }
     
     private func jsonBody(text: String, stream: Bool = true) throws -> Data {
+        let msgs = generateMessages(from: text)
+        print("messages","withContext \(withContext)", msgs)
         let request = Request(model: model, temperature: temperature,
-                              messages: generateMessages(from: text), stream: stream)
+                              messages: msgs, stream: stream)
         return try JSONEncoder().encode(request)
     }
     
