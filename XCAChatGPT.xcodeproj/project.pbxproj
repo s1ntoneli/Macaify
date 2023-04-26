@@ -18,10 +18,10 @@
 		696B6B7F29E17D4B00845C71 /* APIKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B7E29E17D4B00845C71 /* APIKeyManager.swift */; };
 		696B6B8129E187B000845C71 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8029E187B000845C71 /* AppInfo.swift */; };
 		696B6B8329E188B500845C71 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8229E188B500845C71 /* DataManager.swift */; };
-		696B6B8529E18AF800845C71 /* AddCommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8429E18AF800845C71 /* AddCommandView.swift */; };
+		696B6B8529E18AF800845C71 /* ConversationPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8429E18AF800845C71 /* ConversationPreferenceView.swift */; };
 		696B6B8729E1911300845C71 /* PathManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8629E1911300845C71 /* PathManager.swift */; };
 		696B6B8929E1953500845C71 /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8829E1953500845C71 /* MacContentView.swift */; };
-		696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8A29E1A34A00845C71 /* CommandStore.swift */; };
+		696B6B8B29E1A34A00845C71 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8A29E1A34A00845C71 /* ConversationViewModel.swift */; };
 		696B6B8E29E1D96800845C71 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8D29E1D96800845C71 /* ChatView.swift */; };
 		696B6B9029E2907700845C71 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B8F29E2907700845C71 /* Color.swift */; };
 		696B6B9229E29E3900845C71 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B9129E29E3900845C71 /* Themes.swift */; };
@@ -51,6 +51,10 @@
 		696B6BCD29F418B100845C71 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BCC29F418B100845C71 /* AlertToast */; };
 		696B6BCF29F418C200845C71 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6BCE29F418C200845C71 /* AlertToast */; };
 		696B6BD129F447FF00845C71 /* prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = 696B6BD029F447FF00845C71 /* prompts.json */; };
+		696B6BD429F6A31800845C71 /* gptexpir.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD229F6A31700845C71 /* gptexpir.xcdatamodeld */; };
+		696B6BD629F6A33000845C71 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD529F6A33000845C71 /* Persistence.swift */; };
+		696B6BD929F6BA4100845C71 /* GPTConversationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */; };
+		696B6BDB29F77B8700845C71 /* GPTAnswerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -133,10 +137,10 @@
 		696B6B7E29E17D4B00845C71 /* APIKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyManager.swift; sourceTree = "<group>"; };
 		696B6B8029E187B000845C71 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		696B6B8229E188B500845C71 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		696B6B8429E18AF800845C71 /* AddCommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommandView.swift; sourceTree = "<group>"; };
+		696B6B8429E18AF800845C71 /* ConversationPreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationPreferenceView.swift; sourceTree = "<group>"; };
 		696B6B8629E1911300845C71 /* PathManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathManager.swift; sourceTree = "<group>"; };
 		696B6B8829E1953500845C71 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
-		696B6B8A29E1A34A00845C71 /* CommandStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandStore.swift; sourceTree = "<group>"; };
+		696B6B8A29E1A34A00845C71 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		696B6B8D29E1D96800845C71 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		696B6B8F29E2907700845C71 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		696B6B9129E29E3900845C71 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
@@ -160,6 +164,10 @@
 		696B6BC729F23C0B00845C71 /* QuickOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickOpen.swift; sourceTree = "<group>"; };
 		696B6BC929F23D4100845C71 /* AppQuickOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQuickOpen.swift; sourceTree = "<group>"; };
 		696B6BD029F447FF00845C71 /* prompts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = prompts.json; sourceTree = "<group>"; };
+		696B6BD329F6A31700845C71 /* gptexpir.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gptexpir.xcdatamodel; sourceTree = "<group>"; };
+		696B6BD529F6A33000845C71 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTConversationExtensions.swift; sourceTree = "<group>"; };
+		696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTAnswerExtensions.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -266,12 +274,12 @@
 				696B6B7629E178D300845C71 /* MainView.swift */,
 				696B6B8029E187B000845C71 /* AppInfo.swift */,
 				696B6B8229E188B500845C71 /* DataManager.swift */,
-				696B6B8429E18AF800845C71 /* AddCommandView.swift */,
+				696B6B8429E18AF800845C71 /* ConversationPreferenceView.swift */,
 				696B6B7E29E17D4B00845C71 /* APIKeyManager.swift */,
 				696B6B7829E179BC00845C71 /* SettingView.swift */,
 				696B6B7A29E17A7C00845C71 /* ModelSelectionManager.swift */,
 				696B6B7C29E17ABD00845C71 /* KeyboardShortcutManager.swift */,
-				696B6B8A29E1A34A00845C71 /* CommandStore.swift */,
+				696B6B8A29E1A34A00845C71 /* ConversationViewModel.swift */,
 				696B6B9329E2AEA100845C71 /* CommandDetailView.swift */,
 				696B6BB729EC4BE100845C71 /* MainViewModel.swift */,
 			);
@@ -333,6 +341,15 @@
 			path = prompts;
 			sourceTree = "<group>";
 		};
+		696B6BD729F6BA2200845C71 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */,
+				696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +382,9 @@
 		8B057591298E52CB00A56C9A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BD729F6BA2200845C71 /* data */,
+				696B6BD229F6A31700845C71 /* gptexpir.xcdatamodeld */,
+				696B6BD529F6A33000845C71 /* Persistence.swift */,
 				8B91C011298AD0CE0079AF26 /* ChatGPTAPI.swift */,
 				8B82463329B1F49F0069B8F7 /* ChatGPTAPIModels.swift */,
 				8B91C005298AD09E0079AF26 /* ContentView.swift */,
@@ -682,8 +702,9 @@
 				696B6B7429E1702500845C71 /* HotKeyConstants.swift in Sources */,
 				696B6BCA29F23D4100845C71 /* AppQuickOpen.swift in Sources */,
 				696B6B9029E2907700845C71 /* Color.swift in Sources */,
-				696B6B8529E18AF800845C71 /* AddCommandView.swift in Sources */,
+				696B6B8529E18AF800845C71 /* ConversationPreferenceView.swift in Sources */,
 				8B057597298E52DD00A56C9A /* MessageRow.swift in Sources */,
+				696B6BD429F6A31800845C71 /* gptexpir.xcdatamodeld in Sources */,
 				696B6B8E29E1D96800845C71 /* ChatView.swift in Sources */,
 				8B057593298E52D900A56C9A /* ChatGPTAPI.swift in Sources */,
 				8B82463529B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
@@ -692,7 +713,7 @@
 				696B6BA929EC055C00845C71 /* SelectedText.swift in Sources */,
 				696B6B7B29E17A7C00845C71 /* ModelSelectionManager.swift in Sources */,
 				696B6BC429F21B7600845C71 /* PromptStore.swift in Sources */,
-				696B6B8B29E1A34A00845C71 /* CommandStore.swift in Sources */,
+				696B6B8B29E1A34A00845C71 /* ConversationViewModel.swift in Sources */,
 				696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */,
 				696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */,
 				696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */,
@@ -709,11 +730,14 @@
 				696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,
 				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
+				696B6BD629F6A33000845C71 /* Persistence.swift in Sources */,
 				696B6B7F29E17D4B00845C71 /* APIKeyManager.swift in Sources */,
 				696B6B7729E178D300845C71 /* MainView.swift in Sources */,
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
 				696B6B7929E179BC00845C71 /* SettingView.swift in Sources */,
 				8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */,
+				696B6BDB29F77B8700845C71 /* GPTAnswerExtensions.swift in Sources */,
+				696B6BD929F6BA4100845C71 /* GPTConversationExtensions.swift in Sources */,
 				696B6B9429E2AEA100845C71 /* CommandDetailView.swift in Sources */,
 				696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */,
 				8B057596298E52DD00A56C9A /* ViewModel.swift in Sources */,
@@ -1310,6 +1334,19 @@
 			productName = GPTEncoder;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		696B6BD229F6A31700845C71 /* gptexpir.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				696B6BD329F6A31700845C71 /* gptexpir.xcdatamodel */,
+			);
+			currentVersion = 696B6BD329F6A31700845C71 /* gptexpir.xcdatamodel */;
+			path = gptexpir.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8B91BFF8298AD09E0079AF26 /* Project object */;
 }

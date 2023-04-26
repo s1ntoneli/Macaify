@@ -19,7 +19,7 @@ struct PromptCategory: Decodable {
 }
 
 extension PromptTemplate {
-    var command: Command {
-        Command(name: self.title, icon: "", protmp: self.prompt, shortcut: "", autoAddSelectedText: false)
+    var command: GPTConversation {
+        GPTConversation(self.title, prompt: self.prompt)
     }
 }

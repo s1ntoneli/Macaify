@@ -12,7 +12,7 @@ struct CommandDetailView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @EnvironmentObject var pathManager: PathManager
-    @Binding var command: Command
+    @Binding var command: GPTConversation
 
     var body: some View {
         ScrollView(.vertical) {
@@ -36,7 +36,7 @@ struct CommandDetailView: View {
                 Text(command.shortcutDescription)
                     .font(.title2)
                     .opacity(0.5)
-                Markdown(command.protmp)
+                Markdown(command.prompt)
                     .font(.title3)
                     .opacity(0.7)
                     .padding(.top, 12)

@@ -9,17 +9,21 @@ import SwiftUI
 import AppKit
 import KeyboardShortcuts
 
-struct AddCommandView: View {
+struct ConversationPreferenceView: View {
 
-    @EnvironmentObject var commandStore: CommandStore
+    @EnvironmentObject var commandStore: ConversationViewModel
     @EnvironmentObject var pathManager: PathManager
-    @State var id: UUID = UUID()
-    @State var commandName = ""
-    @State var prompt = ""
-    @State var shortcut = ""
-    @State var autoAddSelectedText = false
-    
+    @State var conversation: GPTConversation
+    @State var autoAddSelectedText: Bool
+    let mode: ConversationPreferenceMode
+
     @FocusState private var focusField: FocusField?
+    
+    init(conversation: GPTConversation, mode: ConversationPreferenceMode) {
+        self.conversation = conversation
+        self.autoAddSelectedText = conversation.autoAddSelectedText
+        self.mode = mode
+    }
     
     private enum FocusField {
         case title
@@ -29,18 +33,21 @@ struct AddCommandView: View {
     }
 
     var isNew: Bool {
-        get {
-            !commandStore.commands.contains(where: { $0.id == id })
-        }
+        get { mode == .add }
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            ConfigurableView(onBack: { pathManager.back() }, title: isNew ? "添加指令" : "编辑指令", showLeftButton: true) {
+            ConfigurableView(onBack: {
+                if (mode == .edit) {
+                    commandStore.updateCommand(command: conversation)
+                }
+                pathManager.back()
+            }, title: isNew ? "添加指令" : "编辑指令", showLeftButton: true) {
                 if !isNew {
                     PlainButton(icon: "rectangle.stack.badge.minus", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
                         // 删除按钮的响应
-                        commandStore.removeCommand(by: id)
+                        commandStore.removeCommand(conversation)
                         pathManager.toMain()
                     }
                 }
@@ -49,7 +56,7 @@ struct AddCommandView: View {
             List {
                 VStack(alignment: .leading) {
                     Text("指令名字").font(.headline)
-                    TextField("输入指令名称方便记忆", text: $commandName, onCommit: {
+                    TextField("输入指令名称方便记忆", text: $conversation.name, onCommit: {
                         print("onCommit")
                         focusField = .prompt })
                     .focusable(true)
@@ -60,7 +67,7 @@ struct AddCommandView: View {
                         .textFieldStyle(CustomTextFieldStyle())
                         .focused($focusField, equals: .title)
                     Text("系统提示").font(.headline)
-                    TextEditor(text: $prompt)
+                    TextEditor(text: $conversation.prompt)
                         .padding(.vertical, 12)
                         .padding(.horizontal, 4)
                         .background(
@@ -83,13 +90,15 @@ struct AddCommandView: View {
                     Spacer(minLength: 12)
                     Text("热键").font(.headline)
                     Form {
-                        KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(id.uuidString))
+                        KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
                     }
                     Spacer(minLength: 12)
 
                     Text("自动添加选中文本").font(.headline)
                     Toggle(isOn: $autoAddSelectedText) {
                         Text("启用")
+                    }.onChange(of: autoAddSelectedText) { newValue in
+                        conversation.autoAddSelectedText = newValue
                     }
                 }
                 .padding(.top, 12)
@@ -108,11 +117,19 @@ struct AddCommandView: View {
                         .font(.footnote)
                 }
                 Spacer()
-                PlainButton(icon: "tray.full", label: "保存指令", shortcut: .init("s"), modifiers: .command) {
+                PlainButton(icon: "tray.full", label: "完成", shortcut: .init("s"), modifiers: .command) {
                     // 保存按钮的响应
-                    commandStore.addCommand(id: id, title: commandName, prompt: prompt, shortcut: shortcut, autoAddSelectedText: autoAddSelectedText)
+                    switch (mode) {
+                    case .add:
+                        commandStore.addCommand(command: conversation)
+                    case .edit:
+                        commandStore.updateCommand(command: conversation)
+                    default:
+                        break
+                    }
                     pathManager.back()
                 }
+                .disabled(mode == .trial)
             }
             .padding()
             .onAppear {
@@ -144,4 +161,10 @@ struct CustomTextFieldStyle: TextFieldStyle {
             .foregroundColor(.text)
             .font(.body)
     }
+}
+
+enum ConversationPreferenceMode {
+    case add
+    case edit
+    case trial
 }

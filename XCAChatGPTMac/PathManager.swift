@@ -39,7 +39,7 @@ class PathManager: ObservableObject {
         }
     }
 
-    func toChat(_ command: Command, msg: String? = nil, mode: ChatMode = .normal) {
+    func toChat(_ command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal) {
         print("toChat")
         switch top {
         case .chat(_,_,_):
