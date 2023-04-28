@@ -15,9 +15,14 @@ struct XCAChatGPTMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
 //    @StateObject var vm = CommandStore.shared.menuViewModel
-    @StateObject var commandStore = ConversationViewModel.shared
+    @StateObject var vm = ConversationViewModel.shared
     @StateObject private var appState = AppState()
+    @State var commandKeyDown: Bool = false
+    @State var commandKeyDownTimestamp: TimeInterval = 0
+    @State var keyMonitor = KeyMonitor()
     
+    let globalConfig = GlobalConfig()
+
     var body: some Scene {
         windowView
 //        menuView
@@ -26,13 +31,36 @@ struct XCAChatGPTMacApp: App {
     private var windowView: some Scene {
         WindowGroup {
             MacContentView()
-//            AppQuickOpen()
-                .environmentObject(commandStore)
+                .environmentObject(vm)
+                .environmentObject(globalConfig)
                 .ignoresSafeArea(.all)
-                .onAppear {}
+                .onAppear {
+                    keyMonitor.handler = {
+                        print("Command key was held down for 1 second")
+                        withAnimation {
+                            globalConfig.showShortcutHelp = true
+                        }
+                    }
+                    keyMonitor.commandKeyUpHandler = {
+                        print("Command key up")
+                        withAnimation {
+                            globalConfig.showShortcutHelp = false
+                        }
+                    }
+                    keyMonitor.start()
+                }
+                .onDisappear {
+                    keyMonitor.stop()
+                }
         }
         .commands {
             CommandGroup(replacing: .newItem) {}
+            CommandMenu("Quick") {
+                Button("显示快捷键") {
+                    print("显示快捷键")
+                }
+                .help("help test1")
+            }
         }
         .windowStyle(.hiddenTitleBar) // Hide the title bar
         .onChange(of: scenePhase) { s in

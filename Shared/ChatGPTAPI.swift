@@ -11,7 +11,7 @@ import GPTEncoder
 class ChatGPTAPI: @unchecked Sendable {
     
     private let gptEncoder = GPTEncoder()
-    private let systemMessage: Message
+    private var systemMessage: Message
     private let temperature: Double
     private let model: String
     
@@ -30,6 +30,11 @@ class ChatGPTAPI: @unchecked Sendable {
             headers.forEach {  urlRequest.setValue($1, forHTTPHeaderField: $0) }
             return urlRequest
         }
+    }
+    
+    var systemPrompt: String {
+        get { systemMessage.content }
+        set { systemMessage = .init(role: "system", content: newValue) }
     }
     
     let dateFormatter: DateFormatter = {

@@ -56,6 +56,11 @@
 		696B6BD929F6BA4100845C71 /* GPTConversationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */; };
 		696B6BDB29F77B8700845C71 /* GPTAnswerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */; };
 		696B6BDD29F8A6B300845C71 /* DropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDC29F8A6B300845C71 /* DropdownView.swift */; };
+		696B6BDF29FAD22B00845C71 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BDE29FAD22B00845C71 /* Globals.swift */; };
+		696B6BE129FAD8DB00845C71 /* CommandKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BE029FAD8DB00845C71 /* CommandKeyView.swift */; };
+		696B6BE429FAE42900845C71 /* CommandKeyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BE329FAE42900845C71 /* CommandKeyMonitor.swift */; };
+		696B6BE629FAE82F00845C71 /* GlobalConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BE529FAE82F00845C71 /* GlobalConfig.swift */; };
+		696B6BE829FAEB9C00845C71 /* KeyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6BE729FAEB9C00845C71 /* KeyUtils.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -170,6 +175,11 @@
 		696B6BD829F6BA4100845C71 /* GPTConversationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTConversationExtensions.swift; sourceTree = "<group>"; };
 		696B6BDA29F77B8700845C71 /* GPTAnswerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTAnswerExtensions.swift; sourceTree = "<group>"; };
 		696B6BDC29F8A6B300845C71 /* DropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownView.swift; sourceTree = "<group>"; };
+		696B6BDE29FAD22B00845C71 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		696B6BE029FAD8DB00845C71 /* CommandKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandKeyView.swift; sourceTree = "<group>"; };
+		696B6BE329FAE42900845C71 /* CommandKeyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandKeyMonitor.swift; sourceTree = "<group>"; };
+		696B6BE529FAE82F00845C71 /* GlobalConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConfig.swift; sourceTree = "<group>"; };
+		696B6BE729FAEB9C00845C71 /* KeyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUtils.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -352,6 +362,16 @@
 			path = data;
 			sourceTree = "<group>";
 		};
+		696B6BE229FAE41300845C71 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				696B6BE329FAE42900845C71 /* CommandKeyMonitor.swift */,
+				696B6BE529FAE82F00845C71 /* GlobalConfig.swift */,
+				696B6BE729FAEB9C00845C71 /* KeyUtils.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		8B057583298E52C000A56C9A /* XCAChatGPTMac */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +404,7 @@
 		8B057591298E52CB00A56C9A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				696B6BE229FAE41300845C71 /* utils */,
 				696B6BD729F6BA2200845C71 /* data */,
 				696B6BD229F6A31700845C71 /* gptexpir.xcdatamodeld */,
 				696B6BD529F6A33000845C71 /* Persistence.swift */,
@@ -399,6 +420,8 @@
 				696B6B9A29E67F3300845C71 /* MyTextField.swift */,
 				696B6B9C29E7CAFA00845C71 /* RoundedButtonStyle.swift */,
 				696B6BBE29F1178900845C71 /* MessageExtension.swift */,
+				696B6BDE29FAD22B00845C71 /* Globals.swift */,
+				696B6BE029FAD8DB00845C71 /* CommandKeyView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -704,6 +727,7 @@
 				696B6BBF29F1178900845C71 /* MessageExtension.swift in Sources */,
 				696B6B7429E1702500845C71 /* HotKeyConstants.swift in Sources */,
 				696B6BCA29F23D4100845C71 /* AppQuickOpen.swift in Sources */,
+				696B6BE429FAE42900845C71 /* CommandKeyMonitor.swift in Sources */,
 				696B6B9029E2907700845C71 /* Color.swift in Sources */,
 				696B6B8529E18AF800845C71 /* ConversationPreferenceView.swift in Sources */,
 				8B057597298E52DD00A56C9A /* MessageRow.swift in Sources */,
@@ -723,6 +747,7 @@
 				696B6B9729E2B2A700845C71 /* PurpleButtonStyle.swift in Sources */,
 				696B6B7D29E17ABD00845C71 /* KeyboardShortcutManager.swift in Sources */,
 				696B6BC829F23C0B00845C71 /* QuickOpen.swift in Sources */,
+				696B6BE129FAD8DB00845C71 /* CommandKeyView.swift in Sources */,
 				8B057594298E52D900A56C9A /* ContentView.swift in Sources */,
 				696B6B9229E29E3900845C71 /* Themes.swift in Sources */,
 				696B6B9B29E67F3300845C71 /* MyTextField.swift in Sources */,
@@ -736,6 +761,7 @@
 				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
 				696B6BD629F6A33000845C71 /* Persistence.swift in Sources */,
 				696B6B7F29E17D4B00845C71 /* APIKeyManager.swift in Sources */,
+				696B6BE629FAE82F00845C71 /* GlobalConfig.swift in Sources */,
 				696B6B7729E178D300845C71 /* MainView.swift in Sources */,
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
 				696B6B7929E179BC00845C71 /* SettingView.swift in Sources */,
@@ -744,9 +770,11 @@
 				696B6BD929F6BA4100845C71 /* GPTConversationExtensions.swift in Sources */,
 				696B6B9429E2AEA100845C71 /* CommandDetailView.swift in Sources */,
 				696B6B9929E400AF00845C71 /* InputEditor.swift in Sources */,
+				696B6BDF29FAD22B00845C71 /* Globals.swift in Sources */,
 				8B057596298E52DD00A56C9A /* ViewModel.swift in Sources */,
 				696B6B8729E1911300845C71 /* PathManager.swift in Sources */,
 				696B6BB829EC4BE100845C71 /* MainViewModel.swift in Sources */,
+				696B6BE829FAEB9C00845C71 /* KeyUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 struct PlainButton: View, Identifiable {
     let id = UUID()
@@ -17,7 +18,9 @@ struct PlainButton: View, Identifiable {
     let cornerRadius: CGFloat
     var shortcut: KeyEquivalent?
     var modifiers: EventModifiers = []
+    var showHelp: Bool
     let action: () -> Void
+    @EnvironmentObject var globalConfig: GlobalConfig
 
     init(icon: String = "",
          label: String = "",
@@ -27,6 +30,7 @@ struct PlainButton: View, Identifiable {
          cornerRadius: CGFloat = 6,
          shortcut: KeyEquivalent? = nil,
          modifiers: EventModifiers = [],
+         showHelp: Bool = true,
          action: @escaping () -> Void) {
         self.action = action
         self.icon = icon
@@ -37,6 +41,7 @@ struct PlainButton: View, Identifiable {
         self.cornerRadius = cornerRadius
         self.shortcut = shortcut
         self.modifiers = modifiers
+        self.showHelp = showHelp
     }
     
     var body: some View {
@@ -47,6 +52,10 @@ struct PlainButton: View, Identifiable {
                 }
                 if !label.isEmpty {
                     Text(label)
+                }
+                if showHelp, let shortcut = shortcut, globalConfig.showShortcutHelp  {
+                    Text(shortcut.description.uppercased())
+                        .modifier(EventModifierSymbolModifier(modifiers))
                 }
             }
         }

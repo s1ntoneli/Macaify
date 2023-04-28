@@ -19,15 +19,14 @@ class ViewModel: ObservableObject {
     var enableSpeech: Bool = false
     
     private var api: ChatGPTAPI
-    private var conversation: GPTConversation
+    var conversation: GPTConversation
     
     init(conversation: GPTConversation, api: ChatGPTAPI, enableSpeech: Bool = false) {
         self.conversation = conversation
         self.api = api
         self.enableSpeech = enableSpeech
         synthesizer = .init()
-        messages = conversation.own!.array.map({ answer in
-            let answer = answer as! GPTAnswer
+        messages = conversation.own.map({ answer in
             return MessageRow(isInteractingWithChatGPT: false, sendImage: "profile", sendText: answer.prompt, responseImage: "openai", responseText: answer.response, clearContextAfterThis: answer.contextClearedAfterThis)
         })
         api.withContext = conversation.withContext
@@ -47,7 +46,7 @@ class ViewModel: ObservableObject {
             [Message(role: "user", content: msg.sendText), Message(role: "assistant", content: msg.responseText ?? "")]
         }
         .flatMap { msgs in msgs }
-        print("new history \(api.history)")
+//        print("new history \(api.history)")
     }
     
     @MainActor
@@ -56,6 +55,7 @@ class ViewModel: ObservableObject {
         inputMessage = ""
         print("withContext ? ", conversation.withContext)
         api.withContext = conversation.withContext
+        api.systemPrompt = conversation.prompt
         await send(text: text)
     }
     
@@ -118,7 +118,9 @@ class ViewModel: ObservableObject {
         
         messageRow.isInteractingWithChatGPT = false
         self.messages[self.messages.count - 1] = messageRow
-        PersistenceController.shared.addAnswer(conversation: conversation, role: "user", response: messageRow.responseText ?? "", prompt: messageRow.sendText, parentId: (conversation.own?.array.last as? GPTAnswer)?.uuid)
+        let answer = GPTAnswer(role: "user", prompt: messageRow.sendText, response: messageRow.responseText ?? "", parentId: conversation.own.last?.uuid, context: conversation.managedObjectContext!)
+        conversation.addAnswer(answer: answer)
+        
         isInteractingWithChatGPT = false
         speakLastResponse()
     }

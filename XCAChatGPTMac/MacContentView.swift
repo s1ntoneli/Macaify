@@ -11,11 +11,15 @@ struct MacContentView: View {
     @StateObject var pathManager = PathManager.shared
     @State var lastTarget: Target?
 
+//#if DEBUG
+//    let _ = Self._printChanges()
+//#endif
+
     var body: some View {
         NavigationStack(path: $pathManager.path) {
             mainView
                 .navigationDestination(for: Target.self) { target in
-                    ZStack {
+//                    ZStack {
 //                        log(target)
                         switch target {
                         case .main: mainView
@@ -25,7 +29,7 @@ struct MacContentView: View {
                         case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
                         case .playground: playground
                         }
-                    }
+//                    }
                 }
         }
         .environmentObject(pathManager)
@@ -62,7 +66,7 @@ struct MacContentView: View {
 
     func makeChatView(_ command: GPTConversation, msg: String?, mode: ChatMode = .normal) -> some View {
         print("makeChatView \(command.name) \(msg) \(mode)")
-        return ChatView(command: command, msg: msg, mode: mode).id(command.id)
+        return ChatView(command: command, msg: msg, mode: mode)
     }
 
     func makeEditCommandView(_ command: GPTConversation)-> some View {

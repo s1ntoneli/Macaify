@@ -80,7 +80,7 @@ struct PersistenceController {
     }
 
     func deleteConversation(conversation: GPTConversation) {
-        let viewContext = container.viewContext
+        let viewContext = conversation.managedObjectContext!
         viewContext.delete(conversation)
         do {
             try viewContext.save()
@@ -116,7 +116,7 @@ struct PersistenceController {
     }
     
     func updateConvasationInfo(conversation: GPTConversation, id: UUID? = nil, name: String? = nil, prompt: String? = nil, desc: String? = nil, icon: String? = nil, shortcut: String? = nil, timestamp: Date? = nil, own: [GPTAnswer]? = nil) {
-        let viewContext = container.viewContext
+        let viewContext = conversation.managedObjectContext!
         
         if let id = id {
             conversation.uuid = id
@@ -150,7 +150,7 @@ struct PersistenceController {
     }
 
     func addAnswer(conversation: GPTConversation, role: String, response: String, prompt: String, parentId: UUID? = nil, contextClearedAfterThis: Bool = false) {
-        let viewContext = container.viewContext
+        let viewContext = conversation.managedObjectContext!
         let newItem = GPTAnswer(context: viewContext)
         newItem.uuid = UUID()
         newItem.role = role
@@ -172,8 +172,8 @@ struct PersistenceController {
     }
     
     func clearContext(conversation: GPTConversation) {
-        let viewContext = container.viewContext
-        if let answer = conversation.own?.array.last as? GPTAnswer {
+        let viewContext = conversation.managedObjectContext!
+        if let answer = conversation.own.last {
             answer.contextClearedAfterThis = true
         }
         do {
@@ -187,11 +187,9 @@ struct PersistenceController {
     }
     
     func clearAnswers(conversation: GPTConversation) {
-        let viewContext = container.viewContext
-        conversation.own?.array.forEach({ item in
-            if let item = item as? GPTAnswer {
-                viewContext.delete(item)
-            }
+        let viewContext = conversation.managedObjectContext!
+        conversation.own.forEach({ item in
+            viewContext.delete(item)
         })
         conversation.own = []
         do {

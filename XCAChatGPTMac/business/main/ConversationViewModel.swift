@@ -64,11 +64,6 @@ class ConversationViewModel: ObservableObject {
         notifyConversationChanged()
     }
 
-    func commandViewModel(for id: UUID) -> ViewModel {
-        let command = conversations.first(where: { $0.id == id }) ?? GPTConversation.empty
-        return commandViewModel(command)
-    }
-
     func commandViewModel(_ conversation: GPTConversation) -> ViewModel {
         let id = conversation.id
         let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false

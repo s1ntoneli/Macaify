@@ -26,41 +26,43 @@ class HotKeyManager {
             window.deminiaturize(nil)
         }
 
-        ConversationViewModel.shared.conversations.forEach { command in
-            KeyboardShortcuts.onKeyDown(for: command.Name) { [self] in
-                NSLog("key pressed")
+        ConversationViewModel.shared.conversations.forEach { conversation in
+            KeyboardShortcuts.onKeyDown(for: conversation.Name) { [self] in
+                NSLog("key pressed \(conversation.autoAddSelectedText) conversation \(conversation.id) autoAdd \(conversation.autoAddSelectedText)")
 
-                print("top is Main \(PathManager.shared.top == .main)")
                 print("top is found \(NSApplication.shared.isActive)")
+                print("top is Main \(PathManager.shared.top == .main)")
+
                 let isActive = NSApplication.shared.isActive
 
-                if (command.autoAddSelectedText) {
+                if (conversation.autoAddSelectedText) {
                     StartupPasteboardManager.shared.startup { text in
                         let text = isActive ? MainViewModel.shared.searchText : text
                         switch PathManager.shared.top {
                         case .chat(_, _,_):
-                            print("tapped")
-                            PathManager.shared.toChat(command, msg: text)
+                            print("tapped text \(text)")
+                            PathManager.shared.toChat(conversation, msg: text)
                             if let text = text, !text.isEmpty {
-                                let vm = ConversationViewModel.shared.commandViewModel(command)
+                                let vm = ConversationViewModel.shared.commandViewModel(conversation)
+                                print("copy text \(text) to viewmodel \(vm)")
                                 vm.inputMessage = text
-                                Task {
-                                    if (!vm.isInteractingWithChatGPT) {
+                                Task { @MainActor in
+                                    if (!vm.isInteractingWithChatGPT && !vm.inputMessage.isEmpty) {
                                         await vm.sendTapped()
                                     }
                                 }
                             }
                         default:
-                            PathManager.shared.toChat(command, msg: text)
+                            PathManager.shared.toChat(conversation, msg: text)
                         }
 
                         resume()
                     }
                 }
 
-                if !command.autoAddSelectedText {
+                if !conversation.autoAddSelectedText {
                     resume()
-                    PathManager.shared.toChat(command)
+                    PathManager.shared.toChat(conversation)
                 }
             }
         }
@@ -75,22 +77,22 @@ class HotKeyManager {
         }
 
         // MARK: - QuickOpen
-        NSWorkspace.shared.runningApplications.forEach { app in
-            if let id = app.bundleIdentifier, !id.isEmpty {
-                print("register hotkey \(id)")
-                KeyboardShortcuts.onKeyDown(for: .init(id)) {
-                    print("onKeyDown \(id)")
-                    let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id)
-                    if appURL != nil {
-                        do {
-                            try NSWorkspace.shared.launchApplication(at: appURL!, configuration: [:])
-                        } catch {
-                            print("")
-                        }
-                    }
-                }
-            }
-        }
+//        NSWorkspace.shared.runningApplications.forEach { app in
+//            if let id = app.bundleIdentifier, !id.isEmpty {
+//                print("register hotkey \(id)")
+//                KeyboardShortcuts.onKeyDown(for: .init(id)) {
+//                    print("onKeyDown \(id)")
+//                    let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id)
+//                    if appURL != nil {
+//                        do {
+//                            try NSWorkspace.shared.launchApplication(at: appURL!, configuration: [:])
+//                        } catch {
+//                            print("")
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

@@ -22,7 +22,7 @@ struct CommandDetailView: View {
                         .resizable()
                         .frame(width: 48, height: 48)
                     Spacer()
-                    PlainButton(icon: "square.stack.3d.up", label: "编辑 ⌘E", shortcut: .init("e"), modifiers: .command) {
+                    PlainButton(icon: "square.stack.3d.up", label: "编辑", shortcut: .init("e"), modifiers: .command) {
                         print("edit command \(command.id) \(command.name)")
                         pathManager.to(target: .editCommand(command: command))
                     }
