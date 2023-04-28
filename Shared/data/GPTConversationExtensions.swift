@@ -49,6 +49,14 @@ extension GPTConversation {
         get { return withContext_ }
         set { withContext_ = newValue }
     }
+    var own: [GPTAnswer] {
+        get {
+            return (own_?.array ?? []) as! [GPTAnswer]
+        }
+        set {
+            own_ = NSOrderedSet(array: newValue)
+        }
+    }
     
     convenience init(_ name: String, id: UUID = UUID(), prompt: String = "", desc: String = "", icon: String = "", shortcut: String = "", timestamp: Date = Date(), autoAddSelectedText: Bool = false, withContext: Bool = true, context: NSManagedObjectContext = PersistenceController.memoryContext) {
         self.init(context: context)
@@ -88,8 +96,15 @@ extension GPTConversation {
     func copyToCoreData() -> GPTConversation {
         return copy(context: PersistenceController.sharedContext)
     }
+
     func copyToMemory() -> GPTConversation {
         return copy(context: PersistenceController.memoryContext)
+    }
+
+    func addAnswer(answer: GPTAnswer) {
+        self.own.append(answer)
+        answer.belongsTo = self
+        save()
     }
     
     func save() {
@@ -99,7 +114,7 @@ extension GPTConversation {
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            print("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 

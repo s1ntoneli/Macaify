@@ -8,7 +8,7 @@
         <attribute name="role_" attributeType="String" defaultValueString=""/>
         <attribute name="timestamp_" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="uuid_" attributeType="UUID" defaultValueString="" usesScalarValueType="NO"/>
-        <relationship name="belongsTo" maxCount="1" deletionRule="Nullify" destinationEntity="GPTConversation" inverseName="own" inverseEntity="GPTConversation"/>
+        <relationship name="belongsTo" maxCount="1" deletionRule="Nullify" destinationEntity="GPTConversation" inverseName="own_" inverseEntity="GPTConversation"/>
     </entity>
     <entity name="GPTConversation" representedClassName="GPTConversation" syncable="YES" codeGenerationType="class">
         <attribute name="autoAddSelectedText_" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -20,6 +20,6 @@
         <attribute name="timestamp_" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="uuid_" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="withContext_" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
-        <relationship name="own" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GPTAnswer" inverseName="belongsTo" inverseEntity="GPTAnswer"/>
+        <relationship name="own_" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GPTAnswer" inverseName="belongsTo" inverseEntity="GPTAnswer"/>
     </entity>
 </model>

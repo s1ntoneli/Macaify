@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 extension GPTAnswer {
     var uuid: UUID {
@@ -35,5 +36,16 @@ extension GPTAnswer {
     var contextClearedAfterThis: Bool {
         get { return contextClearedAfterThis_ }
         set { contextClearedAfterThis_ = newValue }
+    }
+    
+    convenience init(role: String = "", prompt: String = "", response: String = "", timestamp: Date = Date(), contextClearedAfterThis: Bool = false, parentId: UUID? = nil, context: NSManagedObjectContext = PersistenceController.memoryContext) {
+        self.init(context: context)
+        self.uuid = UUID()
+        self.role = role
+        self.prompt = prompt
+        self.response = response
+        self.timestamp = timestamp
+        self.contextClearedAfterThis = contextClearedAfterThis
+        self.parentMessageId = parentId
     }
 }

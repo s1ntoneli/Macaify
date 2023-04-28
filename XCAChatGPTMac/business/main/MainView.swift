@@ -162,15 +162,15 @@ struct MainView: View {
             }
             Spacer()
             HStack {
-                PlainButton(icon: "gear", label: "全局设置 ⌘P", shortcut: .init("p"), modifiers: .command) {
+                PlainButton(icon: "gear", label: "全局设置", shortcut: .init("p"), modifiers: .command) {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }
-                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加指令 ⌘N", shortcut: .init("n"), modifiers: .command) {
+                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加指令", shortcut: .init("n"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .addCommand)
                 }
-                PlainButton(icon: "sparkles.rectangle.stack", label: "指令广场 ⌘L", shortcut: .init("l"), modifiers: .command) {
+                PlainButton(icon: "sparkles.rectangle.stack", label: "指令广场", shortcut: .init("l"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .playground)
                 }

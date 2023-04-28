@@ -9,31 +9,37 @@ import SwiftUI
 import AlertToast
 
 struct ChatView: View {
-    let command: GPTConversation
+    let conversation: GPTConversation
     let mode: ChatMode
     var id: UUID {
         get {
-            command.id
+            conversation.id
         }
     }
     
     var pathManager: PathManager = PathManager.shared
     var commandStore: ConversationViewModel = ConversationViewModel.shared
-    @ObservedObject var vm: ViewModel
+    @State var vm: ViewModel
     @AppStorage("proxyAddress") private var proxyAddress = ""
     @AppStorage("useProxy") private var useProxy = false
 
     @State private var showToast = false
 
     init(command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal) {
-        self.command = command
+        self.conversation = command
         self.mode = mode
-        self.vm = commandStore.commandViewModel(command)
-        print("proxy \(useProxy) \(proxyAddress) \(msg)")
-        setMessage(msg: msg)
+        let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
+        let api = command.API
+        self.vm = ViewModel(conversation: command, api: api, enableSpeech: useVoice)
+//        self.vm = commandStore.commandViewModel(command)
+        print("ChatView init")
+//        print("proxy \(useProxy) \(proxyAddress) \(msg)")
+        self.vm.inputMessage = msg ?? ""
     }
 
     var body: some View {
+        let _ = Self._printChanges() // ✅ Dump the information that triggered the View update.
+
         VStack {
             titleBar
                 .zIndex(100)
@@ -52,7 +58,7 @@ struct ChatView: View {
     var titleBar: some View {
         ConfigurableView(onBack: {
             pathManager.back()
-        }, title: command.name , showLeftButton: true, actions: {
+        }, title: conversation.name , showLeftButton: true, actions: {
             switch mode {
             case .normal: normalActions
             case .trial: trialActions
@@ -60,16 +66,16 @@ struct ChatView: View {
         })
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            print("chatView onAppear \(command.name)")
+            print("chatView onAppear \(conversation.name) conversationId \(conversation.id)")
             Task { [self] in
-                print("run task sendTapped")
-                if (!self.vm.inputMessage.isEmpty) {
+                print("run task sendTapped conversationId \(conversation.id)")
+                if (!vm.isInteractingWithChatGPT && !self.vm.inputMessage.isEmpty) {
                     await self.vm.sendTapped()
                 }
             }
         }
         .onDisappear {
-            print("chatView onDisappear \(command.name)")
+            print("chatView onDisappear \(conversation.name)")
         }
     }
     
@@ -77,22 +83,24 @@ struct ChatView: View {
         PlainButton(icon: "square.stack.3d.up", shortcut: .init("e"), modifiers: .command, action: {
             // 编辑按钮的响应
             print("button down")
-            pathManager.to(target: .editCommand(command: command))
+            pathManager.to(target: .editCommand(command: conversation))
         })
     }
     
     var trialActions: some View {
         PlainButton(icon: "rectangle.stack.badge.plus", label: "添加到常用", backgroundColor: Color.purple, pressedBackgroundColor: Color.purple.opacity(0.8), foregroundColor: .white, shortcut: .init("e"), modifiers: .command, action: {
             // 编辑按钮的响应
-            print("添加到常用 \(command.name)")
-            commandStore.addCommand(command: command)
+            print("添加到常用 \(conversation.name)")
+            commandStore.addCommand(command: conversation)
             showToast = true
         })
     }
     
     @MainActor
-    func setMessage(msg: String?) {
+    func setMessage(msg: String?) async {
+        print("ChatView setMessage \(msg)")
         self.vm.inputMessage = msg ?? ""
+        await self.vm.sendTapped()
     }
 }
 //

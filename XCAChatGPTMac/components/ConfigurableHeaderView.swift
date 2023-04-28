@@ -17,15 +17,9 @@ struct ConfigurableView<Content: View>: View {
         ZStack {
             HStack {
                 if showLeftButton {
-                    Button(action: {
-                        // left button action
+                    PlainButton(icon: "chevron.backward", foregroundColor: .blue, shortcut: "b",modifiers: .command) {
                         onBack()
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(.blue)
                     }
-                    .buttonStyle(RoundedButtonStyle(cornerRadius: 6))
-                    .keyboardShortcut(.init("b"), modifiers: .command)
                 }
                 
                 Spacer()

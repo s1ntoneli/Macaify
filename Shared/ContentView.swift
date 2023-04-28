@@ -63,11 +63,13 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "clear")
             }
+            .help("清除聊天记录")
             Button {
                 vm.clearContext()
             } label: {
                 Image(systemName: "lasso.sparkles")
             }
+            .help("清除上下文")
 
             InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
                 Task { @MainActor in
@@ -87,7 +89,7 @@ struct ContentView: View {
                 DotLoadingView().frame(width: 60, height: 30)
             } else {
                 HStack {
-                    PlainButton(label: "发送 ↩", shortcut: .return, action: {
+                    PlainButton(label: "发送 ↩", shortcut: .return, showHelp: false, action: {
                         Task { @MainActor in
                             scrollToBottom(proxy: proxy)
                             await vm.sendTapped()
@@ -96,7 +98,7 @@ struct ContentView: View {
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .opacity(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
 
-                    PlainButton(label: "使用最后的回答 ⌘↩", shortcut: .return, modifiers: .command) {
+                    PlainButton(label: "使用最后的回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
                         print("mini")
                         Task { @MainActor in
                             print("mini")
