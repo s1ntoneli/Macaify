@@ -52,15 +52,15 @@ class ConversationViewModel: ObservableObject {
     }
 
     func removeCommand(at indexSet: IndexSet) {
-        conversations.remove(atOffsets: indexSet)
         indexSet.forEach { index in
-            PersistenceController.shared.deleteConversation(conversation: conversations[index])
+            conversations[index].delete()
         }
         notifyConversationChanged()
     }
 
     func removeCommand(_ command: GPTConversation) {
-        PersistenceController.shared.deleteConversation(conversation: command)
+//        PersistenceController.shared.deleteConversation(conversation: command)
+        command.delete()
         notifyConversationChanged()
     }
 
