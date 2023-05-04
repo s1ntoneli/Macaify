@@ -117,6 +117,15 @@ extension GPTConversation {
             print("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
+    
+    func delete() {
+        let context = managedObjectContext!
+        own.forEach {
+            context.delete($0)
+        }
+        context.delete(self)
+        save()
+    }
 
     static var new: GPTConversation {
         get {
