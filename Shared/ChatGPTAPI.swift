@@ -103,7 +103,7 @@ class ChatGPTAPI: @unchecked Sendable {
                 _ = historyList.removeFirst()
                 messages = generateMessages(from: text)
             } else {
-                let lastIndex = max(1, text.count - 100)
+//                let lastIndex = max(1, text.count - 100)
                 let start = text.index(text.startIndex, offsetBy: 0)
                 let end = text.index(text.startIndex, offsetBy: max(0, text.count - 100))
                 messages = generateMessages(from: String(text[start...end]))

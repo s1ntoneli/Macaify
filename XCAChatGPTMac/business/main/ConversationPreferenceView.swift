@@ -19,7 +19,9 @@ struct ConversationPreferenceView: View {
     let mode: ConversationPreferenceMode
 
     @FocusState private var focusField: FocusField?
-    
+    @State private var isShowingPopover = false
+    @State private var icon: Emoji? = nil
+
     init(conversation: GPTConversation, mode: ConversationPreferenceMode) {
         self.conversation = conversation
         self.autoAddSelectedText = conversation.autoAddSelectedText
@@ -56,7 +58,9 @@ struct ConversationPreferenceView: View {
             }
 
             List {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 12) {
+                    iconView
+                    
                     Group {
                         Text("指令名字").font(.headline)
                         TextField("输入指令名称方便记忆", text: $conversation.name, onCommit: {
@@ -70,36 +74,38 @@ struct ConversationPreferenceView: View {
                         .textFieldStyle(CustomTextFieldStyle())
                         .focused($focusField, equals: .title)
                     }
-                    Text("系统提示").font(.headline)
-                    TextEditor(text: $conversation.prompt)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(.white)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
-                                )
-                        )
-                        .foregroundColor(.text)
-                        .font(.body)
-                        .lineLimit(4...6)
-                        .frame(maxHeight: 160)
-                        .frame(minHeight: 64)
-                        .focusable(true) { focused in
-                            focusField = .prompt
-                        }
-                        .focused($focusField, equals: .prompt)
-                    Spacer(minLength: 12)
-                    Text("热键").font(.headline)
-                    Form {
-                        KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
+                    Group {
+                        Text("系统提示").font(.headline)
+                        TextEditor(text: $conversation.prompt)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(.white)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                            .foregroundColor(.text)
+                            .font(.body)
+                            .lineLimit(4...6)
+                            .frame(maxHeight: 160)
+                            .frame(minHeight: 64)
+                            .focusable(true) { focused in
+                                focusField = .prompt
+                            }
+                            .focused($focusField, equals: .prompt)
                     }
-                    Spacer(minLength: 12)
+                    Group {
+                        Text("热键").font(.headline)
+                        Form {
+                            KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
+                        }
+                    }
 
                     autoAddText
-                    Spacer(minLength: 12)
+                    
                     useContext
                 }
                 .padding(.top, 12)
@@ -144,6 +150,37 @@ struct ConversationPreferenceView: View {
         }
         .background(Color(.white))
         .navigationBarBackButtonHidden(true)
+    }
+    
+    var iconView: some View {
+        Group {
+            Group {
+                VStack {
+                    if (!conversation.icon.isEmpty) {
+                        ConversationIconView(conversation: conversation, size: 40).id(conversation.icon)
+                            .onTapGesture {
+                                isShowingPopover.toggle()
+                            }
+                    } else {
+                        Text("􀎸 添加图标")
+                            .font(.body)
+                            .opacity(0.5)
+                            .onTapGesture {
+                                icon = EmojiManager.shared.randomOnce()
+                                isShowingPopover.toggle()
+                            }
+                    }
+                }
+            }
+            .popover(isPresented: $isShowingPopover) {
+                EmojiPickerView(selectedEmoji: $icon)
+            }
+            .onChange(of: icon?.emoji) { newValue in
+                print("emoji selected \(newValue)")
+                conversation.icon = newValue ?? ""
+                ConversationViewModel.shared.updateCommand(command: conversation)
+            }
+        }
     }
     
     var useContext: some View {
