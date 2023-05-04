@@ -184,11 +184,10 @@ struct MainView: View {
         return ZStack {
             Color.clear
             HStack(alignment: .center) {
-                Image(systemName: "lightbulb")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 24)
-                    .foregroundColor(Color.hex(0xFFB717))
+                Group {
+                    ConversationIconView(conversation: command, size: 24).id(command.icon)
+                }
+
                 HStack(alignment: .center, spacing: 8) {
                     Text(command.name)
                         .font(.title2)

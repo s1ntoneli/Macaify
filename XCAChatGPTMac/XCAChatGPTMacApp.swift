@@ -20,6 +20,7 @@ struct XCAChatGPTMacApp: App {
     @State var commandKeyDown: Bool = false
     @State var commandKeyDownTimestamp: TimeInterval = 0
     @State var keyMonitor = KeyMonitor()
+    @StateObject private var emojiViewModel = EmojiPickerViewModel()
     
     let globalConfig = GlobalConfig()
 
@@ -33,6 +34,7 @@ struct XCAChatGPTMacApp: App {
             MacContentView()
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
+                .environmentObject(emojiViewModel)
                 .ignoresSafeArea(.all)
                 .onAppear {
                     keyMonitor.handler = {
@@ -144,6 +146,9 @@ struct XCAChatGPTMacApp: App {
 final class AppState: ObservableObject {
     init() {
         HotKeyManager.initHotKeys()
+        DispatchQueue(label: "EmojiManager").async {
+            EmojiManager.shared.emojis
+        }
     }
 }
 

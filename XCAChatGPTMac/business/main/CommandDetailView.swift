@@ -13,14 +13,31 @@ struct CommandDetailView: View {
 
     @EnvironmentObject var pathManager: PathManager
     @Binding var command: GPTConversation
+    @State var icon: Emoji? = nil
+    @State var isShowingPopover = false
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    Image("profile")
-                        .resizable()
-                        .frame(width: 48, height: 48)
+                HStack(alignment: .top) {
+                    Group {
+                        ConversationIconView(conversation: command, size: 40).id(command.icon)
+                    }
+                    .onTapGesture {
+                        isShowingPopover.toggle()
+                    }
+                    .popover(isPresented: $isShowingPopover) {
+                        EmojiPickerView(selectedEmoji: $icon)
+                    }
+                    .onChange(of: icon?.emoji) { newValue in
+                        print("emoji selected")
+//                        if let icon = newValue {
+                            print("emoji selected \(newValue)")
+                            command.icon = newValue ?? ""
+                            ConversationViewModel.shared.updateCommand(command: command)
+//                        }
+                    }
+                    
                     Spacer()
                     PlainButton(icon: "square.stack.3d.up", label: "编辑", shortcut: .init("e"), modifiers: .command) {
                         print("edit command \(command.id) \(command.name)")
@@ -42,7 +59,8 @@ struct CommandDetailView: View {
                     .padding(.top, 12)
                 Spacer()
             }
-            .padding(.all, 24)
+            .padding(24)
+            .padding(.top, 4)
         }
         .onAppear {
             print("detailView onAppear")
