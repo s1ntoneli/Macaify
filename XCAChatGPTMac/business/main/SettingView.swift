@@ -100,7 +100,7 @@ struct SettingView: View {
             // 底部按钮
             HStack {
                 Spacer()
-                PlainButton(icon: "tray.full",label: "保存设置", shortcut: .init("s"), modifiers: .command, action: {
+                PlainButton(icon: "tray.full",label: "完成设置", shortcut: .init("s"), modifiers: .command, action: {
                     // 点击保存按钮
                     ModelSelectionManager.shared.setSelectedModelIndex(selectedModelIndex)
                     // 保存 openai-api-key 到 Keychain
