@@ -17,8 +17,10 @@ struct ContentView: View {
     @State var scrolledByUser = false
     
     var body: some View {
-        chatListView
-            .navigationTitle("XCA ChatGPT")
+        ZStack {
+            chatListView
+                .navigationTitle("XCA ChatGPT")
+        }
     }
     
     var chatListView: some View {
@@ -39,6 +41,9 @@ struct ContentView: View {
                         isTextFieldFocused = false
                     }
                 }
+//                .background(GeometryReader {
+//                                Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: $0.frame(in: .global).minY)
+//                })
 #if os(iOS) || os(macOS)
                 Divider()
                 bottomView(image: "profile", proxy: proxy)
@@ -69,9 +74,8 @@ struct ContentView: View {
                       scheduler: DispatchQueue.main,
                       latest: true)
             .sink { [weak vm] event in
-//                vm?.goBackOrForwardBy(delta: Int(event?.deltaY ?? 0))
                 print("event.deltaY \(event?.deltaY)")
-                if let deltaY = event?.deltaY, deltaY != 0 {
+                if let deltaY = event?.deltaY, deltaY > 0 {
                     scrolledByUser = true
                 }
             }
@@ -97,10 +101,12 @@ struct ContentView: View {
 
             InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
                 Task { @MainActor in
-                    isTextFieldFocused = false
-                    scrolledByUser = false
-                    scrollToBottom(proxy: proxy)
-                    await vm.sendTapped()
+                    if !vm.inputMessage.isEmpty {
+                        isTextFieldFocused = false
+                        scrolledByUser = false
+                        scrollToBottom(proxy: proxy)
+                        await vm.sendTapped()
+                    }
                 }
             })
             .frame(height: 40)
@@ -111,20 +117,29 @@ struct ContentView: View {
             .disabled(vm.isInteractingWithChatGPT)
             
             if vm.isInteractingWithChatGPT {
-                DotLoadingView().frame(width: 60, height: 30)
+                HStack {
+                    DotLoadingView().frame(width: 40, height: 30)
+                    PlainButton(icon: "stop.circle", label: "停止生成", backgroundColor: Color.hex(0xFF0000).opacity(0.5), foregroundColor: .white, shortcut: .init("s"), modifiers: .command) {
+                        scrolledByUser = false
+                        vm.interupt()
+                    }
+                }
             } else {
                 HStack {
-                    PlainButton(label: "发送 ↩", shortcut: .return, showHelp: false, action: {
+                    PlainButton(label: "发送 ↩", backgroundColor: .purple, foregroundColor: .white, shortcut: .return, showHelp: false, action: {
                         Task { @MainActor in
-                            scrolledByUser = false
-                            scrollToBottom(proxy: proxy)
-                            await vm.sendTapped()
+                            if !vm.inputMessage.isEmpty {
+                                isTextFieldFocused = false
+                                scrolledByUser = false
+                                scrollToBottom(proxy: proxy)
+                                await vm.sendTapped()
+                            }
                         }
                     })
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .opacity(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
 
-                    PlainButton(label: "使用最后的回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
+                    PlainButton(label: "复制回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
                         print("mini")
                         Task { @MainActor in
                             print("mini")
@@ -147,7 +162,13 @@ struct ContentView: View {
         proxy.scrollTo(id, anchor: .bottom)
     }
 }
-
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {

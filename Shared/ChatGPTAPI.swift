@@ -56,6 +56,7 @@ class ChatGPTAPI: @unchecked Sendable {
         ]
     }
     
+    private var lastTask: URLSessionDataTask? = nil
 
     init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5, baseURL: String? = nil, withContext: Bool = true) {
         self.apiKey = apiKey
@@ -130,6 +131,7 @@ class ChatGPTAPI: @unchecked Sendable {
         urlRequest.httpBody = try jsonBody(text: text)
         
         let (result, response) = try await urlSession.bytes(for: urlRequest)
+        lastTask = result.task
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw "Invalid response"
@@ -145,6 +147,7 @@ class ChatGPTAPI: @unchecked Sendable {
                 errorText = "\n\(errorResponse.message)"
             }
             
+            lastTask = nil
             throw "Bad Response: \(httpResponse.statusCode), \(errorText)"
         }
         
@@ -159,12 +162,15 @@ class ChatGPTAPI: @unchecked Sendable {
                            let response = try? self.jsonDecoder.decode(StreamCompletionResponse.self, from: data),
                            let text = response.choices.first?.delta.content {
                             responseText += text
+                            print("text \(text)")
                             continuation.yield(text)
                         }
                     }
                     self.appendToHistoryList(userText: text, responseText: responseText)
+                    lastTask = nil
                     continuation.finish()
                 } catch {
+                    lastTask = nil
                     continuation.finish(throwing: error)
                 }
             }
@@ -201,6 +207,11 @@ class ChatGPTAPI: @unchecked Sendable {
     
     func deleteHistoryList() {
         self.historyList.removeAll()
+    }
+    
+    func interupt() {
+        lastTask?.cancel()
+        lastTask = nil
     }
 }
 
