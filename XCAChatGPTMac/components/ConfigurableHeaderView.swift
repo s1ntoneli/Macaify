@@ -36,7 +36,9 @@ struct ConfigurableView<Content: View>: View {
                 Spacer()
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.top)
+        .padding(.bottom, 8)
     }
 }
 

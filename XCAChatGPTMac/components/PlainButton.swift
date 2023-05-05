@@ -59,6 +59,7 @@ struct PlainButton: View, Identifiable {
                 }
             }
         }
+            .frame(minHeight: 32)
             .buttonStyle(RoundedButtonStyle(cornerRadius: 6, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor))
             .cornerRadius(cornerRadius)
             .foregroundColor(foregroundColor)

@@ -45,7 +45,7 @@ struct SettingView: View {
             // 设置项
             List {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("openai-api-key").font(.headline)
+                    Text("openai-api-key".uppercased()).font(.headline)
                     TextField("输入API密钥", text: $apiKey, onCommit: {
                         print("onCommit")
                         focusField = .proxyUrl

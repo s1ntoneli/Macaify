@@ -27,7 +27,7 @@ struct PromptPlayground: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ConfigurableView(onBack: { pathManager.back() }, title: "Prompt 广场", showLeftButton: true) {
+            ConfigurableView(onBack: { pathManager.back() }, title: "机器人广场", showLeftButton: true) {
                 searchbar
             }
             .zIndex(100)
@@ -138,7 +138,7 @@ struct PromptPlayground: View {
                     PlainButton(icon: "captions.bubble", label: "聊聊看") {
                         pathManager.toChat(prompt.command, mode: .trial)
                     }
-                    PlainButton(icon: "rectangle.stack.badge.plus", label: "添加到常用", backgroundColor: Color.purple, pressedBackgroundColor: Color.purple.opacity(0.8), foregroundColor: .white, shortcut: .init("e"), modifiers: .command, action: {
+                    PlainButton(icon: "rectangle.stack.badge.plus", label: "添加到常用", backgroundColor: Color.purple, pressedBackgroundColor: Color.purple.opacity(0.8), foregroundColor: .white, action: {
                         // 编辑按钮的响应
                         print("添加到常用 \(prompt.title)")
                         ConversationViewModel.shared.addCommand(command: prompt.command)
