@@ -15,30 +15,49 @@ struct ContentView: View {
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool
     @State var scrolledByUser = false
-    
+
     var body: some View {
         ZStack {
             chatListView
-                .navigationTitle("XCA ChatGPT")
+        }
+    }
+
+    var emptyView: some View {
+        ZStack(alignment: .center) {
+            Color.clear
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("⌘R").font(.title3).foregroundColor(.text)
+                    Text("⌘N").font(.title3).foregroundColor(.text)
+                }
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("清除聊天记录").font(.title3).foregroundColor(.text)
+                    Text("清除上下文，开始新聊天").font(.title3).foregroundColor(.text)
+                }
+            }
         }
     }
     
     var chatListView: some View {
         ScrollViewReader { proxy in
             VStack(spacing: 0) {
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(0..<vm.messages.count, id: \.self) { index in
-                            let message = vm.messages[index]
-                            MessageRowView(message: message, tag: "\(vm.messages.count - index)") { message in
-                                Task { @MainActor in
-                                    await vm.retry(message: message)
-                                }
-                            }.id(message.id)
+                if vm.messages.isEmpty {
+                    emptyView
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 0) {
+                            ForEach(0..<vm.messages.count, id: \.self) { index in
+                                let message = vm.messages[index]
+                                MessageRowView(message: message, tag: "\(vm.messages.count - index)") { message in
+                                    Task { @MainActor in
+                                        await vm.retry(message: message)
+                                    }
+                                }.id(message.id)
+                            }
                         }
-                    }
-                    .onTapGesture {
-                        isTextFieldFocused = false
+                        .onTapGesture {
+                            isTextFieldFocused = false
+                        }
                     }
                 }
 //                .background(GeometryReader {
@@ -85,31 +104,30 @@ struct ContentView: View {
     @State var subs = Set<AnyCancellable>() // Cancel onDisappear
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
-        HStack(alignment: .top, spacing: 8) {
-            Button {
+        HStack(alignment: .center, spacing: 8) {
+            PlainButton(icon: "clear", shortcut: .init("r"), modifiers: .command) {
                 vm.clearMessages()
-            } label: {
-                Image(systemName: "clear")
             }
             .help("清除聊天记录")
-            Button {
+            PlainButton(icon: "lasso.sparkles", shortcut: .init("n"), modifiers: .command) {
                 vm.clearContext()
-            } label: {
-                Image(systemName: "lasso.sparkles")
             }
-            .help("清除上下文")
+            .help("新聊天")
 
-            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
-                Task { @MainActor in
-                    if !vm.inputMessage.isEmpty {
-                        isTextFieldFocused = false
-                        scrolledByUser = false
-                        scrollToBottom(proxy: proxy)
-                        await vm.sendTapped()
-                    }
-                }
-            })
-            .frame(height: 40)
+//            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
+//                Task { @MainActor in
+//                    if !vm.inputMessage.isEmpty {
+//                        isTextFieldFocused = false
+//                        scrolledByUser = false
+//                        scrollToBottom(proxy: proxy)
+//                        await vm.sendTapped()
+//                    }
+//                }
+//            })
+            TextEditor(text: $vm.inputMessage)
+                .lineLimit(1)
+                .frame(maxHeight: 40)
+//                .frame(minHeight: 20)
 #if os(iOS) || os(macOS)
             .textFieldStyle(.roundedBorder)
 #endif

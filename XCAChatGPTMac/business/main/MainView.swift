@@ -67,17 +67,21 @@ struct MainView: View {
 
             Divider().background(Color.divider)
             
-            HStack(spacing: 0) {
-                GeometryReader { reader in
-                    HStack(spacing: 0) {
-                        commands
-                            .frame(width: reader.size.width * 0.7)
-
-                        Divider()
-                            .background(Color.divider)
-
-                        details
-                            .frame(width: reader.size.width * 0.3)
+            if convViewModel.conversations.isEmpty {
+                emptyView
+            } else {
+                HStack(spacing: 0) {
+                    GeometryReader { reader in
+                        HStack(spacing: 0) {
+                            commands
+                                .frame(width: reader.size.width * 0.7)
+                            
+                            Divider()
+                                .background(Color.divider)
+                            
+                            details
+                                .frame(width: reader.size.width * 0.3)
+                        }
                     }
                 }
             }
@@ -111,6 +115,22 @@ struct MainView: View {
                 return true
             }
             return false
+        }
+    }
+    
+    var emptyView: some View {
+        ZStack(alignment: .center) {
+            Color.clear
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("⌘N").font(.title3).foregroundColor(.text)
+                    Text("⌘按住").font(.title3).foregroundColor(.text)
+                }
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("添加机器人").font(.title3).foregroundColor(.text)
+                    Text("显示快捷提示").font(.title3).foregroundColor(.text)
+                }
+            }
         }
     }
     
