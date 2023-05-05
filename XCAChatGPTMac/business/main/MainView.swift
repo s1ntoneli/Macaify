@@ -169,6 +169,14 @@ struct MainView: View {
                             NSWorkspace.shared.open(url)
                         }
                     }
+                Text("Weibo")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .onTapGesture {
+                        if let url = URL(string: "https://weibo.com/u/2293237681") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
             }
             Spacer()
             HStack {
