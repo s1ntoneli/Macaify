@@ -152,13 +152,23 @@ struct MainView: View {
     
     var bottomBar: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text("应用程序名称")
+            HStack(alignment: .center) {
+                Text("反馈")
                     .font(.footnote)
                     .foregroundColor(.gray)
-                Text("版本")
+                    .onTapGesture {
+                        if let url = URL(string: "mailto:antiless.dev@gmail.com") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
+                Text("Twitter")
                     .font(.footnote)
                     .foregroundColor(.gray)
+                    .onTapGesture {
+                        if let url = URL(string: "https://twitter.com/s1ntone") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
             }
             Spacer()
             HStack {
@@ -166,13 +176,13 @@ struct MainView: View {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }
-                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加指令", shortcut: .init("n"), modifiers: .command) {
-                    // 点击添加指令按钮
-                    pathManager.to(target: .addCommand)
-                }
-                PlainButton(icon: "sparkles.rectangle.stack", label: "指令广场", shortcut: .init("l"), modifiers: .command) {
+                PlainButton(icon: "sparkles.rectangle.stack", label: "机器人广场", shortcut: .init("l"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .playground)
+                }
+                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加机器人", shortcut: .init("n"), modifiers: .command) {
+                    // 点击添加指令按钮
+                    pathManager.to(target: .addCommand)
                 }
             }
         }
@@ -192,6 +202,7 @@ struct MainView: View {
                     Text(command.name)
                         .font(.title2)
                         .foregroundColor(Color.hex(0x37414F))
+                    Spacer()
                     Text(KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(command.id.uuidString))?.description ?? "")
                         .font(.body)
                         .foregroundColor(Color.hex(0x37414F).opacity(0.5))

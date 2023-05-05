@@ -21,6 +21,8 @@ struct ConversationPreferenceView: View {
     @FocusState private var focusField: FocusField?
     @State private var isShowingPopover = false
     @State private var icon: Emoji? = nil
+    
+    @State private var showingAlert = false
 
     init(conversation: GPTConversation, mode: ConversationPreferenceMode) {
         self.conversation = conversation
@@ -44,10 +46,13 @@ struct ConversationPreferenceView: View {
         VStack(spacing: 0) {
             ConfigurableView(onBack: {
                 if (mode == .edit) {
+                    if (conversation.name.isEmpty) {
+                        conversation.name = "Untitled"
+                    }
                     commandStore.updateCommand(command: conversation)
                 }
                 pathManager.back()
-            }, title: isNew ? "添加指令" : "编辑指令", showLeftButton: true) {
+            }, title: isNew ? "添加机器人" : "编辑机器人", showLeftButton: true) {
                 if !isNew {
                     PlainButton(icon: "rectangle.stack.badge.minus", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
                         // 删除按钮的响应
@@ -56,14 +61,17 @@ struct ConversationPreferenceView: View {
                     }
                 }
             }
+            .alert(isPresented: $showingAlert) {
+                        Alert(title: Text("错误"), message: Text("用户名不能为空"), dismissButton: .default(Text("确定")))
+                    }
 
             List {
                 VStack(alignment: .leading, spacing: 12) {
                     iconView
                     
                     Group {
-                        Text("指令名字").font(.headline)
-                        TextField("输入指令名称方便记忆", text: $conversation.name, onCommit: {
+                        Text("机器人名字").font(.headline)
+                        TextField("输入机器人名称方便记忆", text: $conversation.name, onCommit: {
                             print("onCommit")
                             focusField = .prompt })
                         .focusable(true)
@@ -116,20 +124,19 @@ struct ConversationPreferenceView: View {
 
             // 底部信息栏
             HStack {
-                VStack(alignment: .leading) {
-                    Text("App信息")
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                    Text("版本 1.0.0")
-                        .font(.footnote)
-                }
                 Spacer()
                 PlainButton(icon: "tray.full", label: "完成", shortcut: .init("s"), modifiers: .command) {
                     // 保存按钮的响应
                     switch (mode) {
                     case .add:
+                        if (conversation.name.isEmpty) {
+                            conversation.name = "Untitled"
+                        }
                         commandStore.addCommand(command: conversation)
                     case .edit:
+                        if (conversation.name.isEmpty) {
+                            conversation.name = "Untitled"
+                        }
                         commandStore.updateCommand(command: conversation)
                     default:
                         break

@@ -59,7 +59,6 @@ class ConversationViewModel: ObservableObject {
     }
 
     func removeCommand(_ command: GPTConversation) {
-//        PersistenceController.shared.deleteConversation(conversation: command)
         command.delete()
         notifyConversationChanged()
     }
