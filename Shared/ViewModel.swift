@@ -20,6 +20,8 @@ class ViewModel: ObservableObject {
     
     private var api: ChatGPTAPI
     var conversation: GPTConversation
+    private var interupted = false
+    private var sendTask: Task<Void, Error>? = nil
     
     init(conversation: GPTConversation, api: ChatGPTAPI, enableSpeech: Bool = false) {
         self.conversation = conversation
@@ -56,7 +58,9 @@ class ViewModel: ObservableObject {
         print("withContext ? ", conversation.withContext)
         api.withContext = conversation.withContext
         api.systemPrompt = conversation.prompt
-        await send(text: text)
+        sendTask = Task { @MainActor in
+            await send(text: text)
+        }
     }
     
     @MainActor
@@ -94,6 +98,7 @@ class ViewModel: ObservableObject {
     @MainActor
     private func send(text: String) async {
         isInteractingWithChatGPT = true
+        interupted = false
         var streamText = ""
         var messageRow = MessageRow(
             isInteractingWithChatGPT: true,
@@ -108,6 +113,10 @@ class ViewModel: ObservableObject {
         do {
             let stream = try await api.sendMessageStream(text: text)
             for try await text in stream {
+                if interupted {
+                    interupted = false
+                    break
+                }
                 streamText += text
                 messageRow.responseText = streamText.trimmingCharacters(in: .whitespacesAndNewlines)
                 self.messages[self.messages.count - 1] = messageRow
@@ -118,11 +127,22 @@ class ViewModel: ObservableObject {
         
         messageRow.isInteractingWithChatGPT = false
         self.messages[self.messages.count - 1] = messageRow
-        let answer = GPTAnswer(role: "user", prompt: messageRow.sendText, response: messageRow.responseText ?? "", parentId: conversation.own.last?.uuid, context: conversation.managedObjectContext!)
-        conversation.addAnswer(answer: answer)
+        
+        // 保存数据
+        if let response = messageRow.responseText, !response.isEmpty {
+            let answer = GPTAnswer(role: "user", prompt: messageRow.sendText, response: messageRow.responseText ?? "", parentId: conversation.own.last?.uuid, context: conversation.managedObjectContext!)
+            conversation.addAnswer(answer: answer)
+        }
         
         isInteractingWithChatGPT = false
         speakLastResponse()
+    }
+    
+    @MainActor
+    func interupt() {
+        sendTask?.cancel()
+        sendTask = nil
+        api.interupt()
     }
     
     func speakLastResponse() {
