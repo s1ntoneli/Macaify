@@ -22,6 +22,8 @@ struct MainView: View {
     // 添加 AddCommandView 的显示状态变量
     @State private var isAddCommandViewPresented = false
     @FocusState private var focus:FocusedField?
+    @State private var changedByKeyboard = false
+    @State private var animating = false
     
     var selectedItemIndex: Int {
         get {
@@ -87,11 +89,13 @@ struct MainView: View {
         }
         .onKeyPressed(.upArrow) { event in
             print("upArrow")
+            changedByKeyboard = true
             convViewModel.selectedItemIndex = (selectedItemIndex - 1 + convViewModel.conversations.count) % convViewModel.conversations.count
             return true
         }
         .onKeyPressed(.downArrow) { event in
             print("downArrow")
+            changedByKeyboard = true
             convViewModel.selectedItemIndex = (selectedItemIndex + 1 + convViewModel.conversations.count) % convViewModel.conversations.count
             return true
         }
@@ -116,13 +120,27 @@ struct MainView: View {
                         .onTapGesture {
                             pathManager.toChat(command, msg: searchText)
                         }
+                        .onHover(perform: { hovered in
+                            if (hovered && !animating) {
+                                changedByKeyboard = false
+                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? 0)
+                            }
+                        })
                         .id(command.id)
                 }
                 .onDelete(perform: convViewModel.removeCommand)
                 .onChange(of: convViewModel.selectedItemIndex) { newValue in
                     print("selectedItem changed newValue \(newValue)")
-                    withAnimation {
-                        proxy.scrollTo(convViewModel.conversations[selectedItemIndex].id, anchor: .bottomLeading)
+                    if changedByKeyboard {
+                        withAnimation {
+                            animating = true
+                            print("animating")
+                            proxy.scrollTo(convViewModel.conversations[selectedItemIndex].id, anchor: .bottom)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                animating = false
+                                print("end of animating")
+                            }
+                        }
                     }
                 }
             }

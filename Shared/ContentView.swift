@@ -7,12 +7,14 @@
 
 import SwiftUI
 import AVKit
+import Combine
 
 struct ContentView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool
+    @State var scrolledByUser = false
     
     var body: some View {
         chatListView
@@ -44,17 +46,39 @@ struct ContentView: View {
 #endif
             }
             .onChange(of: vm.messages.last?.responseText) { _ in
-                scrollToBottom(proxy: proxy)
+                if (!scrolledByUser) {
+                    scrollToBottom(proxy: proxy)
+                }
             }
             .onChange(of: vm.messages.last?.clearContextAfterThis) { _ in
                 scrollToBottom(proxy: proxy)
             }
             .onAppear {
                 scrollToBottom(proxy: proxy)
+                trackScrollWheel()
             }
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
     }
+    
+    
+    func trackScrollWheel() {
+        NSApplication.shared.publisher(for: \.currentEvent)
+            .filter { event in event?.type == .scrollWheel }
+            .throttle(for: .milliseconds(200),
+                      scheduler: DispatchQueue.main,
+                      latest: true)
+            .sink { [weak vm] event in
+//                vm?.goBackOrForwardBy(delta: Int(event?.deltaY ?? 0))
+                print("event.deltaY \(event?.deltaY)")
+                if let deltaY = event?.deltaY, deltaY != 0 {
+                    scrolledByUser = true
+                }
+            }
+            .store(in: &subs)
+    }
+
+    @State var subs = Set<AnyCancellable>() // Cancel onDisappear
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .top, spacing: 8) {
@@ -74,6 +98,7 @@ struct ContentView: View {
             InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
                 Task { @MainActor in
                     isTextFieldFocused = false
+                    scrolledByUser = false
                     scrollToBottom(proxy: proxy)
                     await vm.sendTapped()
                 }
@@ -91,6 +116,7 @@ struct ContentView: View {
                 HStack {
                     PlainButton(label: "发送 ↩", shortcut: .return, showHelp: false, action: {
                         Task { @MainActor in
+                            scrolledByUser = false
                             scrollToBottom(proxy: proxy)
                             await vm.sendTapped()
                         }
