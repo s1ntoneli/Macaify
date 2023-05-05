@@ -50,12 +50,17 @@ struct MainView: View {
                 TextField("写下你的问题 Tab", text: $searchText)
                     .disabled(!isEnabled)
                     .focusable()
+                    .focused($focus, equals: .name)
                     .textFieldStyle(.plain)
                     .padding()
                     .font(.system(size: 20))
                     .foregroundColor(Color.text)
                     .onChange(of: searchText) { newValue in
                         MainViewModel.shared.searchText = newValue
+                    }
+                    .onSubmit {
+                        print("onSubmit")
+                        startChat(convViewModel.selectedCommandOrDefault, searchText)
                     }
             }
             .padding(.horizontal)
@@ -101,8 +106,11 @@ struct MainView: View {
         }
         .onKeyPressed(.enter) { event in
             print("enter")
-            startChat(convViewModel.selectedCommandOrDefault, searchText)
-            return true
+            if focus != .name {
+                startChat(convViewModel.selectedCommandOrDefault, searchText)
+                return true
+            }
+            return false
         }
     }
     
