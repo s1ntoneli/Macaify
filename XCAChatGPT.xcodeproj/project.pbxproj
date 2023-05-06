@@ -75,6 +75,7 @@
 		696B6C9E2A01E63B00845C71 /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6C9D2A01E63B00845C71 /* RecordManager.swift */; };
 		696B6CA02A01F14F00845C71 /* ConversationIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6C9F2A01F14F00845C71 /* ConversationIconView.swift */; };
 		696B6CA22A035A7100845C71 /* EmojiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6CA12A035A7100845C71 /* EmojiManager.swift */; };
+		696B6CA42A05F45700845C71 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6CA32A05F45700845C71 /* StringExtensions.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -207,6 +208,7 @@
 		696B6C9D2A01E63B00845C71 /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		696B6C9F2A01F14F00845C71 /* ConversationIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationIconView.swift; sourceTree = "<group>"; };
 		696B6CA12A035A7100845C71 /* EmojiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiManager.swift; sourceTree = "<group>"; };
+		696B6CA32A05F45700845C71 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				696B6BE329FAE42900845C71 /* CommandKeyMonitor.swift */,
 				696B6BE529FAE82F00845C71 /* GlobalConfig.swift */,
 				696B6BE729FAEB9C00845C71 /* KeyUtils.swift */,
+				696B6CA32A05F45700845C71 /* StringExtensions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 				696B6BA029EAD2E100845C71 /* KeyEvents.swift in Sources */,
 				696B6B9D29E7CAFA00845C71 /* RoundedButtonStyle.swift in Sources */,
 				696B6B8929E1953500845C71 /* MacContentView.swift in Sources */,
+				696B6CA42A05F45700845C71 /* StringExtensions.swift in Sources */,
 				696B6C0129FBA58100845C71 /* EmojiCategoryTabView.swift in Sources */,
 				696B6BDD29F8A6B300845C71 /* DropdownView.swift in Sources */,
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,

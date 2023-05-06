@@ -105,28 +105,29 @@ struct ContentView: View {
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .center, spacing: 8) {
-            PlainButton(icon: "clear", shortcut: .init("r"), modifiers: .command) {
+            PlainButton(icon: "clear", shortcut: .init("r"), modifiers: .command, showHelp: false) {
                 vm.clearMessages()
             }
-            .help("清除聊天记录")
-            PlainButton(icon: "lasso.sparkles", shortcut: .init("n"), modifiers: .command) {
+            .help("清除聊天记录 ⌘R")
+            PlainButton(icon: "lasso.sparkles", shortcut: .init("n"), modifiers: .command, showHelp: false) {
                 vm.clearContext()
             }
-            .help("新聊天")
+            .help("新聊天 ⌘N")
 
-//            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
-//                Task { @MainActor in
-//                    if !vm.inputMessage.isEmpty {
-//                        isTextFieldFocused = false
-//                        scrolledByUser = false
-//                        scrollToBottom(proxy: proxy)
-//                        await vm.sendTapped()
-//                    }
-//                }
-//            })
-            TextEditor(text: $vm.inputMessage)
-                .lineLimit(1)
-                .frame(maxHeight: 40)
+            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
+                Task { @MainActor in
+                    if !vm.inputMessage.isEmpty {
+                        isTextFieldFocused = false
+                        scrolledByUser = false
+                        scrollToBottom(proxy: proxy)
+                        await vm.sendTapped()
+                    }
+                }
+            })
+//            TextEditor(text: $vm.inputMessage)
+//                .lineLimit(1)
+            .frame(maxHeight: CGFloat(vm.inputMessage.lineCount) * 20)
+            .animation(.easeInOut)
 //                .frame(minHeight: 20)
 #if os(iOS) || os(macOS)
             .textFieldStyle(.roundedBorder)
@@ -172,7 +173,8 @@ struct ContentView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 12)
+        .padding(.top, 8)
+        .animation(.easeInOut)
     }
 
     private func scrollToBottom(proxy: ScrollViewProxy) {
