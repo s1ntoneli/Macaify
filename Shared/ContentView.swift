@@ -15,6 +15,7 @@ struct ContentView: View {
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool
     @State var scrolledByUser = false
+    @State var textWidth: CGFloat = 436
 
     var body: some View {
         ZStack {
@@ -114,27 +115,32 @@ struct ContentView: View {
             }
             .help("新聊天 ⌘N")
 
-            InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
-                Task { @MainActor in
-                    if !vm.inputMessage.isEmpty {
-                        isTextFieldFocused = false
-                        scrolledByUser = false
-                        scrollToBottom(proxy: proxy)
-                        await vm.sendTapped()
+            GeometryReader { reader in
+                InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
+                    Task { @MainActor in
+                        if !vm.inputMessage.isEmpty {
+                            isTextFieldFocused = false
+                            scrolledByUser = false
+                            scrollToBottom(proxy: proxy)
+                            await vm.sendTapped()
+                        }
                     }
+                })
+                .anchorPreference(key: TextWidthKey.self, value: .bounds, transform: { anchor in
+                    reader[anchor].size.width
+                })
+                .onPreferenceChange(TextWidthKey.self) { height in
+                    self.textWidth = height
                 }
-            })
-//            TextEditor(text: $vm.inputMessage)
-//                .lineLimit(1)
-            .frame(maxHeight: CGFloat(vm.inputMessage.lineCount) * 20)
-            .animation(.easeInOut)
-//                .frame(minHeight: 20)
+                .frame(maxHeight: CGFloat(vm.inputMessage.lineCount(frameWidth: self.textWidth)) * 20)
+                .animation(.easeInOut)
 #if os(iOS) || os(macOS)
-            .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.roundedBorder)
 #endif
-            .focused($isTextFieldFocused)
-            .disabled(vm.isInteractingWithChatGPT)
-            
+                .focused($isTextFieldFocused)
+                .disabled(vm.isInteractingWithChatGPT)
+            }
+            .frame(maxHeight: CGFloat(vm.inputMessage.lineCount(frameWidth: self.textWidth)) * 20)
             if vm.isInteractingWithChatGPT {
                 HStack {
                     DotLoadingView().frame(width: 40, height: 30)
@@ -194,5 +200,13 @@ struct ContentView_Previews: PreviewProvider {
         NavigationStack {
             ContentView(vm: ViewModel(conversation: GPTConversation(), api: ChatGPTAPI(apiKey: "")))
         }
+    }
+}
+
+struct TextWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
