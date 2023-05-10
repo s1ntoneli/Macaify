@@ -168,7 +168,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         print("windowShouldClose")
-        sender.orderOut(self)
+//        sender.orderOut(self)
+//        sender.miniaturize(nil)
+        NSApp.hide(nil)
         return false
     }
 }

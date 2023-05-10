@@ -45,6 +45,7 @@ private struct CustomTextEditor: NSViewRepresentable {
         textView.translatesAutoresizingMaskIntoConstraints = true
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
+        textView.allowsUndo = true
 
         textView.onShiftEnter = onShiftEnter
         textView.delegate = context.coordinator
