@@ -10,36 +10,36 @@ import SwiftUI
 import KeyboardShortcuts
 
 class ConversationViewModel: ObservableObject {
-
+    
     static let shared = ConversationViewModel()
-
+    
     @Published var conversations: [GPTConversation] = []
-
+    
     // 选中的列表项下标
     @Published var selectedItemIndex = -1
-
+    
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
     private var viewModels: [UUID: ViewModel] = [:]
-
+    
     var useVoice: Bool {
         UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
     }
 
-//    let menuBarCommand = GPTConversation("showMenuBar", autoAddSelectedText: false)
+    //    let menuBarCommand = GPTConversation("showMenuBar", autoAddSelectedText: false)
     
-//    var menuViewModel: ViewModel {
-//        commandViewModel(menuBarCommand)
-//    }
-    
+    //    var menuViewModel: ViewModel {
+    //        commandViewModel(menuBarCommand)
+    //    }
+
     var selectedCommandOrDefault: GPTConversation {
         conversations.indices.contains(selectedItemIndex) ? conversations[selectedItemIndex] : GPTConversation.empty
     }
-
+    
     init() {
         self.loadCommands()
     }
-
+    
     func updateCommand(command: GPTConversation) {
         command.save()
         notifyConversationChanged()
@@ -49,19 +49,19 @@ class ConversationViewModel: ObservableObject {
         command.copyToCoreData().save()
         notifyConversationChanged()
     }
-
+    
     func removeCommand(at indexSet: IndexSet) {
         indexSet.forEach { index in
             conversations[index].delete()
         }
         notifyConversationChanged()
     }
-
+    
     func removeCommand(_ command: GPTConversation) {
         command.delete()
         notifyConversationChanged()
     }
-
+    
     func commandViewModel(_ conversation: GPTConversation) -> ViewModel {
         let id = conversation.id
         let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
@@ -76,7 +76,8 @@ class ConversationViewModel: ObservableObject {
             return viewModel
         }
     }
-    private func loadCommands() {
+    
+    func loadCommands() {
         conversations = PersistenceController.shared.loadConversations()
         updateSelectedIndex()
         print("CommandStore loadCommands", conversations)
@@ -109,10 +110,10 @@ extension GPTConversation {
     var shortcutDescription: String {
         KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(uuid.uuidString))?.description ?? ""
     }
-    
+
     static var empty: GPTConversation {
         get {
-            GPTConversation("随便聊聊")
+            GPTConversation("随便聊聊", icon: "💬", withContext: true)
         }
     }
 }

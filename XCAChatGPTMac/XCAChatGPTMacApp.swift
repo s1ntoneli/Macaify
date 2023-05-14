@@ -151,6 +151,7 @@ final class AppState: ObservableObject {
         HotKeyManager.initHotKeys()
         DispatchQueue(label: "EmojiManager").async {
             EmojiManager.shared.emojis
+            initializeIfNeeded()
         }
     }
 }
