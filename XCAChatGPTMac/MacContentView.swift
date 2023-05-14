@@ -10,6 +10,7 @@ import SwiftUI
 struct MacContentView: View {
     @StateObject var pathManager = PathManager.shared
     @State var lastTarget: Target?
+    @State private var showNewFeatureIntroduction = false
 
 //#if DEBUG
 //    let _ = Self._printChanges()
@@ -19,20 +20,25 @@ struct MacContentView: View {
         NavigationStack(path: $pathManager.path) {
             mainView
                 .navigationDestination(for: Target.self) { target in
-//                    ZStack {
-//                        log(target)
-                        switch target {
-                        case .main: mainView
-                        case .addCommand: addCommandView
-                        case .editCommand(let command): makeEditCommandView(command)
-                        case .setting: settingView
-                        case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
-                        case .playground: playground
-                        }
-//                    }
+                    switch target {
+                    case .main: mainView
+                    case .addCommand: addCommandView
+                    case .editCommand(let command): makeEditCommandView(command)
+                    case .setting: settingView
+                    case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
+                    case .playground: playground
+                    }
                 }
         }
         .environmentObject(pathManager)
+        .sheet(isPresented: $showNewFeatureIntroduction) {
+            NewFeatureIntroductionView()
+        }
+        .onAppear {
+            if !UserDefaults.standard.bool(forKey: "hasShownNewFeatureIntroduction") {
+                showNewFeatureIntroduction = true
+            }
+        }
     }
     
     func log(_ target: Target) -> some View {

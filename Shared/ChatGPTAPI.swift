@@ -58,7 +58,7 @@ class ChatGPTAPI: @unchecked Sendable {
     
     private var lastTask: URLSessionDataTask? = nil
 
-    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5, baseURL: String? = nil, withContext: Bool = true) {
+    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0, baseURL: String? = nil, withContext: Bool = true) {
         self.apiKey = apiKey
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)

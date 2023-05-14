@@ -75,24 +75,8 @@ class HotKeyManager {
 //            self.window.makeKeyAndOrderFront(nil)
             app?.activate(options: [.activateAllWindows])
         }
-
-        // MARK: - QuickOpen
-//        NSWorkspace.shared.runningApplications.forEach { app in
-//            if let id = app.bundleIdentifier, !id.isEmpty {
-//                print("register hotkey \(id)")
-//                KeyboardShortcuts.onKeyDown(for: .init(id)) {
-//                    print("onKeyDown \(id)")
-//                    let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id)
-//                    if appURL != nil {
-//                        do {
-//                            try NSWorkspace.shared.launchApplication(at: appURL!, configuration: [:])
-//                        } catch {
-//                            print("")
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        
+        typeInPlace()
     }
 }
 
