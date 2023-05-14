@@ -16,7 +16,7 @@ class ConversationViewModel: ObservableObject {
     @Published var conversations: [GPTConversation] = []
 
     // 选中的列表项下标
-    @Published var selectedItemIndex = 0
+    @Published var selectedItemIndex = -1
 
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
@@ -38,7 +38,6 @@ class ConversationViewModel: ObservableObject {
 
     init() {
         self.loadCommands()
-        updateSelectedIndex()
     }
 
     func updateCommand(command: GPTConversation) {
@@ -94,7 +93,7 @@ class ConversationViewModel: ObservableObject {
             selectedItemIndex = count - 1
         }
         if (selectedItemIndex < 0) {
-            selectedItemIndex = 0
+            selectedItemIndex = -1
         }
     }
 }
@@ -113,7 +112,7 @@ extension GPTConversation {
     
     static var empty: GPTConversation {
         get {
-            GPTConversation("")
+            GPTConversation("随便聊聊")
         }
     }
 }

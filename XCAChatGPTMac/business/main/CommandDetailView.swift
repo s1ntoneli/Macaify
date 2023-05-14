@@ -12,7 +12,7 @@ struct CommandDetailView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @EnvironmentObject var pathManager: PathManager
-    @Binding var command: GPTConversation
+    var command: GPTConversation
     @State var icon: Emoji? = nil
     @State var isShowingPopover = false
 
@@ -50,9 +50,11 @@ struct CommandDetailView: View {
                 }
                 .padding(.top, 8)
                 
-                Text(command.shortcutDescription)
-                    .font(.title2)
-                    .opacity(0.5)
+                if !command.shortcutDescription.isEmpty {
+                    Text(command.shortcutDescription)
+                        .font(.title2)
+                        .opacity(0.5)
+                }
                 Markdown(command.prompt)
                     .font(.title3)
                     .opacity(0.7)
