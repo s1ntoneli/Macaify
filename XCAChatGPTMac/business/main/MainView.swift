@@ -22,8 +22,8 @@ struct MainView: View {
     // 添加 AddCommandView 的显示状态变量
     @State private var isAddCommandViewPresented = false
     @FocusState private var focus:FocusedField?
-    @State private var changedByKeyboard = false
-    @State private var animating = false
+    @State private var indexChangedSource: IndexChangeEvent = .none
+    @State private var animating = true
     
     var selectedItemIndex: Int {
         get {
@@ -47,21 +47,25 @@ struct MainView: View {
                     .resizable()
                     .foregroundColor(Color.text)
                     .frame(width: 20, height: 20)
-                TextField("写下你的问题 Tab", text: $searchText)
+                TextField(placeholder, text: $searchText, onCommit: { focus = .name })
                     .disabled(!isEnabled)
                     .focusable()
                     .focused($focus, equals: .name)
                     .textFieldStyle(.plain)
                     .padding()
-                    .font(.system(size: 20))
+                    .font(.system(size: 18))
                     .foregroundColor(Color.text)
                     .onChange(of: searchText) { newValue in
-                        MainViewModel.shared.searchText = newValue
+                        Task {
+                            MainViewModel.shared.searchText = newValue
+                        }
                     }
                     .onSubmit {
                         print("onSubmit")
                         startChat(convViewModel.selectedCommandOrDefault, searchText)
                     }
+                Spacer()
+                rightTips
             }
             .padding(.horizontal)
 
@@ -93,19 +97,30 @@ struct MainView: View {
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 print("onAppear")
-                focus = .name
+                self.focus = .name
+                self.animating = false
             }
         }
         .onKeyPressed(.upArrow) { event in
             print("upArrow")
-            changedByKeyboard = true
-            convViewModel.selectedItemIndex = (selectedItemIndex - 1 + convViewModel.conversations.count) % convViewModel.conversations.count
+            indexChangedSource = .upArrow
+            if convViewModel.selectedItemIndex == -1 {
+                convViewModel.selectedItemIndex = convViewModel.conversations.count - 1
+            } else {
+                convViewModel.selectedItemIndex = (selectedItemIndex - 1 + convViewModel.conversations.count) % convViewModel.conversations.count
+            }
             return true
         }
         .onKeyPressed(.downArrow) { event in
             print("downArrow")
-            changedByKeyboard = true
+            indexChangedSource = .downArrow
             convViewModel.selectedItemIndex = (selectedItemIndex + 1 + convViewModel.conversations.count) % convViewModel.conversations.count
+            return true
+        }
+        .onKeyPressed(.escape) { event in
+            print("escape")
+            indexChangedSource = .escape
+            convViewModel.selectedItemIndex = -1
             return true
         }
         .onKeyPressed(.enter) { event in
@@ -116,6 +131,10 @@ struct MainView: View {
             }
             return false
         }
+    }
+    
+    var placeholder: String {
+        convViewModel.selectedCommandOrDefault.name
     }
     
     var emptyView: some View {
@@ -134,6 +153,26 @@ struct MainView: View {
         }
     }
     
+    var rightTips: some View {
+        HStack {
+            Text("↩")
+                .padding(4)
+                .background(Color.gray.opacity(0.1).cornerRadius(4))
+            Text("提问")
+
+            Text("↑↓")
+                .padding(4)
+                .background(Color.gray.opacity(0.1).cornerRadius(4))
+            Text("选择")
+
+            Text("esc")
+                .padding(4)
+                .background(Color.gray.opacity(0.1).cornerRadius(4))
+            Text("取消选择")
+        }
+        .foregroundColor(.gray)
+    }
+    
     var commands: some View {
         // 列表
         ScrollViewReader { proxy in
@@ -144,14 +183,15 @@ struct MainView: View {
                     .bold()
                     .font(.headline)
                 ForEach(convViewModel.conversations) { command in
-                    makeCommandItem(command, selected: convViewModel.conversations[selectedItemIndex].id == command.id)
+                    let selected = convViewModel.conversations.indices.contains(selectedItemIndex) && convViewModel.conversations[selectedItemIndex].id == command.id
+                    makeCommandItem(command, selected: selected)
                         .onTapGesture {
                             pathManager.toChat(command, msg: searchText)
                         }
                         .onHover(perform: { hovered in
                             if (hovered && !animating) {
-                                changedByKeyboard = false
-                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? 0)
+                                indexChangedSource = .none
+                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? -1)
                             }
                         })
                         .id(command.id)
@@ -159,7 +199,7 @@ struct MainView: View {
                 .onDelete(perform: convViewModel.removeCommand)
                 .onChange(of: convViewModel.selectedItemIndex) { newValue in
                     print("selectedItem changed newValue \(newValue)")
-                    if changedByKeyboard {
+                    if [.upArrow, .downArrow].contains(indexChangedSource) && convViewModel.conversations.indices.contains(selectedItemIndex)  {
                         withAnimation {
                             animating = true
                             print("animating")
@@ -179,20 +219,19 @@ struct MainView: View {
     
     var details: some View {
         ZStack {
-            if (convViewModel.conversations.indices.contains(selectedItemIndex)) {
-                ZStack {
+//            if (convViewModel.conversations.indices.contains(selectedItemIndex)) {
+//                ZStack {
 //                    ForEach(commandStore.commands) {command in
-                        CommandDetailView(command: $convViewModel.conversations[selectedItemIndex])
+                        CommandDetailView(command: convViewModel.selectedCommandOrDefault)
                         //                    .keyboardShortcut(.init("e"), modifiers: .command)
-                            .id(convViewModel.conversations[selectedItemIndex].id)
+                            .id(convViewModel.selectedCommandOrDefault.id)
 //                    }
-                }
+//                }
 //                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
 //                        if (type == .keyDown) {
 //                            pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
 //                        }
 //                    })
-            }
         }
     }
     
@@ -289,4 +328,12 @@ struct MainView: View {
 
 enum FocusedField:Hashable{
     case name
+}
+
+enum IndexChangeEvent {
+    case upArrow
+    case downArrow
+    case escape
+    case hover
+    case none
 }

@@ -58,6 +58,7 @@ enum KeyAction: UInt16 {
     case period = 47
     case tab = 48
     case grave = 50
+    case escape = 53
     case keypadDecimal = 65
     case keypadMultiply = 67
     case keypadPlus = 69
