@@ -36,10 +36,16 @@ class PromptStore: ObservableObject {
 //                PromptTemplate(title: "NewCoOm", desc: "Hola", prompt: "Prompt"),
 //            ])
 //        ]
-        prompts = (try? parseJSONFile(filename: "prompts")) ?? []
-        filteredPrompts = prompts.flatMap({ category in
-            category.prompts
-        })
+        do {
+            prompts = try parseJSONFile(filename: "prompts")
+            filteredPrompts = prompts.flatMap({ category in
+                category.prompts
+            })
+        } catch {
+            print(error)
+            prompts = []
+            filteredPrompts = []
+        }
         startObserve()
     }
 
