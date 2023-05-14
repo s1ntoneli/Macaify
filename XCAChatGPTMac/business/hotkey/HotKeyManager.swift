@@ -80,7 +80,7 @@ class HotKeyManager {
     }
 }
 
-private func resume(bundleId: String = "com.antiless.XCAChatGPTMac") {
+func resume(bundleId: String = "com.antiless.XCAChatGPTMac") {
     let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleId).first
     print("app is nil ? \(app)")
     app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])

@@ -23,6 +23,9 @@ class EventMonitor {
     }
     
     func start() {
+        NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
+            self.handler(event)
+        }
         monitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] (event) -> NSEvent? in
             self?.handler(event)
             return event
@@ -41,17 +44,26 @@ class KeyMonitor {
     private var eventMonitor: EventMonitor?
     private var timer: Timer?
     private var isCommandKeyDown = false
+    private var commandKeyDownTime: TimeInterval = 0
     
     var commandKeyUpHandler: (() -> Void)?
+    var commandKeyDownHandler: (() -> Void)?
+    var commandKeyDoubleTapHandler: (() -> Void)?
     
     func start() {
         eventMonitor = EventMonitor(mask: [.flagsChanged]) { [weak self] event in
-            print("modifier handle")
             guard let self = self else { return }
-            print("modifier flag changed")
-            if event?.modifierFlags.contains(.command) ?? false {
-                print("modifier down")
+            guard let event = event else { return }
+
+            if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
                 self.isCommandKeyDown = true
+                if event.timestamp - self.commandKeyDownTime < 0.25 {
+                    self.commandKeyDoubleTapHandler?()
+                } else {
+                    self.commandKeyDownHandler?()
+                }
+                self.commandKeyDownTime = event.timestamp
+
                 self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { [weak self] _ in
                     guard let self = self else { return }
                     if self.isCommandKeyDown {
@@ -59,7 +71,6 @@ class KeyMonitor {
                     }
                 })
             } else {
-                print("modifier up")
                 self.isCommandKeyDown = false
                 self.timer?.invalidate()
                 self.timer = nil
