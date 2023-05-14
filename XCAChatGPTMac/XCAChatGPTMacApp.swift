@@ -44,10 +44,13 @@ struct XCAChatGPTMacApp: App {
                         }
                     }
                     keyMonitor.commandKeyUpHandler = {
-                        print("Command key up")
                         withAnimation {
                             globalConfig.showShortcutHelp = false
                         }
+                    }
+                    keyMonitor.commandKeyDoubleTapHandler = {
+                        print("Command key double tapped")
+                        resume()
                     }
                     keyMonitor.start()
                 }
