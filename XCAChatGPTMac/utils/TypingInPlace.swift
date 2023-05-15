@@ -9,77 +9,71 @@ import Foundation
 import KeyboardShortcuts
 import AppKit
 
-private var queue = DispatchQueue(label: "trans")
+class TypingInPlace: ObservableObject {
+    static let shared = TypingInPlace()
+    
+    @Published var typing: Bool = false
+    private var sendTask: Task<Void, Error>? = nil
+    private var api: ChatGPTAPI? = nil
+    private var pasteTimer: Timer? = nil
+    
+    func typeInPlace(conv: GPTConversation) {
+        performGlobalCopyShortcut()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            let cp = getLatestTextFromPasteboard()
+            print("newClip", cp.text, cp.time)
+            var newValue = cp.text ?? ""
 
-func typeInPlace(conv: GPTConversation) {
-    performGlobalCopyShortcut()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-        let cp = getLatestTextFromPasteboard()
-        print("newClip", cp.text, cp.time)
-        var newValue = cp.text ?? ""
-
-        if (!newValue.isEmpty) {
-            let api = conv.API
-            
-            print("asking api \(newValue)")
-            Task {
-                do {
-                    let stream = try await api.sendMessageStream(text: newValue)
-                    var sentence = ""
-                    var puncted = false
-                    let isNotion = isInNotion()
-                    print("isNotion \(isNotion)")
-                    
-                    var delay = 0.0
-                    for try await answer in stream {
-//                        print("get answer \(answer)")
-                        for char in answer {
-                            if isNotion {
-                                sentence += String(char)
-                                if char.unicodeScalars.contains(where: { $0.value == 10 }) {
-                                    paste(delay: delay, sentence: sentence)
-                                    sentence = ""
-                                    delay += 0.1
-
-                                    //                                    print("sentence \(sentence)")
-//                                    sentence = String(char)
-                                }
-                            } else {
-                                if char.isPunctuation {
-                                    //                                print("ispun")
-                                    puncted = true
-                                    sentence += String(char)
-                                    continue
-                                }
-                                if !char.isPunctuation && puncted {
-                                    if sentence.count > 10 {
-                                        //                                    let s = sentence
-                                        paste(delay: delay, sentence: sentence)
-                                        
-                                        delay += 0.1
-                                        
-                                        //                                    print("sentence \(sentence)")
-                                        sentence = String(char)
-                                        puncted = false
-                                        continue
-                                    } else {
-                                        puncted = false
-                                    }
-                                }
-                                sentence += String(char)
+            if (!newValue.isEmpty) {
+                self.interupt()
+                self.api = conv.API
+                print("asking api \(newValue)")
+                self.sendTask = Task { [weak self] in
+                    do {
+                        guard let self = self else { return }
+                        guard let api = self.api else { return }
+                        TypingInPlace.shared.typing = true
+                        let stream = try await api.sendMessageStream(text: newValue)
+                        var sentence = ""
+                        var puncted = false
+                        let isNotion = isInNotion()
+                        print("isNotion \(isNotion)")
+                        
+                        self.pasteTimer = Timer.scheduledTimer(withTimeInterval: 1.0/3.0, repeats: true) { timer in
+                            if !sentence.isEmpty {
+                                paste(delay: 0, sentence: sentence)
+                                sentence = ""
                             }
                         }
+                        for try await answer in stream {
+                            sentence += answer
+                        }
+                        
+                        self.interupt()
                     }
-                    
-                    paste(delay: delay, sentence: sentence)
-                }
-                catch {
-                    
+                    catch {
+                        self?.interupt()
+                    }
                 }
             }
         }
     }
+    
+    func interupt() {
+        sendTask?.cancel()
+        sendTask = nil
+        
+        api?.interupt()
+        api = nil
+        
+        typing = false
+        
+        pasteTimer?.invalidate()
+        pasteTimer = nil
+    }
 }
+
+private var queue = DispatchQueue(label: "trans")
 
 func paste(delay: CGFloat, sentence: String) {
     queue.asyncAfter(deadline: .now() + delay) {

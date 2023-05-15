@@ -17,6 +17,7 @@ struct XCAChatGPTMacApp: App {
 //    @StateObject var vm = CommandStore.shared.menuViewModel
     @StateObject var vm = ConversationViewModel.shared
     @StateObject private var appState = AppState()
+    @StateObject private var typingInPlace = TypingInPlace.shared
     @State var commandKeyDown: Bool = false
     @State var commandKeyDownTimestamp: TimeInterval = 0
     @State var keyMonitor = KeyMonitor()
@@ -26,7 +27,7 @@ struct XCAChatGPTMacApp: App {
 
     var body: some Scene {
         windowView
-//        menuView
+        menuView
     }
 
     private var windowView: some Scene {
@@ -83,6 +84,51 @@ struct XCAChatGPTMacApp: App {
                 print("default")
             }
         }
+    }
+    @State private var dots = ""
+    @State var menuAnimateTimer: Timer? = nil
+
+    private var menuView: some Scene {
+        MenuBarExtra {
+            Button {
+                TypingInPlace.shared.interupt()
+            } label: {
+                Text("停止 ")
+                Image(systemName: "stop.circle")
+                    .symbolRenderingMode(.multicolor)
+                    .font(.system(size: 24))
+            }
+            .buttonStyle(.borderless)
+        } label: {
+            if TypingInPlace.shared.typing {
+                Text("Typing\(dots)🖌️")
+                    .onAppear {
+                        // Start the timer when the view appears
+                        self.menuAnimateTimer = Timer.scheduledTimer(withTimeInterval: 1.0/3.0, repeats: true) { timer in
+                            withAnimation {
+                                // Update the dots every time the timer fires
+                                switch dots.count {
+                                case 0:
+                                    dots = "."
+                                case 1:
+                                    dots = ".."
+                                case 2:
+                                    dots = "..."
+                                case 3:
+                                    dots = ""
+                                default:
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    .onDisappear {
+                        self.menuAnimateTimer?.invalidate()
+                        self.menuAnimateTimer = nil
+                    }
+            }
+        }
+        .menuBarExtraStyle(.menu)
     }
 //
 //    private var menuView: some Scene {
