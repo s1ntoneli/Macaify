@@ -230,7 +230,7 @@ struct ConversationPreferenceView: View {
     var typingInPlaceItem: some View {
         Group {
             HStack {
-                Text("TIP 功能").font(.headline)
+                Text("TIP 模式").font(.headline)
                 Text("实验功能")
                     .font(.footnote)
                     .foregroundColor(.white)

@@ -11,13 +11,20 @@ import SwiftUI
 struct ConversationIconView: View {
     let conversation: GPTConversation
     let size: CGFloat
-    var defaultIcon: String = "🍌"
 
     var body: some View {
         Group {
-            let icon = conversation.icon.isEmpty ? defaultIcon : conversation.icon
+            let icon = conversation.iconOrDefault
             Text(icon)
                 .font(.custom("", size: size))
         }
+    }
+}
+
+extension GPTConversation {
+    static let defaultIcon: String = "🍌"
+
+    var iconOrDefault: String {
+        icon.isEmpty ? GPTConversation.defaultIcon : icon
     }
 }

@@ -30,11 +30,11 @@ struct ContentView: View {
             Color.clear
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("⌘R").font(.title3).foregroundColor(.text)
+                    Text("⌘D").font(.title3).foregroundColor(.text)
                     Text("⌘N").font(.title3).foregroundColor(.text)
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("清除聊天记录").font(.title3).foregroundColor(.text)
+                    Text("删除聊天记录").font(.title3).foregroundColor(.text)
                     Text("清除上下文，开始新聊天").font(.title3).foregroundColor(.text)
                 }
             }
@@ -108,10 +108,10 @@ struct ContentView: View {
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .center, spacing: 8) {
-            PlainButton(icon: "clear", label: "清除聊天记录 ⌘R", shortcut: .init("r"), modifiers: .command, autoShowShortcutHelp: false, showLabel: resetHovered) {
+            PlainButton(icon: "clear", label: "删除记录 ⌘D", shortcut: .init("d"), modifiers: .command, autoShowShortcutHelp: false, showLabel: resetHovered) {
                 vm.clearMessages()
             }
-            .help("清除聊天记录 ⌘R")
+            .help("删除聊天记录 ⌘D")
             .onHover { hover in
                 resetHovered = hover
             }

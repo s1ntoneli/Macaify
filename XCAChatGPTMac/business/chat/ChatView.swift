@@ -58,7 +58,7 @@ struct ChatView: View {
     var titleBar: some View {
         ConfigurableView(onBack: {
             pathManager.back()
-        }, title: conversation.name , showLeftButton: true, actions: {
+        }, title: "\(conversation.iconOrDefault) \(conversation.name)", showLeftButton: true, actions: {
             switch mode {
             case .normal: normalActions
             case .trial: trialActions
