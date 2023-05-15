@@ -162,7 +162,7 @@ class ChatGPTAPI: @unchecked Sendable {
                            let response = try? self.jsonDecoder.decode(StreamCompletionResponse.self, from: data),
                            let text = response.choices.first?.delta.content {
                             responseText += text
-                            print("text \(text)")
+//                            print("text \(text)")
                             continuation.yield(text)
                         }
                     }

@@ -242,7 +242,7 @@ struct MainView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        if let url = URL(string: "mailto:antiless.dev@gmail.com") {
+                        if let url = URL(string: "mailto://antiless.dev@gmail.com") {
                             NSWorkspace.shared.open(url)
                         }
                     }
@@ -295,6 +295,15 @@ struct MainView: View {
                     Text(command.name)
                         .font(.title2)
                         .foregroundColor(Color.hex(0x37414F))
+                    if command.typingInPlace {
+                        Text("TIP")
+                            .font(.footnote)
+                            .foregroundColor(.white)
+                            .padding(2)
+                            .background(Color.purple.cornerRadius(4))
+                            .help("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字")
+                    }
+
                     Spacer()
                     Text(KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(command.id.uuidString))?.description ?? "")
                         .font(.body)
