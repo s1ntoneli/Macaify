@@ -16,6 +16,8 @@ struct ContentView: View {
     @FocusState var isTextFieldFocused: Bool
     @State var scrolledByUser = false
     @State var textWidth: CGFloat = 436
+    @State var resetHovered: Bool = false
+    @State var newHovered: Bool = false
 
     var body: some View {
         ZStack {
@@ -106,14 +108,20 @@ struct ContentView: View {
 
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
         HStack(alignment: .center, spacing: 8) {
-            PlainButton(icon: "clear", shortcut: .init("r"), modifiers: .command, showHelp: false) {
+            PlainButton(icon: "clear", label: "清除聊天记录 ⌘R", shortcut: .init("r"), modifiers: .command, autoShowShortcutHelp: false, showLabel: resetHovered) {
                 vm.clearMessages()
             }
             .help("清除聊天记录 ⌘R")
-            PlainButton(icon: "lasso.sparkles", shortcut: .init("n"), modifiers: .command, showHelp: false) {
+            .onHover { hover in
+                resetHovered = hover
+            }
+            PlainButton(icon: "lasso.sparkles", label: "新聊天 ⌘N", shortcut: .init("n"), modifiers: .command, autoShowShortcutHelp: false, showLabel: newHovered) {
                 vm.clearContext()
             }
             .help("新聊天 ⌘N")
+            .onHover { hover in
+                newHovered = hover
+            }
 
             GeometryReader { reader in
                 InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
@@ -151,7 +159,7 @@ struct ContentView: View {
                 }
             } else {
                 HStack {
-                    PlainButton(label: "发送 ↩", backgroundColor: .purple, foregroundColor: .white, shortcut: .return, showHelp: false, action: {
+                    PlainButton(label: "发送 ↩", backgroundColor: .purple, foregroundColor: .white, shortcut: .return, autoShowShortcutHelp: false, action: {
                         Task { @MainActor in
                             if !vm.inputMessage.isEmpty {
                                 isTextFieldFocused = false
@@ -164,7 +172,7 @@ struct ContentView: View {
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .opacity(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
 
-                    PlainButton(label: "使用回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
+                    PlainButton(label: "使用回答 ⌘↩", shortcut: .return, modifiers: .command, autoShowShortcutHelp: false) {
                         print("mini")
                         Task { @MainActor in
                             print("mini")
