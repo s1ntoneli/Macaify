@@ -37,6 +37,8 @@ class HotKeyManager {
 
                 if isActive {
                     PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
+                } else if conversation.typingInPlace {
+                    TypingInPlace.shared.typeInPlace(conv: conversation)
                 } else if (conversation.autoAddSelectedText) {
                     StartupPasteboardManager.shared.startup { text in
                         switch PathManager.shared.top {
@@ -61,8 +63,6 @@ class HotKeyManager {
 
                         resume()
                     }
-                } else if conversation.typingInPlace {
-                    TypingInPlace.shared.typeInPlace(conv: conversation)
                 } else {
                     resume()
                     PathManager.shared.toChat(conversation)
