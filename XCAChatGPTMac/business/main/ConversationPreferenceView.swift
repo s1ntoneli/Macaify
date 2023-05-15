@@ -15,6 +15,7 @@ struct ConversationPreferenceView: View {
     @EnvironmentObject var pathManager: PathManager
     @State var conversation: GPTConversation
     @State var autoAddSelectedText: Bool
+    @State var typingInPlace: Bool
     @State var oneTimeChat: Bool
     let mode: ConversationPreferenceMode
 
@@ -27,6 +28,7 @@ struct ConversationPreferenceView: View {
     init(conversation: GPTConversation, mode: ConversationPreferenceMode) {
         self.conversation = conversation
         self.autoAddSelectedText = conversation.autoAddSelectedText
+        self.typingInPlace = conversation.typingInPlace
         self.oneTimeChat = conversation.withContext
         self.mode = mode
     }
@@ -68,53 +70,15 @@ struct ConversationPreferenceView: View {
             List {
                 VStack(alignment: .leading, spacing: 12) {
                     iconView
+                    name
+                    systemProtmp
                     
-                    Group {
-                        Text("机器人名字").font(.headline)
-                        TextField("输入机器人名称方便记忆", text: $conversation.name, onCommit: {
-                            print("onCommit")
-                            focusField = .prompt })
-                        .focusable(true)
-                        .onSubmit {
-                            print("onSumbit")
-                            focusField = .prompt
-                        }
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .focused($focusField, equals: .title)
-                    }
-                    Group {
-                        Text("系统提示").font(.headline)
-                        TextEditor(text: $conversation.prompt)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 4)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.white)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
-                                    )
-                            )
-                            .foregroundColor(.text)
-                            .font(.body)
-                            .lineLimit(4...6)
-                            .frame(maxHeight: 160)
-                            .frame(minHeight: 64)
-                            .focusable(true) { focused in
-                                focusField = .prompt
-                            }
-                            .focused($focusField, equals: .prompt)
-                    }
-                    Group {
-                        Text("热键").font(.headline)
-                        Form {
-                            KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
-                        }
-                    }
+                    hotkey
+                    useContext
 
                     autoAddText
                     
-                    useContext
+                    typingInPlaceItem
                 }
                 .padding(.top, 12)
             }
@@ -190,6 +154,57 @@ struct ConversationPreferenceView: View {
         }
     }
     
+    var name: some View {
+        Group {
+            Text("机器人名字").font(.headline)
+            TextField("输入机器人名称方便记忆", text: $conversation.name, onCommit: {
+                print("onCommit")
+                focusField = .prompt })
+            .focusable(true)
+            .onSubmit {
+                print("onSumbit")
+                focusField = .prompt
+            }
+            .textFieldStyle(CustomTextFieldStyle())
+            .focused($focusField, equals: .title)
+        }
+    }
+    
+    var systemProtmp: some View {
+        Group {
+            Text("系统提示").font(.headline)
+            TextEditor(text: $conversation.prompt)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 4)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .foregroundColor(.text)
+                .font(.body)
+                .lineLimit(4...6)
+                .frame(maxHeight: 160)
+                .frame(minHeight: 64)
+                .focusable(true) { focused in
+                    focusField = .prompt
+                }
+                .focused($focusField, equals: .prompt)
+        }
+    }
+    
+    var hotkey: some View {
+        Group {
+            Text("热键").font(.headline)
+            Form {
+                KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
+            }
+        }
+    }
+    
     var useContext: some View {
         Group {
             Text("使用上下文").font(.headline)
@@ -208,6 +223,26 @@ struct ConversationPreferenceView: View {
                 Text("启用")
             }.onChange(of: autoAddSelectedText) { newValue in
                 conversation.autoAddSelectedText = newValue
+            }
+        }
+    }
+    
+    var typingInPlaceItem: some View {
+        Group {
+            HStack {
+                Text("TIP 功能").font(.headline)
+                Text("实验功能")
+                    .font(.footnote)
+                    .foregroundColor(.white)
+                    .padding(4)
+                    .background(Color.blue.cornerRadius(4))
+            }
+            Text("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字").font(.subheadline)
+                .opacity(0.7)
+            Toggle(isOn: $typingInPlace) {
+                Text("启用")
+            }.onChange(of: typingInPlace) { newValue in
+                conversation.typingInPlace = newValue
             }
         }
     }

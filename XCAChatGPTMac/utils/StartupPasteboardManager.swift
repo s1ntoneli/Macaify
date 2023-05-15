@@ -21,8 +21,11 @@ class StartupPasteboardManager {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { // wait 0.05s for copy.
             let cp = getLatestTextFromPasteboard()
             print("newClip", cp.text, cp.time)
-            var newValue = cp.text == oldValue ? "" : cp.text
+            var newValue = cp.text
+//            var newValue = cp.text == oldValue ? "" : cp.text
             task(newValue)
+
+            copy(text: oldValue ?? "")
         }
     }
 

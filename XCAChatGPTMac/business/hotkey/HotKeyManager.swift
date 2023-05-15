@@ -58,9 +58,9 @@ class HotKeyManager {
 
                         resume()
                     }
-                }
-
-                if !conversation.autoAddSelectedText {
+                } else if conversation.typingInPlace {
+                    typeInPlace(conv: conversation)
+                } else {
                     resume()
                     PathManager.shared.toChat(conversation)
                 }
@@ -75,8 +75,6 @@ class HotKeyManager {
 //            self.window.makeKeyAndOrderFront(nil)
             app?.activate(options: [.activateAllWindows])
         }
-        
-        typeInPlace()
     }
 }
 

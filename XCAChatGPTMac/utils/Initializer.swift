@@ -15,9 +15,7 @@ func initializeIfNeeded() {
         let convs = PersistenceController.shared.loadConversations()
         if convs.isEmpty {
             addDefaultConvs()
-            Task {
-                await ConversationViewModel.shared.loadCommands()
-            }
+            ConversationViewModel.shared.loadCommands()
         }
         
         // 保存“是否初始化”为 true
@@ -62,7 +60,10 @@ private func addDefaultConvs() {
     // MARK: - 文字类型
     GPTConversation("Notion AI", prompt: "充当 Notion 专家。我会给你一个任务，比如“创建一个带有 lorem ipsum 文本的标题段落”，然后你会用 Notion 支持的 markdown 格式回复我。只需用纯文本回答，格式化为在 Notion 中使用即可。不要在答案中添加任何额外的文本；我想要的只是纯粹的结果。", desc: "", icon:"📒", shortcut: "", withContext: true, context: PersistenceController.sharedContext)
         .save()
-    GPTConversation("中英互译", prompt: "你是个中英互译机器，你把```后的文字翻译成中文或英文。\n你的工作过程分三步: 1. 猜测我提供的文字的语言 2. 如果语言是中文，则需要翻译成英文。否则，翻译成中文。3. 把文字翻译成目标语言。\n\n回应格式是：\n<翻译后的文字>\n\n我的文字是：\n```", desc: "", icon:"🔤", shortcut: "", withContext: false, context: PersistenceController.sharedContext)
+    GPTConversation("中英互译", prompt: "你是个中英互译机器，你把```包裹的文字翻译成中文或英文。\n你的工作过程分三步: 1. 猜测我提供的文字的语言 2. 如果语言是中文，则需要翻译成英文。否则，翻译成中文。3. 把文字翻译成目标语言。\n\n回应格式是：\n<翻译后的文字>", desc: "", icon:"🔤", shortcut: "", typingInPlace: true, withContext: false, context: PersistenceController.sharedContext)
+        .save()
+
+    GPTConversation("中英互译", prompt: "你是个中英互译机器，你把```后的文字翻译成中文或英文。\n你的工作过程分三步: 1. 猜测我提供的文字的语言 2. 如果语言是中文，则需要翻译成英文。否则，翻译成中文。3. 把文字翻译成目标语言。\n\n回应格式是：\n<翻译后的文字>\n\n我的文字是：\n```", desc: "", icon:"🔤", shortcut: "", autoAddSelectedText: true, withContext: false, context: PersistenceController.sharedContext)
         .save()
 
     GPTConversation("总结文字", prompt: "从用户输入的内容中提取核心内容", desc: "", icon:"✏️", shortcut: "", withContext: false, context: PersistenceController.sharedContext)
