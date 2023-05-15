@@ -62,7 +62,7 @@ extension GPTConversation {
         }
     }
     
-    convenience init(_ name: String, id: UUID = UUID(), prompt: String = "", desc: String = "", icon: String = "", shortcut: String = "", timestamp: Date = Date(), autoAddSelectedText: Bool = false, typingInPlace: Bool = false, withContext: Bool = true, context: NSManagedObjectContext = PersistenceController.memoryContext) {
+    convenience init(_ name: String, id: UUID = UUID(), prompt: String = "", desc: String = "", icon: String = "", shortcut: String = "", timestamp: Date = Date(), autoAddSelectedText: Bool = false, typingInPlace: Bool = false, withContext: Bool = true, own: [GPTAnswer] = [], context: NSManagedObjectContext = PersistenceController.memoryContext) {
         self.init(context: context)
         self.name = name
         self.uuid = uuid
@@ -74,6 +74,7 @@ extension GPTConversation {
         self.autoAddSelectedText = autoAddSelectedText
         self.typingInPlace = typingInPlace
         self.withContext = withContext
+        self.own = own
     }
 
     func copy(name: String? = nil,
@@ -86,6 +87,7 @@ extension GPTConversation {
              autoAddSelectedText: Bool? = nil,
              typingInPlace: Bool? = nil,
              withContext: Bool? = nil,
+             own: [GPTAnswer]? = nil,
              context: NSManagedObjectContext? = nil) -> GPTConversation {
         let name = name ?? self.name
         let id = id ?? self.id
@@ -98,7 +100,16 @@ extension GPTConversation {
         let typingInPlace = typingInPlace ?? self.typingInPlace
         let withContext = withContext ?? self.withContext
         let context = context ?? self.managedObjectContext!
-        return GPTConversation(name, id: id, prompt: prompt, desc: desc, icon: icon, shortcut: shortcut, timestamp: timestamp, autoAddSelectedText: autoAddSelectedText, typingInPlace: typingInPlace, withContext: withContext, context: context)
+
+        let newConv = GPTConversation(name, id: id, prompt: prompt, desc: desc, icon: icon, shortcut: shortcut, timestamp: timestamp, autoAddSelectedText: autoAddSelectedText, typingInPlace: typingInPlace, withContext: withContext, context: context)
+
+        let own = own ?? self.own.map { answer in
+            let ans = answer.copy(context: context)
+            ans.belongsTo = newConv
+            return ans
+        }
+        newConv.own = own
+        return newConv
     }
     func copyToCoreData() -> GPTConversation {
         return copy(context: PersistenceController.sharedContext)

@@ -72,6 +72,7 @@ class ConversationViewModel: ObservableObject {
             return viewModel
         } else {
             let viewModel = ViewModel(conversation: conversation, api: api, enableSpeech: useVoice)
+            print("主动 init")
             viewModels[id] = viewModel
             return viewModel
         }
