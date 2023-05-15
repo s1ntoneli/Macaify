@@ -30,8 +30,8 @@ struct ChatView: View {
         self.mode = mode
         let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
         let api = command.API
-        self.vm = ViewModel(conversation: command, api: api, enableSpeech: useVoice)
-//        self.vm = commandStore.commandViewModel(command)
+//        self.vm = ViewModel(conversation: command, api: api, enableSpeech: useVoice)
+        self.vm = commandStore.commandViewModel(command)
         print("ChatView init")
 //        print("proxy \(useProxy) \(proxyAddress) \(msg)")
         self.vm.inputMessage = msg ?? ""

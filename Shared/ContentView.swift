@@ -164,13 +164,14 @@ struct ContentView: View {
                     .disabled(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .opacity(vm.inputMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1)
 
-                    PlainButton(label: "复制回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
+                    PlainButton(label: "使用回答 ⌘↩", shortcut: .return, modifiers: .command, showHelp: false) {
                         print("mini")
                         Task { @MainActor in
                             print("mini")
-                            copy(text: vm.messages.last?.responseText ?? "")
+//                            copy(text: vm.messages.last?.responseText ?? "")
                             NSApplication.shared.hide(nil)
 //                            NSApplication.shared.windows.first?.miniaturize(nil)
+                            paste(delay: 0.1, sentence: vm.messages.last?.responseText ?? "")
                         }
                     }
                     .disabled(vm.messages.last?.responseText?.isEmpty ?? true)

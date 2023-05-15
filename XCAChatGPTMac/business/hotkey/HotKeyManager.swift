@@ -40,16 +40,18 @@ class HotKeyManager {
                 } else if (conversation.autoAddSelectedText) {
                     StartupPasteboardManager.shared.startup { text in
                         switch PathManager.shared.top {
-                        case .chat(_, _,_):
+                        case .chat(let command, _,_):
                             print("tapped text \(text)")
                             PathManager.shared.toChat(conversation, msg: text)
-                            if let text = text, !text.isEmpty {
-                                let vm = ConversationViewModel.shared.commandViewModel(conversation)
-                                print("copy text \(text) to viewmodel \(vm)")
-                                vm.inputMessage = text
-                                Task { @MainActor in
-                                    if (!vm.isInteractingWithChatGPT && !vm.inputMessage.isEmpty) {
-                                        await vm.sendTapped()
+                            if command.id == conversation.id {
+                                if let text = text, !text.isEmpty {
+                                    let vm = ConversationViewModel.shared.commandViewModel(conversation)
+                                    print("copy text \(text) to viewmodel \(vm)")
+                                    vm.inputMessage = text
+                                    Task { @MainActor in
+                                        if (!vm.isInteractingWithChatGPT && !vm.inputMessage.isEmpty) {
+                                            await vm.sendTapped()
+                                        }
                                     }
                                 }
                             }
