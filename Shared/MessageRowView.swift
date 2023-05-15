@@ -130,11 +130,12 @@ struct MessageRowView: View {
                         NSPasteboard.general.setString(text, forType: .string)
                     }
 //                    PlainButton(icon: "doc.on.doc", label: "复制并隐藏") {
-                    PlainButton(icon: "doc.on.doc", label: "复制并隐藏", shortcut: .init(tag.first!), modifiers: [.command, .shift]) {
+                    PlainButton(icon: "doc.on.doc", label: "使用回答", shortcut: .init(tag.first!), modifiers: [.command, .shift]) {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(text, forType: .string)
 //                        NSApplication.shared.windows.first?.miniaturize(nil)
                         NSApplication.shared.hide(nil)
+                        paste(delay: 0.1, sentence: text)
                     }
                 }
             }

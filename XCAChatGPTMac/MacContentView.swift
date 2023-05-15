@@ -72,7 +72,7 @@ struct MacContentView: View {
 
     func makeChatView(_ command: GPTConversation, msg: String?, mode: ChatMode = .normal) -> some View {
         print("makeChatView \(command.name) \(msg) \(mode)")
-        return ChatView(command: command, msg: msg, mode: mode)
+        return ChatView(command: command, msg: msg, mode: mode).id(command.id)
     }
 
     func makeEditCommandView(_ command: GPTConversation)-> some View {
