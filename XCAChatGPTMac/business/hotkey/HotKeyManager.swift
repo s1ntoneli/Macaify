@@ -60,7 +60,7 @@ class HotKeyManager {
                         resume()
                     }
                 } else if conversation.typingInPlace {
-                    typeInPlace(conv: conversation)
+                    TypingInPlace.shared.typeInPlace(conv: conversation)
                 } else {
                     resume()
                     PathManager.shared.toChat(conversation)

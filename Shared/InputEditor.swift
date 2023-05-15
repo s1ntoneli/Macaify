@@ -83,7 +83,9 @@ private struct CustomTextEditor: NSViewRepresentable {
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
 
-            text = textView.string
+            Task { @MainActor in
+                text = textView.string
+            }
             selectedRanges = textView.selectedRanges
         }
     }
