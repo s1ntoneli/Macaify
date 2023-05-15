@@ -35,9 +35,10 @@ class HotKeyManager {
 
                 let isActive = NSApplication.shared.isActive
 
-                if (conversation.autoAddSelectedText) {
+                if isActive {
+                    PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
+                } else if (conversation.autoAddSelectedText) {
                     StartupPasteboardManager.shared.startup { text in
-                        let text = isActive ? MainViewModel.shared.searchText : text
                         switch PathManager.shared.top {
                         case .chat(_, _,_):
                             print("tapped text \(text)")

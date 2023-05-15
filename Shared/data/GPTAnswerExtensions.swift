@@ -48,4 +48,21 @@ extension GPTAnswer {
         self.contextClearedAfterThis = contextClearedAfterThis
         self.parentMessageId = parentId
     }
+    
+    func copy(uuid: UUID? = nil, role: String? = nil, prompt: String? = nil, response: String? = nil, timestamp: Date? = nil, contextClearedAfterThis: Bool? = nil, parentId: UUID? = nil, context: NSManagedObjectContext? = nil) -> GPTAnswer {
+        let role = role ?? self.role
+        let prompt = prompt ?? self.prompt
+        let response = response ?? self.response
+        let timestamp = timestamp ?? self.timestamp
+        let contextClearedAfterThis = contextClearedAfterThis ?? self.contextClearedAfterThis
+        let parentMessageId = parentId ?? self.parentMessageId
+        let uuid = uuid ?? self.uuid
+        let context = context ?? self.managedObjectContext!
+        
+        return GPTAnswer(role: role, prompt: prompt, response: response, timestamp: timestamp, contextClearedAfterThis: contextClearedAfterThis, parentId: parentId, context: context)
+    }
+    
+    func copyToCoreData() -> GPTAnswer {
+        copy(context: PersistenceController.sharedContext)
+    }
 }

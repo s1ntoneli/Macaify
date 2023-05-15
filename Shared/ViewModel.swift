@@ -9,8 +9,11 @@ import Foundation
 import SwiftUI
 import AVKit
 
-class ViewModel: ObservableObject {
-    
+class ViewModel: ObservableObject, Equatable {
+    static func == (lhs: ViewModel, rhs: ViewModel) -> Bool {
+        lhs.conversation.id == rhs.conversation.id
+    }
+
     @Published var isInteractingWithChatGPT = false
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
@@ -28,6 +31,7 @@ class ViewModel: ObservableObject {
         self.api = api
         self.enableSpeech = enableSpeech
         synthesizer = .init()
+        print("reinit conversation \(conversation.name) \(messages.count)")
         messages = conversation.own.map({ answer in
             return MessageRow(isInteractingWithChatGPT: false, sendImage: "profile", sendText: answer.prompt, responseImage: "openai", responseText: answer.response, clearContextAfterThis: answer.contextClearedAfterThis)
         })
