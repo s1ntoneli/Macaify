@@ -50,6 +50,10 @@ class TypingInPlace: ObservableObject {
                         }
                         
                         self.interupt()
+                        if !sentence.isEmpty {
+                            paste(delay: 0, sentence: sentence)
+                            sentence = ""
+                        }
                     }
                     catch {
                         self?.interupt()
