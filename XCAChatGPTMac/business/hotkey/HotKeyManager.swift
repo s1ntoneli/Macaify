@@ -16,8 +16,8 @@ class HotKeyManager {
     static func initHotKeys() {
         KeyboardShortcuts.removeAllHandlers()
         KeyboardShortcuts.onKeyDown(for: .quickAsk) { [self] in
-            NSLog("key pressed")
-            let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.antiless.XCAChatGPTMac").first
+            NSLog("key pressed \(Bundle.main.bundleIdentifier)")
+            let app = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").first
             print("app is nil ? \(app)")
             PathManager.shared.toMain()
             app?.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
@@ -81,7 +81,7 @@ class HotKeyManager {
     }
 }
 
-func resume(bundleId: String = "com.antiless.XCAChatGPTMac") {
+func resume(bundleId: String = Bundle.main.bundleIdentifier ?? "") {
     let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleId).first
     print("app is nil ? \(app)")
     app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])
