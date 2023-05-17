@@ -14,6 +14,7 @@ class ConversationViewModel: ObservableObject {
     static let shared = ConversationViewModel()
     
     @Published var conversations: [GPTConversation] = []
+    @Published var filteredConvs: [GPTConversation] = []
     
     // 选中的列表项下标
     @Published var selectedItemIndex = -1
@@ -21,7 +22,7 @@ class ConversationViewModel: ObservableObject {
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
     private var viewModels: [UUID: ViewModel] = [:]
-    
+
     var useVoice: Bool {
         UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
     }
