@@ -80,6 +80,7 @@
 		698C5AD22A108E09007C046A /* NewFeatureIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C5AD12A108E09007C046A /* NewFeatureIntroductionView.swift */; };
 		698C5AD42A1093D2007C046A /* StartUpButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C5AD32A1093D2007C046A /* StartUpButtonStyle.swift */; };
 		698C5AD62A10AC08007C046A /* TypingInPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C5AD52A10AC08007C046A /* TypingInPlace.swift */; };
+		698C5ADA2A13D10B007C046A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C5AD92A13D10B007C046A /* Utils.swift */; };
 		8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */; };
 		8B057589298E52C000A56C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B057588298E52C000A56C9A /* Assets.xcassets */; };
 		8B05758C298E52C000A56C9A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B05758B298E52C000A56C9A /* Preview Assets.xcassets */; };
@@ -217,6 +218,7 @@
 		698C5AD12A108E09007C046A /* NewFeatureIntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeatureIntroductionView.swift; sourceTree = "<group>"; };
 		698C5AD32A1093D2007C046A /* StartUpButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpButtonStyle.swift; sourceTree = "<group>"; };
 		698C5AD52A10AC08007C046A /* TypingInPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingInPlace.swift; sourceTree = "<group>"; };
+		698C5AD92A13D10B007C046A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8B057582298E52C000A56C9A /* Found.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Found.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B057584298E52C000A56C9A /* XCAChatGPTMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCAChatGPTMacApp.swift; sourceTree = "<group>"; };
 		8B057588298E52C000A56C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				696B6BE529FAE82F00845C71 /* GlobalConfig.swift */,
 				696B6BE729FAEB9C00845C71 /* KeyUtils.swift */,
 				696B6CA32A05F45700845C71 /* StringExtensions.swift */,
+				698C5AD92A13D10B007C046A /* Utils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,
 				696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,
+				698C5ADA2A13D10B007C046A /* Utils.swift in Sources */,
 				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
 				698C5ACF2A0F1D60007C046A /* Initializer.swift in Sources */,
 				696B6BD629F6A33000845C71 /* Persistence.swift in Sources */,
@@ -957,7 +961,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPTMac/Preview Content\"";
-				DEVELOPMENT_TEAM = JR3AZ5PXVT;
+				DEVELOPMENT_TEAM = JDZMWLF652;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -988,7 +992,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPTMac/Preview Content\"";
-				DEVELOPMENT_TEAM = JR3AZ5PXVT;
+				DEVELOPMENT_TEAM = JDZMWLF652;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

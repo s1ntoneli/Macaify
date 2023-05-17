@@ -127,6 +127,11 @@ struct XCAChatGPTMacApp: App {
                         self.menuAnimateTimer = nil
                     }
             }
+            else {
+                Image("menubar")
+                    .resizable()
+                    .frame(width: 8)
+            }
         }
         .menuBarExtraStyle(.menu)
     }
@@ -205,6 +210,10 @@ final class AppState: ObservableObject {
 class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
         print("application")
+    }
+    
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        NSApp.appearance = NSAppearance(named: .aqua)
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         print("applicationShouldTerminateAfterLastWindowClosed")

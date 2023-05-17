@@ -11,7 +11,7 @@
         <relationship name="belongsTo" maxCount="1" deletionRule="Nullify" destinationEntity="GPTConversation" inverseName="own_" inverseEntity="GPTConversation"/>
     </entity>
     <entity name="GPTConversation" representedClassName="GPTConversation" syncable="YES" codeGenerationType="class">
-        <attribute name="autoAddSelectedText_" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="autoAddSelectedText_" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="desc_" attributeType="String" defaultValueString=""/>
         <attribute name="icon_" attributeType="String" defaultValueString=""/>
         <attribute name="name_" attributeType="String" defaultValueString="&quot;&quot;"/>
