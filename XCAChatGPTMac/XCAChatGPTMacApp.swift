@@ -20,7 +20,8 @@ struct XCAChatGPTMacApp: App {
     @StateObject private var typingInPlace = TypingInPlace.shared
     @State var commandKeyDown: Bool = false
     @State var commandKeyDownTimestamp: TimeInterval = 0
-    @State var keyMonitor = KeyMonitor()
+    @State var commandLocalMonitor = KeyMonitor(.command)
+    @State var optionGlobalMonitor = KeyMonitor(.option, scope: .global)
     @StateObject private var emojiViewModel = EmojiPickerViewModel()
     
     let globalConfig = GlobalConfig()
@@ -38,25 +39,27 @@ struct XCAChatGPTMacApp: App {
                 .environmentObject(emojiViewModel)
                 .ignoresSafeArea(.all)
                 .onAppear {
-                    keyMonitor.handler = {
+                    commandLocalMonitor.handler = {
                         print("Command key was held down for 1 second")
                         withAnimation {
                             globalConfig.showShortcutHelp = true
                         }
                     }
-                    keyMonitor.commandKeyUpHandler = {
+                    commandLocalMonitor.onKeyUp = {
                         withAnimation {
                             globalConfig.showShortcutHelp = false
                         }
                     }
-                    keyMonitor.commandKeyDoubleTapHandler = {
+                    optionGlobalMonitor.onDoubleTap = {
                         print("Command key double tapped")
                         resume()
                     }
-                    keyMonitor.start()
+                    commandLocalMonitor.start()
+                    optionGlobalMonitor.start()
                 }
                 .onDisappear {
-                    keyMonitor.stop()
+                    commandLocalMonitor.stop()
+                    optionGlobalMonitor.stop()
                 }
         }
         .commands {
@@ -90,13 +93,21 @@ struct XCAChatGPTMacApp: App {
 
     private var menuView: some Scene {
         MenuBarExtra {
+            if TypingInPlace.shared.typing {
+                Button {
+                    TypingInPlace.shared.interupt()
+                } label: {
+                    Text("停止 ")
+                    Image(systemName: "stop.circle")
+                        .symbolRenderingMode(.multicolor)
+                        .font(.system(size: 24))
+                }
+                .buttonStyle(.borderless)
+            }
             Button {
-                TypingInPlace.shared.interupt()
+                NSApplication.shared.terminate(nil)
             } label: {
-                Text("停止 ")
-                Image(systemName: "stop.circle")
-                    .symbolRenderingMode(.multicolor)
-                    .font(.system(size: 24))
+                Text("退出")
             }
             .buttonStyle(.borderless)
         } label: {
