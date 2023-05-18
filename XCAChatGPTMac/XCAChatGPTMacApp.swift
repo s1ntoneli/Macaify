@@ -21,7 +21,7 @@ struct XCAChatGPTMacApp: App {
     @State var commandKeyDown: Bool = false
     @State var commandKeyDownTimestamp: TimeInterval = 0
     @State var commandLocalMonitor = KeyMonitor(.command)
-    @State var optionGlobalMonitor = KeyMonitor(.option, scope: .global)
+    @State var globalMonitor = KeyMonitorManager.shared
     @StateObject private var emojiViewModel = EmojiPickerViewModel()
     @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
 
@@ -52,16 +52,13 @@ struct XCAChatGPTMacApp: App {
                             globalConfig.showShortcutHelp = false
                         }
                     }
-                    optionGlobalMonitor.onDoubleTap = {
-                        print("Command key double tapped")
-                        resume()
-                    }
                     commandLocalMonitor.start()
-                    optionGlobalMonitor.start()
+                    globalMonitor.start()
+                    globalMonitor.updateModifier(appShortcutKey())
                 }
                 .onDisappear {
                     commandLocalMonitor.stop()
-                    optionGlobalMonitor.stop()
+                    globalMonitor.stop()
                 }
         }
         .commands {

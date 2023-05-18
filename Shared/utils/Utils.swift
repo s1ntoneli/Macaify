@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AppKit
 
 func isApiKeyValid(apiKey: String) -> Bool {
     do {
@@ -35,5 +36,18 @@ func isApiKeyValid(apiKey: String) -> Bool {
     } catch {
         print("Error: \(error)")
         return false
+    }
+}
+
+func appShortcutOption() -> String {
+    UserDefaults.standard.string(forKey: "appShortcutOption") ?? "custom"
+}
+
+func appShortcutKey() -> NSEvent.ModifierFlags? {
+    switch appShortcutOption() {
+    case "command": return .command
+    case "option": return .option
+    case "control": return .control
+    default: return nil
     }
 }

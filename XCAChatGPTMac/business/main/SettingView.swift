@@ -25,7 +25,7 @@ struct SettingView: View {
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
     @AppStorage("language") private var language = "en"
-    
+    @AppStorage("appShortcutOption") var appShortcutOption: String = "custom"
     
     @FocusState private var focusField: FocusField?
     
@@ -60,20 +60,25 @@ struct SettingView: View {
                     }
                     
                     VStack(alignment: .leading) {
-                        Text("热键设置").font(.headline)
+                        Text("全局唤醒热键").font(.headline)
                         Form {
-                            KeyboardShortcuts.Recorder("", name: .quickAsk)
+                            AppShortcuts()
+                            if appShortcutOption == "custom" {
+                                KeyboardShortcuts.Recorder("", name: .quickAsk)
+                            }
                         }
                     }
                     
-                    Text("模型选择").font(.headline)
-                    Picker(selection: $selectedModelIndex, label: Text("") ) {
-                        ForEach(0..<ModelSelectionManager.shared.models.count) { index in
-                            Text(ModelSelectionManager.shared.models[index].name)
+                    Group {
+                        Text("模型选择").font(.headline)
+                        Picker(selection: $selectedModelIndex, label: Text("") ) {
+                            ForEach(0..<ModelSelectionManager.shared.models.count) { index in
+                                Text(ModelSelectionManager.shared.models[index].name)
+                            }
                         }
+                        .pickerStyle(MenuPickerStyle())
+                        .frame(maxWidth: 200)
                     }
-                    .pickerStyle(MenuPickerStyle())
-                    .frame(maxWidth: 200)
                     Text("使用代理")
                         .font(.headline)
                     Toggle("启用", isOn: $useProxy)

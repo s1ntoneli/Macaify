@@ -17,12 +17,15 @@ class HotKeyManager {
         KeyboardShortcuts.removeAllHandlers()
         KeyboardShortcuts.onKeyDown(for: .quickAsk) { [self] in
             NSLog("key pressed \(Bundle.main.bundleIdentifier)")
-            let app = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").first
-            print("app is nil ? \(app)")
-            app?.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
-
-            guard let window = NSApplication.shared.windows.first else {  return }
-            window.deminiaturize(nil)
+            
+            if appShortcutOption() == "custom" {
+                let app = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").first
+                print("app is nil ? \(app)")
+                app?.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
+                
+                guard let window = NSApplication.shared.windows.first else {  return }
+                window.deminiaturize(nil)
+            }
         }
 
         ConversationViewModel.shared.conversations.forEach { conversation in

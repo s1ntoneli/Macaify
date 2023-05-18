@@ -52,7 +52,7 @@ class KeyMonitor {
     private var isCommandKeyDown = false
     private var keyDownTime: TimeInterval = 0
     
-    let modifier: NSEvent.ModifierFlags
+    var modifier: NSEvent.ModifierFlags
     let scope: Scope
     
     var onKeyUp: (() -> Void)?
