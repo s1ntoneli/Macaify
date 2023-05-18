@@ -53,6 +53,11 @@ struct ChatView: View {
 
             ContentView(vm: self.vm)
         }.background(.white)
+        .onKeyPressed(.escape) { event in
+            print("escape")
+            NSApp.hide(nil)
+            return true
+        }
     }
 
     var titleBar: some View {
@@ -80,7 +85,7 @@ struct ChatView: View {
     }
     
     var normalActions: some View {
-        PlainButton(icon: "square.stack.3d.up", shortcut: .init("e"), modifiers: .command, action: {
+        PlainButton(icon: "slider.horizontal.3", shortcut: .init("e"), modifiers: .command, action: {
             // 编辑按钮的响应
             print("button down")
             pathManager.to(target: .editCommand(command: conversation))

@@ -19,7 +19,6 @@ class HotKeyManager {
             NSLog("key pressed \(Bundle.main.bundleIdentifier)")
             let app = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").first
             print("app is nil ? \(app)")
-            PathManager.shared.toMain()
             app?.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
 
             guard let window = NSApplication.shared.windows.first else {  return }
@@ -35,10 +34,10 @@ class HotKeyManager {
 
                 let isActive = NSApplication.shared.isActive
 
-                if isActive {
-                    PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
-                } else if conversation.typingInPlace {
+                if conversation.typingInPlace {
                     TypingInPlace.shared.typeInPlace(conv: conversation)
+                } else if isActive {
+                    PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
                 } else if (conversation.autoAddSelectedText) {
                     StartupPasteboardManager.shared.startup { text in
                         switch PathManager.shared.top {

@@ -34,7 +34,7 @@ class TypingInPlace: ObservableObject {
                         guard let api = self.api else { return }
                         TypingInPlace.shared.typing = true
                         api.systemPrompt += "用户输入："
-                        let stream = try await api.sendMessageStream(text: "```\(newValue)```")
+                        let stream = try await api.sendMessageStream(text: newValue)
                         var sentence = ""
                         var puncted = false
                         let isNotion = isInNotion()

@@ -56,7 +56,7 @@ struct ConversationPreferenceView: View {
                 pathManager.back()
             }, title: isNew ? "添加机器人" : "编辑机器人", showLeftButton: true) {
                 if !isNew {
-                    PlainButton(icon: "rectangle.stack.badge.minus", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
+                    PlainButton(icon: "trash", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
                         // 删除按钮的响应
                         commandStore.removeCommand(conversation)
                         pathManager.toMain()
