@@ -29,7 +29,7 @@ struct ConfigurableView<Content: View>: View {
             HStack(alignment: .center) {
                 Spacer()
                 
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.headline)
                     .fontWeight(.bold)
 

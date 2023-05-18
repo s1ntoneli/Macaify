@@ -25,7 +25,7 @@ struct AppQuickOpen: View {
                     Text(app.name)
                     Spacer()
                     Form {
-                        KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(app.bundleIdentifier))
+                        KeyboardShortcuts.Recorder("Set shortcuts", name: KeyboardShortcuts.Name(app.bundleIdentifier))
                     }
                 }
             }

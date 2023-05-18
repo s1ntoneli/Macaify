@@ -56,7 +56,7 @@ struct PlainButton: View, Identifiable {
                     Image(systemName: icon)
                 }
                 if showLabel && !label.isEmpty {
-                    Text(label)
+                    Text(LocalizedStringKey(label))
                 }
                 if autoShowShortcutHelp, let shortcut = shortcut, globalConfig.showShortcutHelp  {
                     Text(shortcut.description.uppercased())
