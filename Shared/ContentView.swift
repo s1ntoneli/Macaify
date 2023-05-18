@@ -78,7 +78,9 @@ struct ContentView: View {
                 scrollToBottom(proxy: proxy)
             }
             .onAppear {
-                scrollToBottom(proxy: proxy)
+                DispatchQueue.main.async {
+                    scrollToBottom(proxy: proxy)
+                }
                 trackScrollWheel()
             }
         }

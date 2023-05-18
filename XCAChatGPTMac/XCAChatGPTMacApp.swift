@@ -63,12 +63,6 @@ struct XCAChatGPTMacApp: App {
         }
         .commands {
             CommandGroup(replacing: .newItem) {}
-            CommandMenu("Quick") {
-                Button("显示快捷键") {
-                    print("显示快捷键")
-                }
-                .help("help test1")
-            }
         }
         .windowStyle(.hiddenTitleBar) // Hide the title bar
         .onChange(of: scenePhase) { s in
