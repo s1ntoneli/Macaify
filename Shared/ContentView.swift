@@ -58,9 +58,6 @@ struct ContentView: View {
                                 }.id(message.id)
                             }
                         }
-                        .onTapGesture {
-                            isTextFieldFocused = false
-                        }
                     }
                 }
 //                .background(GeometryReader {
@@ -124,10 +121,9 @@ struct ContentView: View {
             }
 
             GeometryReader { reader in
-                InputEditor(placeholder: Bundle.main.localizedString(forKey: "按 Tab 聚焦", value: nil, table: "Localizable"), text: $vm.inputMessage, onShiftEnter: {
+                InputEditor(placeholder: String(localized: LocalizedStringResource("Tab to chat")), text: $vm.inputMessage, onShiftEnter: {
                     Task { @MainActor in
                         if !vm.inputMessage.isEmpty {
-                            isTextFieldFocused = false
                             scrolledByUser = false
                             scrollToBottom(proxy: proxy)
                             await vm.sendTapped()
@@ -162,7 +158,6 @@ struct ContentView: View {
                     PlainButton(label: "发送 ↩", backgroundColor: .purple, foregroundColor: .white, shortcut: .return, autoShowShortcutHelp: false, action: {
                         Task { @MainActor in
                             if !vm.inputMessage.isEmpty {
-                                isTextFieldFocused = false
                                 scrolledByUser = false
                                 scrollToBottom(proxy: proxy)
                                 await vm.sendTapped()

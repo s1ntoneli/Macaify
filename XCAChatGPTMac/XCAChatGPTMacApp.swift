@@ -23,7 +23,8 @@ struct XCAChatGPTMacApp: App {
     @State var commandLocalMonitor = KeyMonitor(.command)
     @State var optionGlobalMonitor = KeyMonitor(.option, scope: .global)
     @StateObject private var emojiViewModel = EmojiPickerViewModel()
-    
+    @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
+
     let globalConfig = GlobalConfig()
 
     var body: some Scene {
@@ -37,7 +38,7 @@ struct XCAChatGPTMacApp: App {
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
                 .environmentObject(emojiViewModel)
-                .environment(\.locale, .init(identifier: "en"))
+                .environment(\.locale, .init(identifier: userDefaultsSelectedLanguage ?? "en"))
                 .ignoresSafeArea(.all)
                 .onAppear {
                     commandLocalMonitor.handler = {

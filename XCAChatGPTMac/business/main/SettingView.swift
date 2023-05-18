@@ -21,9 +21,10 @@ struct SettingView: View {
     // 模型选择
     @State private var selectedModelIndex = ModelSelectionManager.shared.selectIndex
     
-    @AppStorage("proxyAddress") private var proxyAddress = ""
+    @AppStorage("proxyAddress") private var proxyAddress = "https://openai.gokoding.com"
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
+    @AppStorage("language") private var language = "en"
     
     
     @FocusState private var focusField: FocusField?
@@ -45,7 +46,7 @@ struct SettingView: View {
             // 设置项
             List {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("openai-api-key".uppercased()).font(.headline)
+                    Text("API-Key").font(.headline)
                     TextField("输入API密钥", text: $apiKey, onCommit: {
                         print("onCommit")
                         focusField = .proxyUrl
@@ -78,18 +79,29 @@ struct SettingView: View {
                     Toggle("启用", isOn: $useProxy)
                         .focusable(true)
                         .focused($focusField, equals: .proxy)
-
+                    
                     TextField("Proxy address", text: $proxyAddress)
                         .disabled(!useProxy)
                         .textFieldStyle(CustomTextFieldStyle())
                         .focusable()
                         .focused($focusField, equals: .proxyUrl)
-
-                    Text("开启语音聊天")
-                        .font(.headline)
-                    Toggle("启用", isOn: $useVoice)
-                        .focusable()
-                        .focused($focusField, equals: .useVoice)
+                    
+                    Group {
+                        Text("开启语音聊天")
+                            .font(.headline)
+                        Toggle("启用", isOn: $useVoice)
+                            .focusable()
+                            .focused($focusField, equals: .useVoice)
+                    }
+                    
+                    Group {
+                        Text("语言设置")
+                            .font(.headline)
+                        Form {
+                            LanguageOptions()
+                                .frame(maxWidth: 120)
+                        }
+                    }
                 }
             }
             .padding(.horizontal, 20)
