@@ -32,8 +32,8 @@
 "长按 ⌘ 显示快捷键提示" = "Long press ⌘ to display shortcut key tips";
 "快捷键提示帮助你放下鼠标，全程快捷键操作" = "Shortcut key tips help you put down the mouse and operate with shortcut keys throughout the process";
 "🤖️" = "🤖️";
-"机器人广场" = "Robot Square";
-"在机器人广场，上百种机器人助理等你试玩！" = "In the Robot Square, hundreds of robot assistants are waiting for you to try out!";
+"机器人广场" = "Robot Plaza";
+"在机器人广场，上百种机器人助理等你试玩！" = "In the Robot Plaza, hundreds of robot assistants are waiting for you to try out!";
 "♾️" = "♾️";
 "无限制的机器人数量" = "Unlimited number of robots";
 "快速添加你的自定义机器人🤖️助理，完成多种复杂操作" = "Quickly add your custom robot 🤖️ assistant to complete a variety of complex operations";
@@ -100,6 +100,6 @@
 "新聊天" = "New chat";
 "新聊天 ⌘N" = "New chat ⌘N";
 "删除记录 ⌘D" = "Delete record ⌘D";
-"删除聊天记录 ⌘D" = "Delete record";
+"删除聊天记录 ⌘D" = "Delete chat history";
 "发送 ↩" = "Send ↩";
 "停止生成" = "Stop generating";
