@@ -46,7 +46,7 @@ struct PromptPlayground: View {
                 GeometryReader { reader in
                     HStack(spacing: 0) {
                         category
-                            .frame(width: reader.size.width * 0.15)
+                            .frame(width: reader.size.width * 0.18)
 
                         Divider()
                             .background(Color.divider)
@@ -55,7 +55,7 @@ struct PromptPlayground: View {
                         VStack {
                             prompts
                         }
-                        .frame(width: reader.size.width * 0.85)
+                        .frame(width: reader.size.width * 0.82)
                     }
                 }
             }
@@ -161,7 +161,8 @@ struct CategoryItem: View {
     var body: some View {
         HStack(alignment: .center) {
             Spacer()
-            Text(name)
+            Text(LocalizedStringKey(name))
+                .multilineTextAlignment(.center)
             Spacer()
         }
         .padding(.vertical, 8)

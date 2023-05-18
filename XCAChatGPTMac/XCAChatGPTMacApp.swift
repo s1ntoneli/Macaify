@@ -37,6 +37,7 @@ struct XCAChatGPTMacApp: App {
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
                 .environmentObject(emojiViewModel)
+                .environment(\.locale, .init(identifier: "en"))
                 .ignoresSafeArea(.all)
                 .onAppear {
                     commandLocalMonitor.handler = {

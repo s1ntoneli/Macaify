@@ -124,7 +124,7 @@ struct ContentView: View {
             }
 
             GeometryReader { reader in
-                InputEditor(placeholder: "按 Tab 聚焦", text: $vm.inputMessage, onShiftEnter: {
+                InputEditor(placeholder: Bundle.main.localizedString(forKey: "按 Tab 聚焦", value: nil, table: "Localizable"), text: $vm.inputMessage, onShiftEnter: {
                     Task { @MainActor in
                         if !vm.inputMessage.isEmpty {
                             isTextFieldFocused = false
