@@ -62,9 +62,11 @@ struct SettingView: View {
                     VStack(alignment: .leading) {
                         Text("全局唤醒热键").font(.headline)
                         Form {
-                            AppShortcuts()
-                            if appShortcutOption == "custom" {
-                                KeyboardShortcuts.Recorder("", name: .quickAsk)
+                            HStack {
+                                AppShortcuts()
+                                if appShortcutOption == "custom" {
+                                    KeyboardShortcuts.Recorder("", name: .quickAsk)
+                                }
                             }
                         }
                     }
