@@ -11,20 +11,20 @@ import AppKit
 
 func initializeIfNeeded() {
     let defaults = UserDefaults.standard
-//    if !defaults.bool(forKey: "isInitialized") {
+    if !defaults.bool(forKey: "isInitialized") {
         // 添加默认数据到 Core Data
         // 检查 GPTConversation 是否为空
         let convs = PersistenceController.shared.loadConversations()
-//        if convs.isEmpty {
+        if convs.isEmpty {
 //            addDefaultConvs()
             addDefaultConvsEn()
             ConversationViewModel.shared.loadCommands()
             HotKeyManager.initHotKeys()
-//        }
+        }
         
         // 保存“是否初始化”为 真的
         defaults.set(true, forKey: "isInitialized")
-//    }
+    }
 }
 
 private func addDefaultConvsEn() {
