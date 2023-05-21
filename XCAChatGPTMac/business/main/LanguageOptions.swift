@@ -17,7 +17,7 @@ struct LanguageOptions: View {
     private let options = [Lang(name: "English", localeIdentifier: "en"), Lang(name: "简体中文", localeIdentifier: "zh-cn")]
     
     var body: some View {
-        Picker("", selection: $selectedLanguage) {
+        Picker("选择语言", selection: $selectedLanguage) {
             ForEach(options, id: \.localeIdentifier) { language in
                 Text(language.name).tag(language.localeIdentifier)
             }

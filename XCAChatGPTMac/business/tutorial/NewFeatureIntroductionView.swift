@@ -9,7 +9,8 @@ import SwiftUI
 
 struct NewFeatureIntroductionView: View {
     @Environment(\.presentationMode) var presentationMode
-    
+    @AppStorage("showNewFeature_0_4") var showNewFeatureIntroduction: Bool = true
+
     var body: some View {
         VStack {
             Text("欢迎使用 Found.AI")
@@ -75,20 +76,15 @@ struct NewFeatureIntroductionView: View {
                     }
                 }
                 .padding(.bottom, 20)
-
             }
+            .frame(maxWidth: 370)
             Spacer()
-            Button(action: {
-                UserDefaults.standard.set(true, forKey: "hasShownNewFeatureIntroduction")
+            PlainButton(label: "开始使用", width: 300, height: 40, backgroundColor: .blue.opacity(0.9), pressedBackgroundColor: .blue, foregroundColor: .white, cornerRadius: 8, shortcut: .init("s"), modifiers: .command, action: {
+                showNewFeatureIntroduction = false
                 self.presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("开始使用")
-                    .font(.headline)
-                    .foregroundColor(.white)
-            }
-            .buttonStyle(StartUpButtonStyle(cornerRadius: 8, backgroundColor: .blue.opacity(0.9), pressedBackgroundColor: .blue))
+            })
         }
-        .frame(width: 450, height: 420)
+        .frame(width: 450, height: 430)
         .padding(20)
     }
 }

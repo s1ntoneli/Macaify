@@ -38,7 +38,7 @@ struct EventModifierSymbolModifier: ViewModifier {
         
         let symbolString = symbols.joined()
         
-        return HStack(spacing: 0) {
+        return HStack(spacing: 2) {
             Text(symbolString)
             content
         }

@@ -12,6 +12,8 @@ struct PlainButton: View, Identifiable {
     let id = UUID()
     let icon: String
     let label: String
+    let width: CGFloat?
+    let height: CGFloat?
     var backgroundColor: Color
     var pressedBackgroundColor: Color
     var foregroundColor: Color
@@ -27,6 +29,8 @@ struct PlainButton: View, Identifiable {
 
     init(icon: String = "",
          label: String = "",
+         width: CGFloat? = nil,
+         height: CGFloat? = nil,
          backgroundColor: Color = .white,
          pressedBackgroundColor: Color = Color.gray.opacity(0.1),
          foregroundColor: Color = Color.text,
@@ -47,6 +51,8 @@ struct PlainButton: View, Identifiable {
         self.modifiers = modifiers
         self.autoShowShortcutHelp = autoShowShortcutHelp
         self.showLabel = showLabel
+        self.width = width
+        self.height = height
     }
     
     var body: some View {
@@ -65,7 +71,8 @@ struct PlainButton: View, Identifiable {
             }
         }
             .frame(minHeight: 32)
-            .buttonStyle(RoundedButtonStyle(cornerRadius: 6, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor))
+            .frame(width: width, height: height)
+            .buttonStyle(RoundedButtonStyle(cornerRadius: 6, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor, width: width, height: height))
             .cornerRadius(cornerRadius)
             .foregroundColor(foregroundColor)
             .onHover { hover in

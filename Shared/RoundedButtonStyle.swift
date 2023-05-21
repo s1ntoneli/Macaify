@@ -11,11 +11,14 @@ struct RoundedButtonStyle: ButtonStyle {
     let cornerRadius: CGFloat
     var backgroundColor: Color = .white
     var pressedBackgroundColor: Color = Color.gray.opacity(0.1)
+    var width: CGFloat? = nil
+    var height: CGFloat? = nil
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
+            .frame(width: width, height: height)
             .background(
                 Group {
                     if configuration.isPressed {

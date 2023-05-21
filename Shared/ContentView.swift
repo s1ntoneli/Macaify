@@ -80,6 +80,7 @@ struct ContentView: View {
             .onAppear {
                 DispatchQueue.main.async {
                     scrollToBottom(proxy: proxy)
+                    isTextFieldFocused = true
                 }
                 trackScrollWheel()
             }
@@ -145,6 +146,9 @@ struct ContentView: View {
 #endif
                 .focused($isTextFieldFocused)
                 .disabled(vm.isInteractingWithChatGPT)
+                .task {
+                    isTextFieldFocused = true
+                }
             }
             .frame(maxHeight: CGFloat(vm.inputMessage.lineCount(frameWidth: self.textWidth)) * 20)
             if vm.isInteractingWithChatGPT {

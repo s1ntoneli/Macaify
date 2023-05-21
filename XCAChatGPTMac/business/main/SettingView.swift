@@ -17,7 +17,7 @@ struct SettingView: View {
     
     // 热键设置
     @State private var shortcut = KeyboardShortcutManager.shared.getShortcut()
-    
+
     // 模型选择
     @State private var selectedModelIndex = ModelSelectionManager.shared.selectIndex
     

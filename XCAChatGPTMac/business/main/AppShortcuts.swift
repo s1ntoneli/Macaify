@@ -12,7 +12,7 @@ struct AppShortcuts: View {
                                         .init(name: "双击 ⌥", id: "option"),
                                         .init(name: "双击 ⌃", id: "control"),
                                         .init(name: "自定义", id: "custom")]
-    @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
+    @AppStorage("appShortcutOption") var appShortcutOption: String = "custom"
 
     var body: some View {
         HStack {

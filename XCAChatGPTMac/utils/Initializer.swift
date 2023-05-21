@@ -9,22 +9,15 @@ import Foundation
 import KeyboardShortcuts
 import AppKit
 
-func initializeIfNeeded() {
-    let defaults = UserDefaults.standard
-    if !defaults.bool(forKey: "isInitialized") {
-        // 添加默认数据到 Core Data
-        // 检查 GPTConversation 是否为空
-        let convs = PersistenceController.shared.loadConversations()
-        if convs.isEmpty {
-//            addDefaultConvs()
-            addDefaultConvsEn()
-            ConversationViewModel.shared.loadCommands()
-            HotKeyManager.initHotKeys()
-        }
-        
-        // 保存“是否初始化”为 真的
-        defaults.set(true, forKey: "isInitialized")
+func initializeIfNeeded(_ lang: String) {
+    // 添加默认数据到 Core Data
+    if lang == "en" {
+        addDefaultConvsEn()
+    } else {
+        addDefaultConvs()
     }
+    ConversationViewModel.shared.loadCommands()
+    HotKeyManager.initHotKeys()
 }
 
 private func addDefaultConvsEn() {
