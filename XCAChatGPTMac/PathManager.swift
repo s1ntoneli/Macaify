@@ -7,16 +7,34 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class PathManager: ObservableObject {
     static let shared = PathManager()
     @Published var path = NavigationPath()
     @Published var pathStack = []
-    
+
+    var cancellables = Set<AnyCancellable>()
+
     var top: Target? {
         get {
             pathStack.last as? Target ?? .main
         }
+    }
+    
+    init() {
+        $path
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                print("top changed")
+                DispatchQueue.main.async {
+                    if self.top == .main {
+                        print("new to Main")
+                        NotificationCenter.default.post(name: .init("toMain"), object: self)
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func back() {

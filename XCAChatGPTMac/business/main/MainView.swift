@@ -24,19 +24,11 @@ struct MainView: View {
     @FocusState private var focus:FocusedField?
     @State private var indexChangedSource: IndexChangeEvent = .none
     @State private var animating = true
-    @State private var isSettingPresent = false
     
     var selectedItemIndex: Int {
         get {
             convViewModel.selectedItemIndex
         }
-    }
-    
-    init() {
-//        commandStore.$selectedItemIndex
-//            .sink { newValue in
-//
-//            }
     }
 
     var body: some View {
@@ -136,8 +128,11 @@ struct MainView: View {
             }
             return false
         }
+        .onReceive(NotificationCenter.default.publisher(for: .init("toMain"))) { notification in
+            focus = .name
+        }
     }
-    
+
     var placeholder: String {
         convViewModel.selectedCommandOrDefault.name
     }
@@ -273,7 +268,6 @@ struct MainView: View {
                 PlainButton(icon: "gear", label: "全局设置", shortcut: .init(","), modifiers: .command) {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
-//                    isSettingPresent = true
                 }
                 PlainButton(icon: "sparkles.rectangle.stack", label: "机器人广场", shortcut: .init("l"), modifiers: .command) {
                     // 点击添加指令按钮
@@ -287,9 +281,6 @@ struct MainView: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .sheet(isPresented: $isSettingPresent) {
-            SettingView { isSettingPresent = false}
-        }
     }
     
     func makeCommandItem(_ command: GPTConversation, selected: Bool) -> some View {

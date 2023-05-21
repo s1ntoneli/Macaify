@@ -82,7 +82,7 @@ class ConversationViewModel: ObservableObject {
     func loadCommands() {
         conversations = PersistenceController.shared.loadConversations()
         updateSelectedIndex()
-        print("CommandStore loadCommands", conversations)
+        print("CommandStore loadCommands", conversations.count)
     }
     
     private func notifyConversationChanged() {
