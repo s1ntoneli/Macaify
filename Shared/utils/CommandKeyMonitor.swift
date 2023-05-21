@@ -71,7 +71,7 @@ class KeyMonitor {
 
             if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == self.modifier {
                 self.isCommandKeyDown = true
-                if event.timestamp - self.keyDownTime < 0.25 {
+                if event.timestamp - self.keyDownTime < 0.4 {
                     self.onDoubleTap?()
                 } else {
                     self.onKeyDown?()
