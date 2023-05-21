@@ -88,6 +88,6 @@ func resume(bundleId: String = Bundle.main.bundleIdentifier ?? "") {
     print("app is nil ? \(app)")
     app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])
 
-    guard let window = NSApplication.shared.windows.first else {  return }
+    guard let window = NSApplication.shared.windows.first else { return }
     window.deminiaturize(nil)
 }
