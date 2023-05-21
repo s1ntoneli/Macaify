@@ -85,6 +85,15 @@ class ConversationViewModel: ObservableObject {
         print("CommandStore loadCommands", conversations.count)
     }
     
+    func indexOf(conv: GPTConversation) -> Int {
+        for i in conversations.indices {
+            if conv.id == conversations[i].id {
+                return i
+            }
+        }
+        return -1
+    }
+    
     private func notifyConversationChanged() {
         loadCommands()
         HotKeyManager.initHotKeys()
@@ -115,7 +124,7 @@ extension GPTConversation {
 
     static var empty: GPTConversation {
         get {
-            GPTConversation(String(localized: "Ask a question", locale: Locale(identifier: "en"), comment: ""), icon: "💬", withContext: true)
+            GPTConversation(String(localized: "Ask a Question", locale: Locale(identifier: "en"), comment: ""), icon: "💬", withContext: true)
         }
     }
 }

@@ -53,7 +53,7 @@ private func addDefaultConvsEn() {
 
         registerConversation("Summarize Text", prompt: "Extract the core content from the user's input", desc: "", icon:"✏️", shortcut: "", withContext: false, context: PersistenceController.sharedContext, key: .s, modifiers: [.option])
 
-        registerConversation("Ask a question", prompt: "You are a helpful assistant, I will ask you a question and you will answer it", desc: "Simple Q&A", icon: "✨", shortcut: "", withContext: true, context: PersistenceController.sharedContext, key: .q, modifiers: [.option])
+        registerConversation("Ask a Question", prompt: "You are a helpful assistant, I will ask you a question and you will answer it", desc: "Simple Q&A", icon: "✨", shortcut: "", withContext: true, context: PersistenceController.sharedContext, key: .q, modifiers: [.option])
 }
 
 private func addDefaultConvs() {

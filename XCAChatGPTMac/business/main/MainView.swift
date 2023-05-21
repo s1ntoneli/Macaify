@@ -25,6 +25,8 @@ struct MainView: View {
     @State private var indexChangedSource: IndexChangeEvent = .none
     @State private var animating = true
     
+    @State var hoveredIndex = -1
+    
     var selectedItemIndex: Int {
         get {
             convViewModel.selectedItemIndex
@@ -183,15 +185,19 @@ struct MainView: View {
                     .bold()
                     .font(.headline)
                 ForEach(convViewModel.conversations) { command in
-                    let selected = convViewModel.conversations.indices.contains(selectedItemIndex) && convViewModel.conversations[selectedItemIndex].id == command.id
+                    let index = convViewModel.indexOf(conv: command)
+                    let selected = convViewModel.conversations.indices.contains(selectedItemIndex) && index == selectedItemIndex || (convViewModel.conversations.indices.contains(hoveredIndex) && hoveredIndex == index)
                     makeCommandItem(command, selected: selected)
                         .onTapGesture {
                             pathManager.toChat(command, msg: searchText)
                         }
                         .onHover(perform: { hovered in
                             if (hovered && !animating) {
-                                indexChangedSource = .none
-                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? -1)
+//                                indexChangedSource = .none
+//                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? -1)
+                                hoveredIndex = convViewModel.indexOf(conv: command)
+                            } else {
+                                hoveredIndex = -1
                             }
                         })
                         .id(command.id)
@@ -219,19 +225,13 @@ struct MainView: View {
     
     var details: some View {
         ZStack {
-//            if (convViewModel.conversations.indices.contains(selectedItemIndex)) {
-//                ZStack {
-//                    ForEach(commandStore.commands) {command in
-                        CommandDetailView(command: convViewModel.selectedCommandOrDefault)
-                        //                    .keyboardShortcut(.init("e"), modifiers: .command)
-                            .id(convViewModel.selectedCommandOrDefault.id)
-//                    }
-//                }
-//                    .onKeyboardShortcut(.init("edit", default: .init(.e, modifiers: .command)), perform: { type in
-//                        if (type == .keyDown) {
-//                            pathManager.to(target: .editCommand(command: commandStore.commands[selectedItemIndex]))
-//                        }
-//                    })
+            if convViewModel.conversations.indices.contains(hoveredIndex) {
+                CommandDetailView(command: convViewModel.conversations[hoveredIndex])
+                    .id(convViewModel.conversations[hoveredIndex].id)
+            } else {
+                CommandDetailView(command: convViewModel.selectedCommandOrDefault)
+                    .id(convViewModel.selectedCommandOrDefault.id)
+            }
         }
     }
     

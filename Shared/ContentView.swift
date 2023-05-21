@@ -96,7 +96,6 @@ struct ContentView: View {
                       scheduler: DispatchQueue.main,
                       latest: true)
             .sink { [weak vm] event in
-                print("event.deltaY \(event?.deltaY)")
                 if let deltaY = event?.deltaY, deltaY > 0 {
                     scrolledByUser = true
                 }
