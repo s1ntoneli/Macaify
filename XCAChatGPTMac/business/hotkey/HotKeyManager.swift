@@ -12,7 +12,7 @@ import AppKit
 class HotKeyManager {
     
     static let shared = HotKeyManager()
-    
+
     static func initHotKeys() {
         KeyboardShortcuts.removeAllHandlers()
         KeyboardShortcuts.onKeyDown(for: .quickAsk) { [self] in

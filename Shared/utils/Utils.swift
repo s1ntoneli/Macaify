@@ -40,7 +40,7 @@ func isApiKeyValid(apiKey: String) -> Bool {
 }
 
 func appShortcutOption() -> String {
-    UserDefaults.standard.string(forKey: "appShortcutOption") ?? "custom"
+    UserDefaults.standard.string(forKey: "appShortcutOption") ?? "option"
 }
 
 func appShortcutKey() -> NSEvent.ModifierFlags? {

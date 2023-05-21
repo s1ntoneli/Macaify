@@ -67,7 +67,7 @@
 "Weibo" = "Weibo";
 "TIP" = "TIP";
 "热键设置" = "Hotkey";
-"模型选择" = "Model Selection";
+"模型选择" = "Model";
 "使用代理" = "Use Proxy";
 "开启语音聊天" = "Voice Chat";
 "打开 QuickType" = "Open QuickType";
@@ -103,7 +103,7 @@
 "删除聊天记录 ⌘D" = "Delete chat history";
 "发送 ↩" = "Send ↩";
 "停止生成" = "Stop generating";
-"输入API密钥" = "Enter API key";
+"输入API密钥" = "API key";
 "语言设置" = "Language";
 "全局唤醒热键" = "Global Wake-up Hotkey";
 "双击 ⌘" = "Double-click ⌘";
@@ -114,3 +114,7 @@
 "初始设置" = "Initial Setup";
 "输入 API 密钥" = "Enter API key";
 "选择语言" = "Select language";
+"基础设置" = "Basic Settings";
+"AI 设置" = "AI Settings";
+"代理" = "Proxy Settings";
+"系统设置" = "System Settings";

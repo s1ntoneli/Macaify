@@ -12,11 +12,11 @@ struct AppShortcuts: View {
                                         .init(name: "双击 ⌥", id: "option"),
                                         .init(name: "双击 ⌃", id: "control"),
                                         .init(name: "自定义", id: "custom")]
-    @AppStorage("appShortcutOption") var appShortcutOption: String = "custom"
+    @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
 
     var body: some View {
         HStack {
-            Picker("", selection: $appShortcutOption) {
+            Picker("全局唤醒热键", selection: $appShortcutOption) {
                 ForEach(options, id: \.id) { option in
                     Text(LocalizedStringKey(option.name))
                 }
@@ -24,9 +24,6 @@ struct AppShortcuts: View {
             .onChange(of: appShortcutOption, perform: { newValue in
                 KeyMonitorManager.shared.updateModifier(appShortcutKey())
             })
-            .pickerStyle(.menu)
-            .frame(width: 150)
-
         }
     }
 }

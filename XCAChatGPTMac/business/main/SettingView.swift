@@ -25,7 +25,7 @@ struct SettingView: View {
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
     @AppStorage("language") private var language = "en"
-    @AppStorage("appShortcutOption") var appShortcutOption: String = "custom"
+    @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
     
     @FocusState private var focusField: FocusField?
     
@@ -44,76 +44,60 @@ struct SettingView: View {
             ConfigurableView(onBack: { onBackButtonTap() }, title: "全局设置", showLeftButton: true) {}
             
             // 设置项
-            List {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("API-Key").font(.headline)
-                    TextField("输入API密钥", text: $apiKey, onCommit: {
-                        print("onCommit")
-                        focusField = .proxyUrl
-                    })
-                    .textFieldStyle(CustomTextFieldStyle())
-                    .focusable(true)
-                    .focused($focusField, equals: .title)
-                    .onSubmit {
-                        print("onSubmit")
-                        focusField = .proxyUrl
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("全局唤醒热键").font(.headline)
-                        Form {
-                            HStack {
-                                AppShortcuts()
-                                if appShortcutOption == "custom" {
-                                    KeyboardShortcuts.Recorder("", name: .quickAsk)
-                                }
-                            }
-                        }
-                    }
-                    
-                    Group {
-                        Text("模型选择").font(.headline)
-                        Picker(selection: $selectedModelIndex, label: Text("") ) {
-                            ForEach(0..<ModelSelectionManager.shared.models.count) { index in
-                                Text(ModelSelectionManager.shared.models[index].name)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(maxWidth: 200)
-                    }
-                    Text("使用代理")
-                        .font(.headline)
-                    Toggle("启用", isOn: $useProxy)
-                        .focusable(true)
-                        .focused($focusField, equals: .proxy)
-                    
-                    TextField("Proxy address", text: $proxyAddress)
-                        .disabled(!useProxy)
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .focusable()
-                        .focused($focusField, equals: .proxyUrl)
-                    
-                    Group {
-                        Text("开启语音聊天")
-                            .font(.headline)
-                        Toggle("启用", isOn: $useVoice)
-                            .focusable()
-                            .focused($focusField, equals: .useVoice)
-                    }
-                    
-                    Group {
-                        Text("语言设置")
-                            .font(.headline)
-                        Form {
-                            LanguageOptions()
-                                .frame(maxWidth: 120)
+            Form {
+                Section("基础设置") {
+                    VStack {
+                        AppShortcuts()
+                        if appShortcutOption == "custom" {
+                            KeyboardShortcuts.Recorder("", name: .quickAsk)
+                                .transition(.opacity)
                         }
                     }
                 }
+                
+                Section("AI 设置") {
+                    ZStack(alignment: .trailing) {
+                        TextField("输入API密钥", text: $apiKey)
+                            .focused($focusField, equals: .title)
+                            .textFieldStyle(.plain)
+                        if apiKey.isEmpty {
+                            Text("sk-xxxxxxxxxxxxxxxxxxxxx")
+                                .opacity(0.4)
+                        }
+                    }
+
+                    Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
+                        ForEach(0..<ModelSelectionManager.shared.models.count) { index in
+                            Text(ModelSelectionManager.shared.models[index].name)
+                        }
+                    }
+
+                    Toggle("开启语音聊天", isOn: $useVoice)
+                        .focusable()
+                        .focused($focusField, equals: .useVoice)
+                }
+                
+                Section("代理") {
+                    VStack {
+                        Toggle("使用代理", isOn: $useProxy)
+                            .focusable(true)
+                            .focused($focusField, equals: .proxy)
+                        
+                        TextField("", text: $proxyAddress)
+                            .disabled(!useProxy)
+                            .focusable()
+                            .focused($focusField, equals: .proxyUrl)
+                    }
+                }
+                
+                Section("系统设置") {
+                    LanguageOptions()
+                }
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            
+            .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .background(.white)
+
             Spacer()
             
             // 底部按钮
