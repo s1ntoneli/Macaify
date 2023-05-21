@@ -173,26 +173,34 @@ struct ConversationPreferenceView: View {
     var systemProtmp: some View {
         Group {
             Text("系统提示").font(.headline)
-            TextEditor(text: $conversation.prompt)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 4)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
-                        )
-                )
-                .foregroundColor(.text)
-                .font(.body)
-                .lineLimit(4...6)
-                .frame(maxHeight: 160)
-                .frame(minHeight: 64)
-                .focusable(true) { focused in
-                    focusField = .prompt
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $conversation.prompt)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                    .foregroundColor(.text)
+                    .font(.body)
+                    .lineLimit(4...6)
+                    .frame(maxHeight: 160)
+                    .frame(minHeight: 64)
+                    .focusable(true) { focused in
+                        focusField = .prompt
+                    }
+                    .focused($focusField, equals: .prompt)
+                if conversation.prompt.isEmpty {
+                    Text("prompt_placeholder")
+                        .opacity(0.4)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 10)
                 }
-                .focused($focusField, equals: .prompt)
+            }
         }
     }
     

@@ -118,3 +118,4 @@
 "AI 设置" = "AI Settings";
 "代理" = "Proxy Settings";
 "系统设置" = "System Settings";
+"prompt_placeholder" = "Provide a system prompt to this bot";
