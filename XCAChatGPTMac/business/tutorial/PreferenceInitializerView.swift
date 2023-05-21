@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 struct PreferenceInitializerView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -19,6 +20,7 @@ struct PreferenceInitializerView: View {
     @State private var name = ""
     @State private var age = 0
     @State private var isMarried = false
+    @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
 
     var body: some View {
         VStack {
@@ -31,6 +33,14 @@ struct PreferenceInitializerView: View {
             Spacer()
             Form {
                 Section(header: Text("完成设置以开始使用")) {
+                    lang
+                    VStack {
+                        AppShortcuts()
+                        if appShortcutOption == "custom" {
+                            KeyboardShortcuts.Recorder("", name: .quickAsk)
+                                .disabled(appShortcutOption != "custom")
+                        }
+                    }
                     ZStack(alignment: .trailing) {
                         TextField("输入 API 密钥", text: $apiKey)
                             .textFieldStyle(.plain)
@@ -39,7 +49,6 @@ struct PreferenceInitializerView: View {
                                 .opacity(0.4)
                         }
                     }
-                    lang
                 }
             }.formStyle(.grouped)
             submit
