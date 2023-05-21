@@ -11,7 +11,7 @@ import AppKit
 class KeyMonitorManager {
     static let shared = KeyMonitorManager()
     
-    var keyMonitor = KeyMonitor(.option, scope: .global)
+    var keyMonitor = KeyMonitor(.option, scope: .both)
     private var enabled = false
     
     func updateModifier(_ modifier: NSEvent.ModifierFlags?) {
