@@ -47,7 +47,7 @@ struct MainView: View {
                     .resizable()
                     .foregroundColor(Color.text)
                     .frame(width: 20, height: 20)
-                TextField(placeholder, text: $searchText, onCommit: { focus = .name })
+                TextField(placeholder, text: $searchText)
                     .disabled(!isEnabled)
                     .focusable()
                     .focused($focus, equals: .name)
@@ -63,6 +63,10 @@ struct MainView: View {
                     .onSubmit {
                         print("onSubmit")
                         startChat(convViewModel.selectedCommandOrDefault, searchText)
+                    }
+                    .task {
+                        print("search is going to appear")
+                        focus = .name
                     }
                 Spacer()
                 rightTips
@@ -265,7 +269,7 @@ struct MainView: View {
             }
             Spacer()
             HStack {
-                PlainButton(icon: "gear", label: "全局设置", shortcut: .init("p"), modifiers: .command) {
+                PlainButton(icon: "gear", label: "全局设置", shortcut: .init(","), modifiers: .command) {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }

@@ -69,7 +69,6 @@ struct XCAChatGPTMacApp: App {
             switch s {
             case .background:
                 print("background")
-
             case .inactive:
                 print("inactive")
             case .active:
@@ -206,7 +205,6 @@ final class AppState: ObservableObject {
         HotKeyManager.initHotKeys()
         DispatchQueue(label: "EmojiManager").async {
             EmojiManager.shared.emojis
-            initializeIfNeeded()
         }
     }
 }

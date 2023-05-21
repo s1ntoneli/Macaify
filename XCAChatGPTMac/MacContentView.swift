@@ -11,6 +11,8 @@ struct MacContentView: View {
     @StateObject var pathManager = PathManager.shared
     @State var lastTarget: Target?
     @State private var showNewFeatureIntroduction = false
+    @State private var showPreferenceInitializer = false
+    @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
 
 //#if DEBUG
 //    let _ = Self._printChanges()
@@ -29,18 +31,23 @@ struct MacContentView: View {
                     case .playground: playground
                     }
                 }
+            StartUpView()
         }
         .environmentObject(pathManager)
-        .sheet(isPresented: $showNewFeatureIntroduction) {
-            NewFeatureIntroductionView()
-        }
-        .onAppear {
-            if !UserDefaults.standard.bool(forKey: "hasShownNewFeatureIntroduction") {
-                showNewFeatureIntroduction = true
+    }
+    struct InputSheetView: View {
+        @State private var text = ""
+
+        var body: some View {
+            VStack {
+                TextField("Enter text", text: $text)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                // Add any other views you want to display in the sheet
             }
         }
     }
-    
+
     func log(_ target: Target) -> some View {
         Task {
             print("log \(target)")
