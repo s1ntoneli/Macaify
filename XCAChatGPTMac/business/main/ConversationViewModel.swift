@@ -124,7 +124,7 @@ extension GPTConversation {
 
     static var empty: GPTConversation {
         get {
-            GPTConversation(String(localized: "Ask a Question", locale: Locale(identifier: "en"), comment: ""), icon: "💬", withContext: true)
+            GPTConversation(String(localized: "Ask a Question", locale: Locale(identifier: "en"), comment: ""), icon: "✨", withContext: true)
         }
     }
 }

@@ -17,6 +17,7 @@ struct ConversationPreferenceView: View {
     @State var autoAddSelectedText: Bool
     @State var typingInPlace: Bool
     @State var oneTimeChat: Bool
+    @State var prompt: String
     let mode: ConversationPreferenceMode
 
     @FocusState private var focusField: FocusField?
@@ -31,6 +32,7 @@ struct ConversationPreferenceView: View {
         self.typingInPlace = conversation.typingInPlace
         self.oneTimeChat = conversation.withContext
         self.mode = mode
+        self.prompt = conversation.prompt
     }
     
     private enum FocusField {
@@ -97,6 +99,7 @@ struct ConversationPreferenceView: View {
                             conversation.name = "Untitled"
                         }
                         commandStore.addCommand(command: conversation)
+                        commandStore.selectedItemIndex = 0
                     case .edit:
                         if (conversation.name.isEmpty) {
                             conversation.name = "Untitled"
@@ -159,7 +162,7 @@ struct ConversationPreferenceView: View {
             Text("机器人名字").font(.headline)
             TextField("输入机器人名称方便记忆", text: $conversation.name, onCommit: {
                 print("onCommit")
-                focusField = .prompt })
+            })
             .focusable(true)
             .onSubmit {
                 print("onSumbit")
@@ -167,6 +170,7 @@ struct ConversationPreferenceView: View {
             }
             .textFieldStyle(CustomTextFieldStyle())
             .focused($focusField, equals: .title)
+            .background(Color.white)
         }
     }
     
@@ -174,7 +178,7 @@ struct ConversationPreferenceView: View {
         Group {
             Text("系统提示").font(.headline)
             ZStack(alignment: .topLeading) {
-                TextEditor(text: $conversation.prompt)
+                TextEditor(text: $prompt)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 4)
                     .background(
@@ -194,7 +198,11 @@ struct ConversationPreferenceView: View {
                         focusField = .prompt
                     }
                     .focused($focusField, equals: .prompt)
-                if conversation.prompt.isEmpty {
+                    .onChange(of: prompt) { newValue in
+                        print("prompt changed")
+                        conversation.prompt = prompt
+                    }
+                if prompt.isEmpty {
                     Text("prompt_placeholder")
                         .opacity(0.4)
                         .padding(.vertical, 12)
@@ -208,7 +216,14 @@ struct ConversationPreferenceView: View {
         Group {
             Text("热键").font(.headline)
             Form {
-                KeyboardShortcuts.Recorder("", name: KeyboardShortcuts.Name(conversation.id.uuidString))
+                KeyboardShortcuts.Recorder(for: conversation.Name) { shortcut in
+                    print("shortcut \(shortcut) \(conversation.uuid.uuidString)")
+                    if shortcut != nil {
+                        HotKeyManager.register(conversation)
+                    } else {
+                        KeyboardShortcuts.reset(conversation.Name)
+                    }
+                }
             }
         }
     }

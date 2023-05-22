@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import KeyboardShortcuts
 
 extension GPTConversation {
     var uuid: UUID {
@@ -102,6 +103,13 @@ extension GPTConversation {
         let context = context ?? self.managedObjectContext!
 
         let newConv = GPTConversation(name, id: id, prompt: prompt, desc: desc, icon: icon, shortcut: shortcut, timestamp: timestamp, autoAddSelectedText: autoAddSelectedText, typingInPlace: typingInPlace, withContext: withContext, context: context)
+        
+        // 热键转移
+        if let shortcut = KeyboardShortcuts.getShortcut(for: self.Name) {
+            KeyboardShortcuts.setShortcut(shortcut, for: newConv.Name)
+            KeyboardShortcuts.reset(self.Name)
+            HotKeyManager.register(newConv)
+        }
 
         let own = own ?? self.own.map { answer in
             let ans = answer.copy(context: context)
@@ -137,6 +145,7 @@ extension GPTConversation {
     }
     
     func delete() {
+        KeyboardShortcuts.reset(Name)
         let context = managedObjectContext!
         own.forEach {
             context.delete($0)

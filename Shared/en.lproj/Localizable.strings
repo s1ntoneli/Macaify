@@ -93,6 +93,7 @@
 "随便聊聊" = "Casual chat";
 "全部" = "All";
 "设置快捷键" = "Set shortcuts";
+"按下快捷键" = "Set shortcuts";
 "完成" = "Done";
 "复制" = "Copy";
 "使用回答 ⌘↩" = "Use response ⌘↩";
@@ -119,3 +120,4 @@
 "代理" = "Proxy Settings";
 "系统设置" = "System Settings";
 "prompt_placeholder" = "Provide a system prompt to this bot";
+"删除" = "Delete";

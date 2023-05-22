@@ -37,7 +37,9 @@ class PromptStore: ObservableObject {
 //            ])
 //        ]
         do {
-            prompts = try parseJSONFile(filename: "prompts")
+            let lang = UserDefaults.standard.string(forKey: "selectedLanguage") ?? "en"
+            let filename = lang == "en" ? "prompts" : "prompts_zh"
+            prompts = try parseJSONFile(filename: filename)
             filteredPrompts = prompts.flatMap({ category in
                 category.prompts
             })
