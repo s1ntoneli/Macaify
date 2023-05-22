@@ -29,47 +29,7 @@ class HotKeyManager {
         }
 
         ConversationViewModel.shared.conversations.forEach { conversation in
-            KeyboardShortcuts.onKeyDown(for: conversation.Name) { [self] in
-                NSLog("key pressed \(conversation.autoAddSelectedText) conversation \(conversation.id) autoAdd \(conversation.autoAddSelectedText)")
-
-                print("top is found \(NSApplication.shared.isActive)")
-                print("top is Main \(PathManager.shared.top == .main)")
-
-                let isActive = NSApplication.shared.isActive
-
-                if conversation.typingInPlace {
-                    TypingInPlace.shared.typeInPlace(conv: conversation)
-                } else if isActive {
-                    PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
-                } else if (conversation.autoAddSelectedText) {
-                    StartupPasteboardManager.shared.startup { text in
-                        switch PathManager.shared.top {
-                        case .chat(let command, _,_):
-                            print("tapped text \(text)")
-                            PathManager.shared.toChat(conversation, msg: text)
-                            if command.id == conversation.id {
-                                if let text = text, !text.isEmpty {
-                                    let vm = ConversationViewModel.shared.commandViewModel(conversation)
-                                    print("copy text \(text) to viewmodel \(vm)")
-                                    vm.inputMessage = text
-                                    Task { @MainActor in
-                                        if (!vm.isInteractingWithChatGPT && !vm.inputMessage.isEmpty) {
-                                            await vm.sendTapped()
-                                        }
-                                    }
-                                }
-                            }
-                        default:
-                            PathManager.shared.toChat(conversation, msg: text)
-                        }
-
-                        resume()
-                    }
-                } else {
-                    resume()
-                    PathManager.shared.toChat(conversation)
-                }
-            }
+            HotKeyManager.register(conversation)
         }
 
         KeyboardShortcuts.onKeyDown(for: .menuBar) { [self] in
@@ -79,6 +39,50 @@ class HotKeyManager {
             NSApplication.shared.activate(ignoringOtherApps: true)
 //            self.window.makeKeyAndOrderFront(nil)
             app?.activate(options: [.activateAllWindows])
+        }
+    }
+    
+    static func register(_ conversation: GPTConversation) {
+        KeyboardShortcuts.onKeyDown(for: conversation.Name) { [self] in
+            NSLog("key pressed \(conversation.autoAddSelectedText) conversation \(conversation.id) autoAdd \(conversation.autoAddSelectedText)")
+
+            print("top is found \(NSApplication.shared.isActive)")
+            print("top is Main \(PathManager.shared.top == .main)")
+
+            let isActive = NSApplication.shared.isActive
+
+            if conversation.typingInPlace {
+                TypingInPlace.shared.typeInPlace(conv: conversation)
+            } else if isActive {
+                PathManager.shared.toChat(conversation, msg: MainViewModel.shared.searchText)
+            } else if (conversation.autoAddSelectedText) {
+                StartupPasteboardManager.shared.startup { text in
+                    switch PathManager.shared.top {
+                    case .chat(let command, _,_):
+                        print("tapped text \(text)")
+                        PathManager.shared.toChat(conversation, msg: text)
+                        if command.id == conversation.id {
+                            if let text = text, !text.isEmpty {
+                                let vm = ConversationViewModel.shared.commandViewModel(conversation)
+                                print("copy text \(text) to viewmodel \(vm)")
+                                vm.inputMessage = text
+                                Task { @MainActor in
+                                    if (!vm.isInteractingWithChatGPT && !vm.inputMessage.isEmpty) {
+                                        await vm.sendTapped()
+                                    }
+                                }
+                            }
+                        }
+                    default:
+                        PathManager.shared.toChat(conversation, msg: text)
+                    }
+
+                    resume()
+                }
+            } else {
+                resume()
+                PathManager.shared.toChat(conversation)
+            }
         }
     }
 }

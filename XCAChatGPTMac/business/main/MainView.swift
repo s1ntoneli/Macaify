@@ -131,7 +131,9 @@ struct MainView: View {
             return false
         }
         .onReceive(NotificationCenter.default.publisher(for: .init("toMain"))) { notification in
-            focus = .name
+            DispatchQueue.main.async {
+                focus = .name
+            }
         }
     }
 
