@@ -22,7 +22,7 @@ struct ConversationIconView: View {
 }
 
 extension GPTConversation {
-    static let defaultIcon: String = "🍌"
+    static let defaultIcon: String = "✨"
 
     var iconOrDefault: String {
         icon.isEmpty ? GPTConversation.defaultIcon : icon
