@@ -244,7 +244,7 @@ struct MainView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        if let url = URL(string: "mailto:antiless.dev+found@gmail.com") {
+                        if let url = URL(string: "mailto:found@gokoding.com") {
                             NSWorkspace.shared.open(url)
                         }
                     }
