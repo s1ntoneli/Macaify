@@ -89,7 +89,7 @@ struct XCAChatGPTMacApp: App {
                 Button {
                     TypingInPlace.shared.interupt()
                 } label: {
-                    Text("停止 ")
+                    Text("Stop ")
                     Image(systemName: "stop.circle")
                         .symbolRenderingMode(.multicolor)
                         .font(.system(size: 24))
@@ -97,9 +97,34 @@ struct XCAChatGPTMacApp: App {
                 .buttonStyle(.borderless)
             }
             Button {
+                if let url = URL(string: "https://fndx.app") {
+                    NSWorkspace.shared.open(url)
+                }
+            } label: {
+                Text("Website")
+            }
+            .buttonStyle(.borderless)
+            Button {
+                if let url = URL(string: "https://twitter.com/found_app") {
+                    NSWorkspace.shared.open(url)
+                }
+            } label: {
+                Text("Twitter")
+            }
+            .buttonStyle(.borderless)
+            Button {
+                if let url = URL(string: "mailto:found@gokoding.com") {
+                    NSWorkspace.shared.open(url)
+                }
+            } label: {
+                Text("Feedback")
+            }
+            .buttonStyle(.borderless)
+            
+            Button {
                 NSApplication.shared.terminate(nil)
             } label: {
-                Text("退出")
+                Text("Quit")
             }
             .buttonStyle(.borderless)
         } label: {
