@@ -63,7 +63,7 @@ extension GPTConversation {
         }
     }
     
-    convenience init(_ name: String, id: UUID = UUID(), prompt: String = "", desc: String = "", icon: String = "", shortcut: String = "", timestamp: Date = Date(), autoAddSelectedText: Bool = true, typingInPlace: Bool = false, withContext: Bool = true, own: [GPTAnswer] = [], context: NSManagedObjectContext = PersistenceController.memoryContext) {
+    convenience init(_ name: String, id: UUID = UUID(), prompt: String = "", desc: String = "", icon: String = "", shortcut: String = "", timestamp: Date = Date(), autoAddSelectedText: Bool = true, typingInPlace: Bool = true, withContext: Bool = true, own: [GPTAnswer] = [], context: NSManagedObjectContext = PersistenceController.memoryContext) {
         self.init(context: context)
         self.name = name
         self.uuid = uuid

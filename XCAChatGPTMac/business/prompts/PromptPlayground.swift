@@ -33,7 +33,7 @@ struct PromptPlayground: View {
             .zIndex(100)
             .toast(isPresenting: $showToast) {
                 // `.alert` is the default displayMode
-                AlertToast(displayMode: .hud, type: .regular, title: "已添加到常用", style: .style(backgroundColor: .white))
+                AlertToast(displayMode: .hud, type: .regular, title: "Added to favorites", style: .style(backgroundColor: .white))
 
                 //Choose .hud to toast alert from the top of the screen
                 //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")

@@ -13,7 +13,7 @@ struct NewFeatureIntroductionView: View {
 
     var body: some View {
         VStack {
-            Text("欢迎使用 Found.AI")
+            Text("欢迎使用 Macaify")
                 .font(.largeTitle)
                 .bold()
                 .padding(.top, 20)
@@ -24,7 +24,7 @@ struct NewFeatureIntroductionView: View {
                     Text("✨")
                         .font(.largeTitle)
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("双击 ⌘ 呼出 Found.AI")
+                        Text("双击 ⌘ 呼出 Macaify")
                             .font(.headline)
                         Text("任意场景快速呼出，立即开始提问并获得答案")
                             .font(.subheadline)
