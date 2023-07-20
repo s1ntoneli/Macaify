@@ -18,7 +18,7 @@ class StartupPasteboardManager {
         print("oldClip \(oldValue)")
         performGlobalCopyShortcut()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { // wait 0.05s for copy.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.07) { // wait 0.05s for copy.
             let cp = getLatestTextFromPasteboard()
             print("newClip", cp.text, cp.time)
             var newValue = cp.text

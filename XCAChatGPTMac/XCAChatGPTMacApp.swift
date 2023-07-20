@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import FirebaseCore
 
 @main
 struct XCAChatGPTMacApp: App {
@@ -105,7 +106,7 @@ struct XCAChatGPTMacApp: App {
             }
             .buttonStyle(.borderless)
             Button {
-                if let url = URL(string: "https://twitter.com/found_app") {
+                if let url = URL(string: "https://twitter.com/macaify") {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
@@ -113,7 +114,7 @@ struct XCAChatGPTMacApp: App {
             }
             .buttonStyle(.borderless)
             Button {
-                if let url = URL(string: "mailto:found@gokoding.com") {
+                if let url = URL(string: "mailto:macaify@gokoding.com") {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
@@ -240,7 +241,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillFinishLaunching(_ notification: Notification) {
+        print("application will finish launching")
         NSApp.appearance = NSAppearance(named: .aqua)
+    }
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        print("application did finish launching")
+        FirebaseApp.configure()
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         print("applicationShouldTerminateAfterLastWindowClosed")
