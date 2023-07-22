@@ -123,7 +123,7 @@ struct ConversationPreferenceView: View {
             }
         }
         .background(Color(.white))
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
     }
     
     var iconView: some View {
@@ -191,7 +191,7 @@ struct ConversationPreferenceView: View {
                     )
                     .foregroundColor(.text)
                     .font(.body)
-                    .lineLimit(4...6)
+//                    .lineLimit(4...6)
                     .frame(maxHeight: 160)
                     .frame(minHeight: 64)
                     .focusable(true) { focused in

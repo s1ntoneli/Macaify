@@ -60,7 +60,7 @@ struct PromptPlayground: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
         .background(.white)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {

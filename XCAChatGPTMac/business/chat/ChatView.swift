@@ -69,7 +69,7 @@ struct ChatView: View {
             case .trial: trialActions
             }
         })
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
         .onAppear {
             print("chatView onAppear \(conversation.name) conversationId \(conversation.id)")
             Task { [self] in

@@ -214,7 +214,7 @@ struct MessageRowView_Previews: PreviewProvider {
         responseError: "ChatGPT is currently not available")
         
     static var previews: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 MessageRowView(message: message, retryCallback: { messageRow in
                     

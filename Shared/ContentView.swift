@@ -123,7 +123,7 @@ struct ContentView: View {
             }
 
             GeometryReader { reader in
-                InputEditor(placeholder: String(localized: LocalizedStringResource("Tab to chat")), text: $vm.inputMessage, onShiftEnter: {
+                InputEditor(placeholder: String("Tab to chat"), text: $vm.inputMessage, onShiftEnter: {
                     Task { @MainActor in
                         if !vm.inputMessage.isEmpty {
                             scrolledByUser = false
@@ -206,7 +206,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
+        NavigationView {
             ContentView(vm: ViewModel(conversation: GPTConversation(), api: ChatGPTAPI(apiKey: "")))
         }
     }

@@ -19,22 +19,26 @@ struct MacContentView: View {
 //#endif
 
     var body: some View {
-        NavigationStack(path: $pathManager.path) {
+        content
+            .environmentObject(pathManager)
+    }
+    
+    var content: some View {
+        ZStack {
             mainView
-                .navigationDestination(for: Target.self) { target in
-                    switch target {
-                    case .main: mainView
-                    case .addCommand: addCommandView
-                    case .editCommand(let command): makeEditCommandView(command)
-                    case .setting: settingView
-                    case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
-                    case .playground: playground
-                    }
-                }
+            switch pathManager.top {
+            case .main: mainView
+            case .addCommand: addCommandView
+            case .editCommand(let command): makeEditCommandView(command)
+            case .setting: settingView
+            case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
+            case .playground: playground
+            default: EmptyView()
+            }
             StartUpView()
         }
-        .environmentObject(pathManager)
     }
+    
     struct InputSheetView: View {
         @State private var text = ""
 

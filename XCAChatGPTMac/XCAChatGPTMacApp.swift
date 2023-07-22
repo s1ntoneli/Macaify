@@ -30,7 +30,7 @@ struct XCAChatGPTMacApp: App {
 
     var body: some Scene {
         windowView
-        menuView
+//        menuView
     }
 
     private var windowView: some Scene {
@@ -84,6 +84,7 @@ struct XCAChatGPTMacApp: App {
     @State private var dots = ""
     @State var menuAnimateTimer: Timer? = nil
 
+    @available(macOS 13.0, *)
     private var menuView: some Scene {
         MenuBarExtra {
             if TypingInPlace.shared.typing {
@@ -98,7 +99,7 @@ struct XCAChatGPTMacApp: App {
                 .buttonStyle(.borderless)
             }
             Button {
-                if let url = URL(string: "https://fndx.app") {
+                if let url = URL(string: "https://macaify.com") {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
@@ -236,6 +237,7 @@ final class AppState: ObservableObject {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+
     func application(_ application: NSApplication, open urls: [URL]) {
         print("application")
     }
@@ -248,6 +250,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("application did finish launching")
         FirebaseApp.configure()
+        MenuBarManager.shared.setupMenus()
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         print("applicationShouldTerminateAfterLastWindowClosed")

@@ -17,7 +17,7 @@ struct SettingView: View {
     
     // 热键设置
     @State private var shortcut = KeyboardShortcutManager.shared.getShortcut()
-
+    
     // 模型选择
     @State private var selectedModelIndex = ModelSelectionManager.shared.selectIndex
     
@@ -28,7 +28,7 @@ struct SettingView: View {
     @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
     
     @FocusState private var focusField: FocusField?
-    
+
     private enum FocusField {
         case title
         case shortcut
@@ -37,67 +37,19 @@ struct SettingView: View {
         case proxyUrl
         case useVoice
     }
-
+    
     var body: some View {
         VStack {
             // 顶部导航栏
             ConfigurableView(onBack: { onBackButtonTap() }, title: "全局设置", showLeftButton: true) {}
             
             // 设置项
-            Form {
-                Section("基础设置") {
-                    VStack {
-                        AppShortcuts()
-                        if appShortcutOption == "custom" {
-                            KeyboardShortcuts.Recorder("", name: .quickAsk)
-                                .transition(.opacity)
-                        }
-                    }
-                }
-                
-                Section("AI 设置") {
-                    ZStack(alignment: .trailing) {
-                        TextField("输入API密钥", text: $apiKey)
-                            .focused($focusField, equals: .title)
-                            .textFieldStyle(.plain)
-                        if apiKey.isEmpty {
-                            Text("sk-xxxxxxxxxxxxxxxxxxxxx")
-                                .opacity(0.4)
-                        }
-                    }
-
-                    Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
-                        ForEach(0..<ModelSelectionManager.shared.models.count) { index in
-                            Text(ModelSelectionManager.shared.models[index].name)
-                        }
-                    }
-
-                    Toggle("开启语音聊天", isOn: $useVoice)
-                        .focusable()
-                        .focused($focusField, equals: .useVoice)
-                }
-                
-                Section("代理") {
-                    VStack {
-                        Toggle("使用代理", isOn: $useProxy)
-                            .focusable(true)
-                            .focused($focusField, equals: .proxy)
-                        
-                        TextField("", text: $proxyAddress)
-                            .disabled(!useProxy)
-                            .focusable()
-                            .focused($focusField, equals: .proxyUrl)
-                    }
-                }
-                
-                Section("系统设置") {
-                    LanguageOptions()
-                }
+            if #available(macOS 13.0, *) {
+                settingItems
+            } else {
+                settingItemsOld
             }
-            .formStyle(.grouped)
-            .scrollContentBackground(.hidden)
-            .background(.white)
-
+            
             Spacer()
             
             // 底部按钮
@@ -114,7 +66,6 @@ struct SettingView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
         }
-        .navigationBarBackButtonHidden(true)
         .background(.white)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -122,50 +73,146 @@ struct SettingView: View {
             }
         }
     }
+    
+    @available(macOS 13.0, *)
+    var settingItems: some View {
+        Form {
+            Section("基础设置") {
+                VStack {
+                    AppShortcuts()
+                    if appShortcutOption == "custom" {
+                        KeyboardShortcuts.Recorder("", name: .quickAsk)
+                            .transition(.opacity)
+                    }
+                }
+            }
+            
+            Section("AI 设置") {
+                ZStack(alignment: .trailing) {
+                    TextField("输入API密钥", text: $apiKey)
+                        .focused($focusField, equals: .title)
+                        .textFieldStyle(.plain)
+                    if apiKey.isEmpty {
+                        Text("sk-xxxxxxxxxxxxxxxxxxxxx")
+                            .opacity(0.4)
+                    }
+                }
+                
+                Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
+                    ForEach(0..<ModelSelectionManager.shared.models.count) { index in
+                        Text(ModelSelectionManager.shared.models[index].name)
+                    }
+                }
+                
+                Toggle("开启语音聊天", isOn: $useVoice)
+                    .focusable()
+                    .focused($focusField, equals: .useVoice)
+            }
+            
+            Section("代理") {
+                VStack {
+                    Toggle("使用代理", isOn: $useProxy)
+                        .focusable(true)
+                        .focused($focusField, equals: .proxy)
+                    
+                    TextField("", text: $proxyAddress)
+                        .disabled(!useProxy)
+                        .focusable()
+                        .focused($focusField, equals: .proxyUrl)
+                }
+            }
+            
+            Section("系统设置") {
+                LanguageOptions()
+            }
+        }
+        .listStyle(.bordered)
+        .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(.white)
+    }
+    
+    var settingItemsOld: some View {
+        List {
+            MSection("基础设置") {
+                AppShortcuts()
+                    .buttonStyle(.borderless)
+                
+                if appShortcutOption == "custom" {
+                    KeyboardShortcuts.Recorder("", name: .quickAsk)
+                        .transition(.opacity)
+                }
+            }
+            
+            MSection("AI 设置") {
+                Item("输入API密钥") {
+                    ZStack(alignment: .trailing) {
+                        TextField("", text: $apiKey)
+                            .focused($focusField, equals: .title)
+                            .multilineTextAlignment(.trailing)
+                        if apiKey.isEmpty {
+                            Text("sk-xxxxxxxxxxxxxxxxxxxxx")
+                                .opacity(0.4)
+                        }
+                    }
+                }
+                
+                Divider()
+                    .opacity(0.3)
+
+                Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
+                    ForEach(0..<ModelSelectionManager.shared.models.count) { index in
+                        Text(ModelSelectionManager.shared.models[index].name)
+                    }
+                }
+                .buttonStyle(.borderless)
+                .labelStyle(.automatic)
+
+                Divider()
+                    .opacity(0.3)
+
+                Toggle("开启语音聊天", isOn: $useVoice)
+                    .focusable()
+                    .focused($focusField, equals: .useVoice)
+                    .toggleStyle(.switch)
+                    .controlSize(.mini)
+            }
+
+            MSection("代理") {
+                Toggle("使用代理", isOn: $useProxy)
+                    .focusable(true)
+                    .focused($focusField, equals: .proxy)
+                    .toggleStyle(.switch)
+                    .controlSize(.mini)
+                
+                Divider()
+                    .opacity(0.3)
+
+                Item("") {
+                    TextField("", text: $proxyAddress)
+                        .disabled(!useProxy)
+                        .focusable()
+                        .multilineTextAlignment(.trailing)
+                        .focused($focusField, equals: .proxyUrl)
+                }
+            }
+            
+            MSection("系统设置") {
+                LanguageOptions()
+                    .buttonStyle(.borderless)
+            }
+        }
+        .listStyle(.plain)
+        .background(.white)
+        .padding()
+    }
 }
-//
-//// 键盘快捷键设置视图
-//struct KeyboardShortcutView: View {
-//    @Binding var shortcut: KeyboardShortcut
-//
-//    var body: some View {
-//        HStack {
-//            Text("打开 QuickType")
-//                .font(.subheadline)
-//            KeyboardShortcutInputView(shortcut: $shortcut)
-//        }
-//    }
-//}
-//
-//// 键盘快捷键输入视图
-//struct KeyboardShortcutInputView: View {
-//    @Binding var shortcut: KeyboardShortcut
-//
-//    var body: some View {
-//        HStack {
-//            Text(shortcut.description)
-//                .foregroundColor(.secondary)
-//            Button(action: {
-//                // 重置快捷键
-//                shortcut = KeyboardShortcut()
-//            }) {
-//                Text("重置")
-//                    .font(.subheadline)
-//                    .foregroundColor(.red)
-//            }
-//        }
-//        .background(Color.primary.colorInvert())
-//        .cornerRadius(5)
-//        .padding(.horizontal, 10)
-//        .onReceive(NotificationCenter.default.publisher(for: NSMenuItem.keyEquivalentModifierMaskChangedNotification)) { _ in
-//            // 更新快捷键
-//            shortcut = KeyboardShortcutManager.shared.getShortcut()
-//        }
-//    }
-//}
-//
-//struct SettingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingView()
-//    }
-//}
+
+extension NSTextView {
+    open override var frame: CGRect {
+        didSet {
+            backgroundColor = .clear //<<here clear
+            drawsBackground = true
+        }
+    }
+}
