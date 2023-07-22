@@ -38,7 +38,7 @@ struct ChatView: View {
     }
 
     var body: some View {
-        let _ = Self._printChanges() // ✅ Dump the information that triggered the View update.
+//        let _ = Self._printChanges() // ✅ Dump the information that triggered the View update.
 
         VStack {
             titleBar
@@ -52,7 +52,8 @@ struct ChatView: View {
                 }
 
             ContentView(vm: self.vm)
-        }.background(.white)
+        }
+        .background(.white)
         .onKeyPressed(.escape) { event in
             print("escape")
             NSApp.hide(nil)
