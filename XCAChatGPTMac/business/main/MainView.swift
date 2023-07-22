@@ -184,7 +184,7 @@ struct MainView: View {
                 Text("常用操作")
                     .padding(.bottom, 6)
                     .foregroundColor(.text)
-                    .bold()
+//                    .bold()
                     .font(.headline)
                 ForEach(convViewModel.conversations) { command in
                     let index = convViewModel.indexOf(conv: command)
@@ -244,7 +244,7 @@ struct MainView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        if let url = URL(string: "mailto:macaify@gokoding.com") {
+                        if let url = URL(string: "mailto:\(String.mail)") {
                             NSWorkspace.shared.open(url)
                         }
                     }
@@ -252,7 +252,7 @@ struct MainView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        if let url = URL(string: "https://twitter.com/macaify") {
+                        if let url = URL(string: .twitter) {
                             NSWorkspace.shared.open(url)
                         }
                     }
@@ -260,7 +260,7 @@ struct MainView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        if let url = URL(string: "https://weibo.com/u/2293237681") {
+                        if let url = URL(string: .weibo) {
                             NSWorkspace.shared.open(url)
                         }
                     }

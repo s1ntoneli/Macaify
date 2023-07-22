@@ -11,7 +11,7 @@ import Combine
 
 class PathManager: ObservableObject {
     static let shared = PathManager()
-    @Published var path = NavigationPath()
+    @Published var path = []
     @Published var pathStack = []
 
     var cancellables = Set<AnyCancellable>()

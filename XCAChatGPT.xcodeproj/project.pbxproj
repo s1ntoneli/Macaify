@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		695C8A1F2A6A0DA600C621E2 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */; };
+		695C8A2B2A6B892F00C621E2 /* MSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2A2A6B892F00C621E2 /* MSection.swift */; };
+		695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2E2A6BCCD000C621E2 /* Constants.swift */; };
 		696B6B6B29E16F5900845C71 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6B6A29E16F5900845C71 /* KeyboardShortcuts */; };
 		696B6B6F29E16FA100845C71 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B6B6E29E16FA100845C71 /* HotKeyManager.swift */; };
 		696B6B7229E16FF100845C71 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 696B6B7129E16FF100845C71 /* KeyboardShortcuts */; };
@@ -168,6 +171,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
+		695C8A2A2A6B892F00C621E2 /* MSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSection.swift; sourceTree = "<group>"; };
+		695C8A2E2A6BCCD000C621E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		696B6B6E29E16FA100845C71 /* HotKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManager.swift; sourceTree = "<group>"; };
 		696B6B7329E1702500845C71 /* HotKeyConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyConstants.swift; sourceTree = "<group>"; };
 		696B6B7629E178D300845C71 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -322,9 +328,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		695C8A1C2A6A0CE200C621E2 /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */,
+			);
+			path = menu;
+			sourceTree = "<group>";
+		};
+		695C8A292A6B892500C621E2 /* form */ = {
+			isa = PBXGroup;
+			children = (
+				695C8A2A2A6B892F00C621E2 /* MSection.swift */,
+			);
+			path = form;
+			sourceTree = "<group>";
+		};
 		696B6B6C29E16F7C00845C71 /* business */ = {
 			isa = PBXGroup;
 			children = (
+				695C8A1C2A6A0CE200C621E2 /* menu */,
 				698C5AD02A108DEC007C046A /* tutorial */,
 				696B6BC029F2199700845C71 /* prompts */,
 				696B6B8C29E1D96000845C71 /* chat */,
@@ -381,6 +404,7 @@
 		696B6B9529E2B29300845C71 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				695C8A292A6B892500C621E2 /* form */,
 				696B6B9629E2B2A700845C71 /* PurpleButtonStyle.swift */,
 				696B6BA429EB26D900845C71 /* ConfigurableHeaderView.swift */,
 				696B6BA629EB29AD00845C71 /* PlainButton.swift */,
@@ -449,6 +473,7 @@
 				696B6BE729FAEB9C00845C71 /* KeyUtils.swift */,
 				696B6CA32A05F45700845C71 /* StringExtensions.swift */,
 				698C5AD92A13D10B007C046A /* Utils.swift */,
+				695C8A2E2A6BCCD000C621E2 /* Constants.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -935,13 +960,16 @@
 				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
 				698C5ACF2A0F1D60007C046A /* Initializer.swift in Sources */,
 				696B6BD629F6A33000845C71 /* Persistence.swift in Sources */,
+				695C8A1F2A6A0DA600C621E2 /* MenuBarManager.swift in Sources */,
 				696B6C9E2A01E63B00845C71 /* RecordManager.swift in Sources */,
 				698C5AD62A10AC08007C046A /* TypingInPlace.swift in Sources */,
 				696B6B7F29E17D4B00845C71 /* APIKeyManager.swift in Sources */,
+				695C8A2B2A6B892F00C621E2 /* MSection.swift in Sources */,
 				696B6C0529FC9F8F00845C71 /* EmojiButtonStyle.swift in Sources */,
 				696B6BE629FAE82F00845C71 /* GlobalConfig.swift in Sources */,
 				696B6BFD29FB976800845C71 /* EmojiPickerViewModel.swift in Sources */,
 				696B6B7729E178D300845C71 /* MainView.swift in Sources */,
+				695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */,
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
 				696B6C0329FBA7F300845C71 /* EmojiPickerPopoverView.swift in Sources */,
 				696B6B7929E179BC00845C71 /* SettingView.swift in Sources */,
@@ -1055,7 +1083,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;
@@ -1088,7 +1116,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;

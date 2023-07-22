@@ -31,26 +31,31 @@ struct PreferenceInitializerView: View {
                 .padding(.bottom, 20)
 
             Spacer()
-            Form {
-                Section(header: Text("完成设置以开始使用")) {
+            List {
+                MSection("完成设置以开始使用") {
                     lang
+                        .buttonStyle(.borderless)
+
+                    Divider()
+                        .opacity(0.3)
                     VStack {
                         AppShortcuts()
+                            .buttonStyle(.borderless)
                         if appShortcutOption == "custom" {
                             KeyboardShortcuts.Recorder("", name: .quickAsk)
                                 .disabled(appShortcutOption != "custom")
                         }
                     }
-                    ZStack(alignment: .trailing) {
-                        TextField("输入 API 密钥", text: $apiKey)
+                    Divider()
+                        .opacity(0.3)
+
+                    Item("输入 API 密钥") {
+                        TextField("sk-xxxxxxxxxxxxxxxxxxxxx", text: $apiKey)
                             .textFieldStyle(.plain)
-                        if apiKey.isEmpty {
-                            Text("sk-xxxxxxxxxxxxxxxxxxxxx")
-                                .opacity(0.4)
-                        }
+                            .multilineTextAlignment(.trailing)
                     }
                 }
-            }.formStyle(.grouped)
+            }
             submit
         }
         .frame(width: 450, height: 420)
