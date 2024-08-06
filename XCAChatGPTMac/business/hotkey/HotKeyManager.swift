@@ -8,6 +8,7 @@
 import Foundation
 import KeyboardShortcuts
 import AppKit
+import SwiftUI
 
 class HotKeyManager {
     
@@ -27,6 +28,20 @@ class HotKeyManager {
                 window.deminiaturize(nil)
             }
         }
+//        let wm = ∂MWindowManager(contentView: BardView())
+//        var show = false
+//        KeyboardShortcuts.onKeyDown(for: .debug) {
+////            let wm = MWindowManager(contentView: BardView())
+//            if show {
+//                wm.closePanel()
+//                show = false
+//            } else {
+//                wm.showPanel()
+//                show = true
+//            }
+//            wm.setPosition(.topCenter)
+//            BardStore.shared.search("cat")
+//        }
 
         ConversationViewModel.shared.conversations.forEach { conversation in
             HotKeyManager.register(conversation)

@@ -115,7 +115,7 @@ extension GPTConversation {
     var API: ChatGPTAPI {
         let proxyAddress = UserDefaults.standard.object(forKey: "proxyAddress") as? String ?? ""
         let useProxy = UserDefaults.standard.object(forKey: "useProxy") as? Bool ?? false
-        return ChatGPTAPI(apiKey: APIKeyManager.shared.key ?? "", model: ModelSelectionManager.shared.selectedModel.name, systemPrompt: prompt, temperature: 0, baseURL: useProxy ? proxyAddress : nil)
+        return ChatGPTAPI(apiKey: APIKeyManager.shared.key ?? "", model: ModelSelectionManager.shared.selectedModel.name, systemPrompt: prompt, temperature: 0.7, baseURL: useProxy ? proxyAddress : nil)
     }
     
     var shortcutDescription: String {

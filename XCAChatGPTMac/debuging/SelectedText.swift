@@ -63,22 +63,22 @@ import Cocoa
 //}
 
 func performGlobalCopyShortcut() {
-
-   func keyEvents(forPressAndReleaseVirtualKey virtualKey: Int) -> [CGEvent] {
-       let eventSource = CGEventSource(stateID: .hidSystemState)
-       return [
-           CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(virtualKey), keyDown: true)!,
-           CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(virtualKey), keyDown: false)!,
-       ]
-   }
-
-   let tapLocation = CGEventTapLocation.cghidEventTap
+    
+    func keyEvents(forPressAndReleaseVirtualKey virtualKey: Int) -> [CGEvent] {
+        let eventSource = CGEventSource(stateID: .hidSystemState)
+        return [
+            CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(virtualKey), keyDown: true)!,
+            CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(virtualKey), keyDown: false)!,
+        ]
+    }
+    
+    let tapLocation = CGEventTapLocation.cghidEventTap
     let events = keyEvents(forPressAndReleaseVirtualKey: 8)
-
-   events.forEach {
-       $0.flags = .maskCommand
-       $0.post(tap: tapLocation)
-   }
+    
+    events.forEach {
+        $0.flags = .maskCommand
+        $0.post(tap: tapLocation)
+    }
 }
 func performGlobalPasteShortcut() {
 

@@ -18,6 +18,8 @@ class ModelSelectionManager {
     let models = [
         Model(name: "gpt-3.5-turbo", id: "gpt3turbo"),
         Model(name: "gpt-4", id: "gpt4"),
+        Model(name: "yi-34b-chat-0205", id: "yi-34b-chat-0205"),
+        Model(name: "yi-34b-chat-200k", id: "yi-34b-chat-200k"),
     ]
     
     var selectIndex: Int {

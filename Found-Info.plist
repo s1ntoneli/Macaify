@@ -9,5 +9,18 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>SUEnableInstallerLauncherService</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://gist.githubusercontent.com/auv1107/1d3e7dec0e60cc287e87d2a33d623125/raw/3cc821c95a80cab6b26687c0ae1fc0f2af58e7ef/macaify-appcast.xml</string>
+	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)-spks</string>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)-spki</string>
+	</array>
+	<key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
+	<array/>
+	<key>LSFileQuarantineEnabled</key>
+	<false/>
 </dict>
 </plist>

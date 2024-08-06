@@ -8,6 +8,7 @@
 import SwiftUI
 import AppKit
 import FirebaseCore
+import Sparkle
 
 @main
 struct XCAChatGPTMacApp: App {
@@ -27,9 +28,15 @@ struct XCAChatGPTMacApp: App {
     @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
 
     let globalConfig = GlobalConfig()
+    
+    private let updaterController: SPUStandardUpdaterController
+
+    init() {
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    }
 
     var body: some Scene {
-        windowView
+         windowView
 //        menuView
     }
 
@@ -64,6 +71,9 @@ struct XCAChatGPTMacApp: App {
         }
         .commands {
             CommandGroup(replacing: .newItem) {}
+            CommandGroup(after: .appInfo) {
+                CheckForUpdatesView(updater: updaterController.updater)
+            }
         }
         .windowStyle(.hiddenTitleBar) // Hide the title bar
         .onChange(of: scenePhase) { s in

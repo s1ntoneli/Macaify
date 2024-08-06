@@ -14,6 +14,7 @@ extension KeyboardShortcuts.Name {
     static let search = Self("search", default: .init(.k, modifiers: .command))
     static let quickTranslateCh = Self("quickTranslateCh", default: .init(.t, modifiers: [ .option ]))
     static let quickTranslateEng = Self("quickTranslateEng", default: .init(.e, modifiers: [ .option ]))
+    static let debug = Self("debug", default: .init(.d, modifiers: [ .option ]))
 }
 
 extension GPTConversation {
