@@ -14,6 +14,7 @@
 		694053732C6AF1410015191D /* Prompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694053722C6AF1410015191D /* Prompts.swift */; };
 		694053752C7ACB200015191D /* Compacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694053742C7ACB200015191D /* Compacts.swift */; };
 		694053782C7AF3A50015191D /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 694053772C7AF3A50015191D /* Defaults */; };
+		694D07462CA95E4D0091156D /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 694D07452CA95E4D0091156D /* OpenAI */; };
 		695C8A1F2A6A0DA600C621E2 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */; };
 		695C8A2B2A6B892F00C621E2 /* MSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2A2A6B892F00C621E2 /* MSection.swift */; };
 		695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2E2A6BCCD000C621E2 /* Constants.swift */; };
@@ -199,8 +200,10 @@
 /* Begin PBXFileReference section */
 		690934902C67BB0000797D60 /* Curosr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Curosr; sourceTree = "<group>"; };
 		690934922C67BCBC00797D60 /* AULog */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AULog; sourceTree = "<group>"; };
+		693AF6B42CA95CDA00477550 /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = OpenAI; path = Packages/OpenAI; sourceTree = "<group>"; };
 		694053722C6AF1410015191D /* Prompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompts.swift; sourceTree = "<group>"; };
 		694053742C7ACB200015191D /* Compacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compacts.swift; sourceTree = "<group>"; };
+		694D07442CA95E3B0091156D /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OpenAI; sourceTree = "<group>"; };
 		695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		695C8A2A2A6B892F00C621E2 /* MSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSection.swift; sourceTree = "<group>"; };
 		695C8A2E2A6BCCD000C621E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -339,6 +342,7 @@
 			files = (
 				690934972C67BF0400797D60 /* Cursor in Frameworks */,
 				696B6B7229E16FF100845C71 /* KeyboardShortcuts in Frameworks */,
+				694D07462CA95E4D0091156D /* OpenAI in Frameworks */,
 				696B6BB129EC424400845C71 /* MarkdownUI in Frameworks */,
 				690934952C67BF0400797D60 /* AULog in Frameworks */,
 				696B6BBD29F10A8000845C71 /* GPTEncoder in Frameworks */,
@@ -383,6 +387,7 @@
 		6909348F2C67B66B00797D60 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				694D07442CA95E3B0091156D /* OpenAI */,
 				690934922C67BCBC00797D60 /* AULog */,
 				690934902C67BB0000797D60 /* Curosr */,
 			);
@@ -431,6 +436,7 @@
 		696B6B7029E16FF100845C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				693AF6B42CA95CDA00477550 /* OpenAI */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -815,6 +821,7 @@
 				690934962C67BF0400797D60 /* Cursor */,
 				696EEC692C68D03A006B27B5 /* SwiftDiff */,
 				694053772C7AF3A50015191D /* Defaults */,
+				694D07452CA95E4D0091156D /* OpenAI */,
 			);
 			productName = XCAChatGPTMac;
 			productReference = 8B057582298E52C000A56C9A /* Macaify.app */;
@@ -1725,6 +1732,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 694053762C7AF3A40015191D /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		694D07452CA95E4D0091156D /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OpenAI;
 		};
 		696B6B6A29E16F5900845C71 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,7 @@
 
 import Foundation
 import GPTEncoder
+import OpenAI
 
 class ChatGPTAPI: @unchecked Sendable {
     
@@ -24,7 +25,7 @@ class ChatGPTAPI: @unchecked Sendable {
     // 携带上下文
     var withContext: Bool
     
-    private var PORTKEY_BASE_URL = "https://aigateway.macaify.com/v1"
+    private var PORTKEY_BASE_URL = "https://aigateway.macaify.com"
 
     private var baseURL: String
     private var realBaseURL: String {
@@ -39,7 +40,7 @@ class ChatGPTAPI: @unchecked Sendable {
     private let urlSession = URLSession.shared
     private var urlRequest: URLRequest {
         get {
-            let url = URL(string: "\(realBaseURL)/chat/completions")!
+            let url = URL(string: "\(realBaseURL)/v1/chat/completions")!
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "POST"
             headers.forEach {  urlRequest.setValue($1, forHTTPHeaderField: $0) }
@@ -70,6 +71,15 @@ class ChatGPTAPI: @unchecked Sendable {
             "x-portkey-provider": provider,
             "x-portkey-custom-host": baseURL
         ]
+    }
+    
+    // MARK: - paw/openai
+    private var configuration: OpenAI.Configuration {
+        .init(token: apiKey, baseURL: realBaseURL, headers: headers)
+    }
+    
+    var openai: OpenAI {
+        return OpenAI(configuration: configuration)
     }
     
     private var lastTask: URLSessionDataTask? = nil
@@ -140,6 +150,14 @@ class ChatGPTAPI: @unchecked Sendable {
         self.historyList.append(.init(role: "assistant", content: responseText))
     }
     
+    func chatsStream(text: String) async throws -> AsyncThrowingStream<ChatStreamResult, Error> {
+        let msgs = generateMessages(from: text).map {
+            ChatQuery.ChatCompletionMessageParam(role: .init(rawValue: $0.role) ?? .user, content: $0.content)!
+        }
+
+        return openai.chatsStream(query: .init(messages: msgs, model: model, temperature: 0.5, stream: true))
+    }
+
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
         print("send message stream", model, text)
         var urlRequest = self.urlRequest

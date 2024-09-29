@@ -4,3 +4,6 @@
 [submodule "Packages/Curosr"]
 	path = Packages/Curosr
 	url = git@github.com:s1ntoneli/Cursor.git
+[submodule "Packages/OpenAI"]
+	path = Packages/OpenAI
+	url = git@github.com:s1ntoneli/OpenAI.git

@@ -115,14 +115,18 @@ class ViewModel: ObservableObject, Equatable {
         self.messages.append(messageRow)
         
         do {
-            let stream = try await api.sendMessageStream(text: text)
+            let stream = try await api.chatsStream(text: text)
+//            let stream = try await api.sendMessageStream(text: text)
             for try await text in stream {
                 if interupted {
                     interupted = false
                     break
                 }
-                streamText += text
-                messageRow.responseText = streamText.trimmingCharacters(in: .whitespacesAndNewlines)
+                print("get text", text)
+//                streamText += text
+                streamText += text.choices.first?.delta.content ?? ""
+                messageRow.responseText = streamText
+//                    .trimmingCharacters(in: .whitespacesAndNewlines)
                 self.messages[self.messages.count - 1] = messageRow
             }
         } catch {
