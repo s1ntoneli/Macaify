@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import KeyboardShortcuts
+import Defaults
 
 class ConversationViewModel: ObservableObject {
     
@@ -113,13 +114,12 @@ class ConversationViewModel: ObservableObject {
 extension GPTConversation {
     
     var API: ChatGPTAPI {
-        let proxyAddress = UserDefaults.standard.object(forKey: "proxyAddress") as? String ?? ""
-        let useProxy = UserDefaults.standard.object(forKey: "useProxy") as? Bool ?? false
-        return ChatGPTAPI(apiKey: APIKeyManager.shared.key ?? "", model: ModelSelectionManager.shared.selectedModel.name, systemPrompt: prompt, temperature: 0, baseURL: useProxy ? proxyAddress : nil)
+        return ChatGPTAPI(apiKey: Defaults[.apiKey], model: ModelSelectionManager.shared.getSelectedModelId(), provider: Defaults[.selectedProvider], maxToken: Defaults[.maxToken], systemPrompt: prompt, temperature: 0.5, baseURL: Defaults[.proxyAddress])
     }
     
     var shortcutDescription: String {
-        KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(uuid.uuidString))?.description ?? ""
+//        "\(KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(uuid.uuidString)))"
+        ""
     }
 
     static var empty: GPTConversation {

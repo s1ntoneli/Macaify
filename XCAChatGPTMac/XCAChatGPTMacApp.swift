@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AppKit
-import FirebaseCore
+//import FirebaseCore
 
 @main
 struct XCAChatGPTMacApp: App {
@@ -35,6 +35,16 @@ struct XCAChatGPTMacApp: App {
 
     private var windowView: some Scene {
         WindowGroup {
+//            ZStack {
+//                EmptyView()
+//                Image("background")
+//                    .resizable()
+//                    .edgesIgnoringSafeArea(.all)
+//                    .onDrag {
+//                        let url = Bundle.main.bundleURL
+//                        return NSItemProvider(object: url as NSItemProviderWriting)
+//                    }
+//            }
             MacContentView()
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
@@ -61,20 +71,24 @@ struct XCAChatGPTMacApp: App {
                     commandLocalMonitor.stop()
                     globalMonitor.stop()
                 }
+                .background(BackgroundView())
         }
-        .commands {
-            CommandGroup(replacing: .newItem) {}
-        }
+//        .commands {
+//            CommandGroup(replacing: .newItem) {}
+//        }
         .windowStyle(.hiddenTitleBar) // Hide the title bar
         .onChange(of: scenePhase) { s in
             switch s {
             case .background:
                 print("background")
+                commandLocalMonitor.stop()
+                globalMonitor.stop()
             case .inactive:
                 print("inactive")
+                commandLocalMonitor.stop()
+                globalMonitor.stop()
             case .active:
                 print("active")
-                hideTitleBar()
                 
             @unknown default:
                 print("default")
@@ -201,13 +215,26 @@ struct XCAChatGPTMacApp: App {
 //            .frame(width: 480, height: 576)
 //        }.menuBarExtraStyle(.window)
 //    }
+}
 
-    func hideTitleBar() {
-        guard let window = NSApplication.shared.windows.first else {  return }
-        window.standardWindowButton(.closeButton)?.isHidden = true
-        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-        window.standardWindowButton(.zoomButton)?.isHidden = true
-        window.standardWindowButton(.documentIconButton)?.isHidden = true
+struct BackgroundView: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {
+        hideTitleBar(window: nsView.window)
+    }
+    
+    func hideTitleBar(window: NSWindow?) {
+        guard let window else {  return }
+//        window.standardWindowButton(.closeButton)?.isHidden = true
+//        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+//        window.standardWindowButton(.zoomButton)?.isHidden = true
+//        window.standardWindowButton(.documentIconButton)?.isHidden = true
+        window.styleMask = .hudWindow
         window.titleVisibility = .hidden
         window.toolbar = nil
         window.isReleasedWhenClosed = false
@@ -221,8 +248,6 @@ struct XCAChatGPTMacApp: App {
         print("height \(screenHeight)")
         window.setFrame(CGRect(x: x, y: y, width: width, height: height), display: true)
         window.makeKeyAndOrderFront(nil)
-
-        window.delegate = appDelegate
     }
 }
 
@@ -249,7 +274,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("application did finish launching")
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
         MenuBarManager.shared.setupMenus()
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

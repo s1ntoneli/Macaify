@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AlertToast
+//import AlertToast
 
 struct ChatView: View {
     let conversation: GPTConversation
@@ -43,13 +43,13 @@ struct ChatView: View {
         VStack {
             titleBar
                 .zIndex(100)
-                .toast(isPresenting: $showToast){
+//                .toast(isPresenting: $showToast){
                     // `.alert` is the default displayMode
-                    AlertToast(displayMode: .hud, type: .regular, title: "Added to favorites", style: .style(backgroundColor: .white))
+//                    AlertToast(displayMode: .hud, type: .regular, title: "Added to favorites", style: .style(backgroundColor: .white))
                     
                     //Choose .hud to toast alert from the top of the screen
                     //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
-                }
+//                }
 
             ContentView(vm: self.vm)
         }

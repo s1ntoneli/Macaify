@@ -126,6 +126,7 @@ class ViewModel: ObservableObject, Equatable {
                 self.messages[self.messages.count - 1] = messageRow
             }
         } catch {
+            print(error)
             messageRow.responseError = error.localizedDescription
         }
         

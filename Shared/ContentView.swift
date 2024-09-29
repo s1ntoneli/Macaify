@@ -204,13 +204,6 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            ContentView(vm: ViewModel(conversation: GPTConversation(), api: ChatGPTAPI(apiKey: "")))
-        }
-    }
-}
 
 struct TextWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0

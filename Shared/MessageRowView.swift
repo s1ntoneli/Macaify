@@ -82,7 +82,7 @@ struct MessageRowView: View {
         }
         
         VStack(alignment: .leading) {
-            if !text.isEmpty {
+            if !text.isEmpty, let attr = try? AttributedString(markdown: text) {
 //                #if os(tvOS)
 //                responseTextView(text: text)
 //                #else
@@ -92,10 +92,11 @@ struct MessageRowView: View {
 //                    .textSelection(.enabled)
 //                    #endif
 //                #endif
-                Markdown {
-                    text
-                }
-                .markdownTheme(.gitHub)
+                Text(attr)
+//                Markdown {
+//                    text
+//                }
+//                .markdownTheme(.gitHub)
                 .textSelection(.enabled)
             }
             

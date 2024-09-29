@@ -219,6 +219,7 @@ struct MainView: View {
                         }
                     }
                 }
+                .listRowSeparator(visibility: .hidden)
             }
             .padding(.horizontal, 0)
             .padding(.vertical, 8)

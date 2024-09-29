@@ -62,6 +62,46 @@ class TypingInPlace: ObservableObject {
                 }
             }
         }
+    } 
+    
+    func typeInPlace(conv: GPTConversation, context: String, command: String) {
+        self.interupt()
+        self.api = conv.API
+        self.api?.systemPrompt = context
+        print("asking api \(command), system prompt \(conv.API.systemPrompt)")
+        self.sendTask = Task { [weak self] in
+            do {
+                guard let self = self else { return }
+                guard let api = self.api else { return }
+                Task { @MainActor in
+                    TypingInPlace.shared.typing = true
+                }
+                let stream = try await api.sendMessageStream(text: command)
+                var sentence = ""
+                var puncted = false
+                let isNotion = isInNotion()
+                print("isNotion \(isNotion)")
+                
+                self.pasteTimer = Timer.scheduledTimer(withTimeInterval: 1.0/3.0, repeats: true) { timer in
+                    if !sentence.isEmpty {
+                        paste(delay: 0, sentence: sentence)
+                        sentence = ""
+                    }
+                }
+                for try await answer in stream {
+                    sentence += answer
+                }
+                
+                self.interupt()
+                if !sentence.isEmpty {
+                    paste(delay: 0, sentence: sentence)
+                    sentence = ""
+                }
+            }
+            catch {
+                self?.interupt()
+            }
+        }
     }
     
     func interupt() {
@@ -71,7 +111,9 @@ class TypingInPlace: ObservableObject {
         api?.interupt()
         api = nil
         
-        typing = false
+        Task { @MainActor in
+            typing = false
+        }
         
         pasteTimer?.invalidate()
         pasteTimer = nil

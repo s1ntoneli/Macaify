@@ -1,4 +1,5 @@
 {
+  "originHash" : "b0dce920254fede510fc281327987ba300145a6e2b0b2a86b7253ccc01e5d41c",
   "pins" : [
     {
       "identity" : "abseil-cpp-swiftpm",
@@ -14,8 +15,26 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/elai950/AlertToast",
       "state" : {
-        "revision" : "b39252eacd159904afd7d718bba0afabb87f2f2f",
-        "version" : "1.3.9"
+        "branch" : "master",
+        "revision" : "638f38f9daf08e17b7caea22d2fcb9c0a418d1b6"
+      }
+    },
+    {
+      "identity" : "axswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tmandry/AXSwift.git",
+      "state" : {
+        "revision" : "81dcc36aced905d6464cc25e35f8d13184bbf21c",
+        "version" : "0.3.2"
+      }
+    },
+    {
+      "identity" : "axswiftext",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/s1ntoneli/AXSwiftExt",
+      "state" : {
+        "revision" : "a2696cad4504996dffc53bb59892e13242a2c243",
+        "version" : "0.1.0"
       }
     },
     {
@@ -28,12 +47,21 @@
       }
     },
     {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4c009d5c2496e7aa126e922c94dd3d6ae049efa2"
+      }
+    },
+    {
       "identity" : "elegant-emoji-picker",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Finalet/Elegant-Emoji-Picker",
       "state" : {
         "branch" : "main",
-        "revision" : "3773a19e5e84b1de349349e0a8ed58db89e08137"
+        "revision" : "71d2d46092b4d550cc593614efc06438f845f6e6"
       }
     },
     {
@@ -59,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
-        "revision" : "98a00258d4518b7521253a70b7f70bb76d2120fe",
-        "version" : "9.2.4"
+        "revision" : "a637d318ae7ae246b02d7305121275bc75ed5565",
+        "version" : "9.4.0"
       }
     },
     {
@@ -68,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "58d03d22beae762eaddbd30cb5a61af90d4b309f",
-        "version" : "7.11.3"
+        "revision" : "57a1d307f42df690fdef2637f3e5b776da02aad6",
+        "version" : "7.13.3"
       }
     },
     {
@@ -77,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alfianlosari/GPTEncoder.git",
       "state" : {
-        "revision" : "8d2057a7073fdbf8fb3ac7b3006e1514cf2f92fb",
-        "version" : "1.0.3"
+        "revision" : "a86968867ab4380e36b904a14c42215f71efe8b4",
+        "version" : "1.0.4"
       }
     },
     {
@@ -105,7 +133,7 @@
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "d168f629edcd687383e18c908168520b4f156324"
+        "revision" : "99cfb0b57ce4840d0a66b2abe1529eebe0ca124f"
       }
     },
     {
@@ -113,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
       "state" : {
-        "revision" : "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
-        "version" : "1.22.2"
+        "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+        "version" : "1.22.5"
       }
     },
     {
@@ -127,12 +155,21 @@
       }
     },
     {
+      "identity" : "networkimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gonzalezreal/NetworkImage",
+      "state" : {
+        "revision" : "7aff8d1b31148d32c5933d75557d42f6323ee3d1",
+        "version" : "6.0.0"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
-        "version" : "2.2.0"
+        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+        "version" : "2.4.0"
       }
     },
     {
@@ -140,8 +177,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
       "state" : {
-        "revision" : "12b351a75201a8124c2f2e1f9fc6ef5cd812c0b9",
-        "version" : "2.1.0"
+        "revision" : "9a8119b37e09a770367eeb26e05267c75d854053",
+        "version" : "2.3.1"
       }
     },
     {
@@ -149,10 +186,19 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "f25867a208f459d3c5a06935dceb9083b11cd539",
-        "version" : "1.22.0"
+        "revision" : "e17d61f26df0f0e06f58f6977ba05a097a720106",
+        "version" : "1.27.1"
+      }
+    },
+    {
+      "identity" : "swiftdiff",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:cyber-fun/SwiftDiff.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "116229dec3b970a18b8c38480167d7ed22861988"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

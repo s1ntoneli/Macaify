@@ -15,6 +15,25 @@ class HotKeyManager {
 
     static func initHotKeys() {
         KeyboardShortcuts.removeAllHandlers()
+        
+//        KeyboardShortcuts.onKeyDown(for: .search) {
+////            if !CMDKWindowController.shared.isVisible {
+////                CMDKWindowController.shared.showWindow()
+////            } else {
+////                CMDKWindowController.shared.closeWindow()
+////            }
+//            StartupPasteboardManager.shared.startup { text in
+//                print("got text", text, isCodeSnippet(text ?? ""))
+//                CMDKWindowController.shared.viewModel.context = text ?? ""
+//                
+//                if !CMDKWindowController.shared.isVisible {
+//                    CMDKWindowController.shared.showWindow()
+//                } else {
+////                    CMDKWindowController.shared.closeWindow()
+//                }
+//            }
+//        }
+//        
         KeyboardShortcuts.onKeyDown(for: .quickAsk) { [self] in
             NSLog("key pressed \(Bundle.main.bundleIdentifier)")
             

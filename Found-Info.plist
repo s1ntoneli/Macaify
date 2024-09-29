@@ -9,5 +9,31 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>handleTexts</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>handleSelectedText</string>
+			<key>NSPortName</key>
+			<string>$(PRODUCT_NAME)</string>
+			<key>NSRequiredContext</key>
+			<array>
+				<string></string>
+			</array>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSReturnTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

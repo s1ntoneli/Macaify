@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<models>
+  <category name="o1" provider="openai">
+    <model>
+      <name>o1-preview</name>
+      <description>The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.
+
+The o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).
+
+Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000015</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>32768</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>o1-mini</name>
+      <description>The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.
+
+The o1 models are optimized for math, science, programming, and other STEM-related tasks. They consistently exhibit PhD-level accuracy on benchmarks in physics, chemistry, and biology. Learn more in the [launch announcement](https://openai.com/o1).
+
+Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000012</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>65536</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="gpt" provider="openai">
+    <model>
+      <name>gpt-3.5-turbo</name>
+      <description>GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.
+
+Training data up to Sep 2021.</description>
+      <context_length>16385</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000005</prompt>
+        <completion>0.0000015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16385</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4o</name>
+      <description>OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and advanced reasoning capabilities. Training data: up to Sep 2021.</description>
+      <context_length>8191</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00003</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8191</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4o-mini</name>
+      <description>OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and advanced reasoning capabilities. Training data: up to Sep 2021.</description>
+      <context_length>8191</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00003</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8191</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4o-2024-08-06</name>
+      <description>OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and advanced reasoning capabilities. Training data: up to Sep 2021.</description>
+      <context_length>8191</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00003</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8191</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-turbo</name>
+      <description>The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling.
+
+Training data: up to April 2023.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00001</prompt>
+        <completion>0.00003</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="gemini" provider="google">
+    <model>
+      <name>gemini-1.0-pro</name>
+      <description>Gemini 1.5 Flash Experimental is an experimental version of the [Gemini 1.5 Flash](/models/google/gemini-flash-1.5) model.
+
+Usage of Gemini is subject to Google's [Gemini Terms of Use](https://ai.google.dev/terms).
+
+#multimodal
+
+Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.</description>
+      <context_length>4000000</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>Gemini</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0</prompt>
+        <completion>0</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>4000000</context_length>
+        <max_completion_tokens>32768</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gemini-1.5-pro</name>
+      <description>Gemini 1.5 Flash Experimental is an experimental version of the [Gemini 1.5 Flash](/models/google/gemini-flash-1.5) model.
+
+Usage of Gemini is subject to Google's [Gemini Terms of Use](https://ai.google.dev/terms).
+
+#multimodal
+
+Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.</description>
+      <context_length>4000000</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>Gemini</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0</prompt>
+        <completion>0</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>4000000</context_length>
+        <max_completion_tokens>32768</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gemini-1.5-flash</name>
+      <description>Gemini 1.5 Flash Experimental is an experimental version of the [Gemini 1.5 Flash](/models/google/gemini-flash-1.5) model.
+
+Usage of Gemini is subject to Google's [Gemini Terms of Use](https://ai.google.dev/terms).
+
+#multimodal
+
+Note: This model is currently experimental and not suitable for production use-cases, and may be heavily rate-limited.</description>
+      <context_length>4000000</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>Gemini</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0</prompt>
+        <completion>0</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>4000000</context_length>
+        <max_completion_tokens>32768</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="claude" provider="anthropic">
+    <model>
+      <name>claude-3-5-sonnet-20240620</name>
+      <description>Claude 3.5 Sonnet delivers advancements in key capabilities for enterprises—including an industry-leading 200K token context window, significant reductions in rates of model hallucination, system prompts and a new beta feature: tool use.
+
+_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._</description>
+      <context_length>200000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>200000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-3-haiku-20240307</name>
+      <description>Claude 3.5 Sonnet delivers advancements in key capabilities for enterprises—including an industry-leading 200K token context window, significant reductions in rates of model hallucination, system prompts and a new beta feature: tool use.
+
+_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._</description>
+      <context_length>200000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>200000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-3-sonnet-20240229</name>
+      <description>Claude 3.5 Sonnet delivers advancements in key capabilities for enterprises—including an industry-leading 200K token context window, significant reductions in rates of model hallucination, system prompts and a new beta feature: tool use.
+
+_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._</description>
+      <context_length>200000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>200000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-3-opus-20240229</name>
+      <description>Claude 3.5 Sonnet delivers advancements in key capabilities for enterprises—including an industry-leading 200K token context window, significant reductions in rates of model hallucination, system prompts and a new beta feature: tool use.
+
+_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._</description>
+      <context_length>200000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>200000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="glm" provider="zhipu">
+    <model>
+      <name>glm-3-turbo</name>
+      <description>GLM-3-Turbo is the new generation of conversational language model launched by Zhipu AI, optimized based on GLM-3. It features faster inference speed and higher cost-effectiveness, suitable for various dialogue scenarios.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>ChatGLM</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.002</prompt>
+        <completion>0.002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>glm-4</name>
+      <description>GLM-4 is the new generation of large language model launched by Zhipu AI, with significant improvements in various aspects compared to the GLM-3 series models. It possesses powerful natural language understanding and generation capabilities, capable of handling various complex language tasks.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>ChatGLM</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.01</prompt>
+        <completion>0.01</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>glm-4v</name>
+      <description>GLM-4V is a multimodal large language model launched by Zhipu AI, adding visual understanding capabilities based on GLM-4. This model can process both text and image inputs simultaneously, performing various visual-language tasks.</description>
+      <context_length>2000</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>ChatGLM</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.015</prompt>
+        <completion>0.015</completion>
+        <image>0.002</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>2000</context_length>
+        <max_completion_tokens>1000</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="moonshot" provider="moonshot">
+    <model>
+      <name>moonshot-v1-8k</name>
+      <description>Moonshot AI's large language model with an 8K context window. This model demonstrates powerful understanding and generation capabilities across multiple domains.</description>
+      <context_length>8192</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Moonshot</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0001</prompt>
+        <completion>0.0001</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8192</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>moonshot-v1-32k</name>
+      <description>Moonshot AI's large language model with a 32K context window. This model can handle longer inputs and is suitable for complex tasks requiring more context.</description>
+      <context_length>32768</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Moonshot</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00015</prompt>
+        <completion>0.00015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>32768</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>moonshot-v1-128k</name>
+      <description>Moonshot AI's most powerful large language model with a 128K context window. This version can process extremely long inputs and is ideal for advanced tasks requiring extensive context.</description>
+      <context_length>131072</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Moonshot</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0002</prompt>
+        <completion>0.0002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>131072</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="yi" provider="lingyi">
+    <model>
+      <name>yi-large</name>
+      <description>The latest version of the yi-large model. A large-scale model with hundreds of billions of parameters, providing superior question-answering and text generation capabilities, with extremely strong reasoning abilities. It has been specially enhanced for System Prompts. Suitable for complex language understanding, in-depth content creation, design, and other complex scenarios.</description>
+      <context_length>32768</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00002</prompt>
+        <completion>0.00002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>32768</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-medium</name>
+      <description>Medium-sized model upgraded and fine-tuned, with balanced capabilities and high cost-effectiveness. Deeply optimized instruction-following ability. Suitable for daily chat, QA, writing, translation, and other general scenarios. An ideal choice for enterprise-level applications and large-scale AI deployment.</description>
+      <context_length>16384</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000025</prompt>
+        <completion>0.0000025</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16384</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-vision</name>
+      <description>Complex visual task model, providing high-performance understanding and analysis capabilities based on multiple images. Suitable for scenarios requiring analysis and interpretation of images and charts, such as image QA, chart understanding, OCR, visual reasoning, education, research report comprehension, or multilingual document reading.</description>
+      <context_length>16384</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000006</prompt>
+        <completion>0.000006</completion>
+        <image>0.001</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16384</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-medium-200k</name>
+      <description>200K ultra-long context window, providing deep understanding and generation capabilities for long texts. Suitable for long text comprehension and generation scenarios, such as document reading, QA, and knowledge base construction.</description>
+      <context_length>204800</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000012</prompt>
+        <completion>0.000012</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>204800</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-spark</name>
+      <description>Small and efficient, lightweight ultra-fast model. Provides enhanced mathematical computation and code writing capabilities. Suitable for lightweight mathematical analysis, code generation, text chat, and other scenarios.</description>
+      <context_length>16384</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000001</prompt>
+        <completion>0.000001</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16384</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-large-rag</name>
+      <description>Real-time web-wide information retrieval service, advanced model capabilities. Based on the yi-large model, combining retrieval and generation technologies to provide precise answers. Supports customer private knowledge bases (please contact customer service to apply). Suitable for scenarios requiring complex reasoning and text generation combined with real-time information. (Private knowledge bases can be used for specific scenarios such as product recommendations and customer service QA)</description>
+      <context_length>16384</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000025</prompt>
+        <completion>0.000025</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16384</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-large-fc</name>
+      <description>Based on the yi-large model, it supports and enhances the ability to call tools. The model can decide whether to call based on the tool definitions provided by the user, and output the calling method in the specified format. Suitable for various business scenarios that need to build agents or workflows.</description>
+      <context_length>32768</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00002</prompt>
+        <completion>0.00002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>32768</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>yi-large-turbo</name>
+      <description>Ultra-high cost-effectiveness and outstanding performance. Balanced high-precision tuning based on performance, inference speed, and cost. Suitable for full-scenario, high-quality inference and text generation scenarios.</description>
+      <context_length>16384</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Yi</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000012</prompt>
+        <completion>0.000012</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16384</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="deepseek" provider="deepseek">
+    <model>
+      <name>deepseek-chat</name>
+      <description>DeepSeek Chat model with a 128K context window and 4K (8K Beta) output capability.</description>
+      <context_length>131072</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>DeepSeek</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000001</prompt>
+        <completion>0.000001</completion>
+        <image>0.000002</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>131072</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>false</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+  
+  <category name="Deprecated" provider="openai">
+    <model>
+      <name>gpt-3.5-turbo-0613</name>
+      <description>GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.
+
+Training data up to Sep 2021.</description>
+      <context_length>4095</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000001</prompt>
+        <completion>0.000002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>4095</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-3.5-turbo-1106</name>
+      <description>An older GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Training data: up to Sep 2021.</description>
+      <context_length>16385</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000001</prompt>
+        <completion>0.000002</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16385</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-3.5-turbo-0125</name>
+      <description>An older GPT-3.5 Turbo model with improved instruction following. Training data up to September 2022.</description>
+      <context_length>16385</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000005</prompt>
+        <completion>0.0000015</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16385</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-3.5-turbo-16k</name>
+      <description>GPT-3.5 Turbo model with a 16k context window. Suitable for tasks requiring longer inputs. Training data up to September 2022.</description>
+      <context_length>16385</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000004</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16385</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-3.5-turbo-16k-0613</name>
+      <description>An older GPT-3.5 Turbo model with a 16k context window. Training data up to September 2022.</description>
+      <context_length>16385</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000003</prompt>
+        <completion>0.000004</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>16385</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-vision-preview</name>
+      <description>Vision version of GPT-4, capable of understanding and analyzing images. Suitable for tasks requiring image comprehension.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text+image->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00001</prompt>
+        <completion>0.00003</completion>
+        <image>0.00765</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-turbo-preview</name>
+      <description>The latest preview version of GPT-4 with faster response times and more up-to-date knowledge. Training data up to April 2023.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00001</prompt>
+        <completion>0.00003</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-0125-preview</name>
+      <description>Preview version of GPT-4 with improved instruction following and consistency. Training data up to April 2023.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00001</prompt>
+        <completion>0.00003</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-1106-preview</name>
+      <description>Preview version of GPT-4 with improved instruction following, JSON mode, reproducible outputs, and more. Training data up to April 2023.</description>
+      <context_length>128000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00001</prompt>
+        <completion>0.00003</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>128000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4</name>
+      <description>Stable version of GPT-4 with powerful natural language understanding and generation capabilities. Training data up to September 2022.</description>
+      <context_length>8192</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00003</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8192</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-0613</name>
+      <description>An older version of GPT-4 with stable performance. Training data up to September 2022.</description>
+      <context_length>8192</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00003</prompt>
+        <completion>0.00006</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8192</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>gpt-4-32k</name>
+      <description>GPT-4 model with an extended 32k token context window. Suitable for tasks requiring longer context.</description>
+      <context_length>32768</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>GPT</tokenizer>
+        <instruct_type></instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.00006</prompt>
+        <completion>0.00012</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>32768</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-2.0</name>
+      <description>Anthropic's large language model with strong reasoning and task completion abilities.</description>
+      <context_length>100000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>100000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-2.1</name>
+      <description>Updated version of Claude with improved performance and capabilities.</description>
+      <context_length>200000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>200000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-instant-1.2</name>
+      <description>Faster, more compact version of Claude optimized for near-instant response times.</description>
+      <context_length>100000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000008</prompt>
+        <completion>0.0000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>100000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-v1</name>
+      <description>Original version of Claude, now deprecated.</description>
+      <context_length>8192</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8192</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-v1-100k</name>
+      <description>Claude v1 with extended 100k token context window, now deprecated.</description>
+      <context_length>100000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>100000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-instant-v1</name>
+      <description>Original instant version of Claude, now deprecated.</description>
+      <context_length>8192</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000008</prompt>
+        <completion>0.0000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>8192</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-instant-v1-100k</name>
+      <description>Claude Instant v1 with extended 100k token context window, now deprecated.</description>
+      <context_length>100000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.0000008</prompt>
+        <completion>0.0000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>100000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+    <model>
+      <name>claude-2</name>
+      <description>Improved version of Claude with enhanced capabilities and performance.</description>
+      <context_length>100000</context_length>
+      <architecture>
+        <modality>text->text</modality>
+        <tokenizer>Claude</tokenizer>
+        <instruct_type>chat</instruct_type>
+      </architecture>
+      <pricing>
+        <prompt>0.000008</prompt>
+        <completion>0.000024</completion>
+        <image>0</image>
+        <request>0</request>
+      </pricing>
+      <top_provider>
+        <context_length>100000</context_length>
+        <max_completion_tokens>4096</max_completion_tokens>
+        <is_moderated>true</is_moderated>
+      </top_provider>
+    </model>
+  </category>
+</models>

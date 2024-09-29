@@ -11,20 +11,35 @@ import GPTEncoder
 class ChatGPTAPI: @unchecked Sendable {
     
     private let gptEncoder = GPTEncoder()
-    private var systemMessage: Message
+    private var systemMessage: Message {
+        // gemini-1.0-pro aka gemini-pro 不支持 role: system
+        .init(role: model == "gemini-pro" || model == "gemini-1.0-pro" ? "user" : "system", content: systemPrompt)
+    }
     private let temperature: Double
+    private let maxToken: Int
     private let model: String
     
     private let apiKey: String
     private var historyList = [Message]()
     // 携带上下文
     var withContext: Bool
+    
+    private var PORTKEY_BASE_URL = "https://aigateway.macaify.com/v1"
 
     private var baseURL: String
+    private var realBaseURL: String {
+        // provider 是 openai，走 openai 或 baseURL
+        // baseURL 为空或 provider 不是 openai，走 portkey
+        if provider == "openai" {
+            baseURL.isEmpty ? "https://api.openai.com" : baseURL
+        } else {
+            PORTKEY_BASE_URL
+        }
+    }
     private let urlSession = URLSession.shared
     private var urlRequest: URLRequest {
         get {
-            let url = URL(string: "\(baseURL)/v1/chat/completions")!
+            let url = URL(string: "\(realBaseURL)/chat/completions")!
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "POST"
             headers.forEach {  urlRequest.setValue($1, forHTTPHeaderField: $0) }
@@ -32,10 +47,7 @@ class ChatGPTAPI: @unchecked Sendable {
         }
     }
     
-    var systemPrompt: String {
-        get { systemMessage.content }
-        set { systemMessage = .init(role: "system", content: newValue) }
-    }
+    var systemPrompt: String
     
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -49,34 +61,34 @@ class ChatGPTAPI: @unchecked Sendable {
         return jsonDecoder
     }()
     
+    private var provider: String
+    
     private var headers: [String: String] {
         [
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(apiKey)"
+            "Authorization": "Bearer \(apiKey)",
+            "x-portkey-provider": provider,
+            "x-portkey-custom-host": baseURL
         ]
     }
     
     private var lastTask: URLSessionDataTask? = nil
 
-    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0, baseURL: String? = nil, withContext: Bool = true) {
+    init(apiKey: String, model: String = "gpt-4o-mini", provider: String = "openai", maxToken: Int, systemPrompt: String = "You are a helpful assistant", temperature: Double = 0, baseURL: String = "", withContext: Bool = true) {
         self.apiKey = apiKey
         self.model = model
-        self.systemMessage = .init(role: "system", content: systemPrompt)
+        self.systemPrompt = systemPrompt
         self.temperature = temperature
+        self.maxToken = maxToken
         self.withContext = withContext
-        if let baseURL = baseURL {
-            self.baseURL = baseURL
-        } else {
-            self.baseURL = "https://api.openai.com"
-        }
+        self.provider = provider
+        self.baseURL = baseURL
     }
     
     func disableProxy() {
-        self.baseURL = "https://api.openai.com"
     }
     
     func useProxy(proxy: String) {
-        self.baseURL = proxy
     }
     
     var history: [Message] {
@@ -91,7 +103,9 @@ class ChatGPTAPI: @unchecked Sendable {
     
     private func generateMessages(from text: String) -> [Message] {
         var messages: [Message] = []
-        messages += [systemMessage]
+        if !systemPrompt.isEmpty {
+            messages += [systemMessage]
+        }
         if withContext {
             messages += historyList
         }
@@ -99,7 +113,7 @@ class ChatGPTAPI: @unchecked Sendable {
         
         let token =  messages.token
 //        print("msg token \(token) \(messages)")
-        if token > 4000 {
+        if token > maxToken {
             if withContext && !historyList.isEmpty {
                 _ = historyList.removeFirst()
                 messages = generateMessages(from: text)
@@ -127,11 +141,15 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
+        print("send message stream", model, text)
         var urlRequest = self.urlRequest
         urlRequest.httpBody = try jsonBody(text: text)
-        
+        print("urlRequest", urlRequest, headers, urlRequest.httpBody.map { String(decoding: $0, as: UTF8.self) })
+
         let (result, response) = try await urlSession.bytes(for: urlRequest)
         lastTask = result.task
+        
+        print(result, response)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw "Invalid response"

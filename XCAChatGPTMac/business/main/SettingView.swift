@@ -7,6 +7,7 @@
 
 import SwiftUI
 import KeyboardShortcuts
+import Defaults
 
 struct SettingView: View {
     // 返回按钮的操作
@@ -18,14 +19,20 @@ struct SettingView: View {
     // 热键设置
     @State private var shortcut = KeyboardShortcutManager.shared.getShortcut()
     
-    // 模型选择
-    @State private var selectedModelIndex = ModelSelectionManager.shared.selectIndex
-    
     @AppStorage("proxyAddress") private var proxyAddress = "https://openai.gokoding.com"
     @AppStorage("useProxy") private var useProxy = false
     @AppStorage("useVoice") private var useVoice = false
     @AppStorage("language") private var language = "en"
     @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
+    
+    @Default(.selectedModelId)
+    var selectedModelId: String
+    
+    @Default(.selectedProvider)
+    var selectedProvider: String
+    
+    @Default(.maxToken)
+    var maxToken: Int
     
     @FocusState private var focusField: FocusField?
 
@@ -56,8 +63,6 @@ struct SettingView: View {
             HStack {
                 Spacer()
                 PlainButton(icon: "tray.full",label: "完成设置", shortcut: .init("s"), modifiers: .command, action: {
-                    // 点击保存按钮
-                    ModelSelectionManager.shared.setSelectedModelIndex(selectedModelIndex)
                     // 保存 openai-api-key 到 Keychain
                     APIKeyManager.shared.setAPIKey(apiKey)
                     onBackButtonTap()
@@ -88,38 +93,83 @@ struct SettingView: View {
             }
             
             Section("AI 设置") {
-                ZStack(alignment: .trailing) {
-                    TextField("输入API密钥", text: $apiKey)
-                        .focused($focusField, equals: .title)
-                        .textFieldStyle(.plain)
-                    if apiKey.isEmpty {
-                        Text("sk-xxxxxxxxxxxxxxxxxxxxx")
-                            .opacity(0.4)
+                TextField("输入API密钥", text: $apiKey)
+                    .focused($focusField, equals: .title)
+                
+                LabeledContent("选择模型") {
+                    HStack(alignment: .center) {
+                        Menu {
+                            ForEach(LLMModelsManager.shared.modelCategories, id: \.name) { category in
+                                Section(category.name) {
+                                    ForEach(category.models, id: \.id) { model in
+                                        Button {
+                                            selectedModelId = model.id
+                                            selectedProvider = category.provider
+                                            maxToken = model.contextLength
+                                        } label: {
+                                            Text(model.name)
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            TextField("", text: $selectedModelId)
+                                .fixedSize(horizontal: true, vertical: true)
+                                .frame(minWidth: 100, alignment: .trailing)
+                                .offset(x: 0, y: -2)
+                            Image(systemName: "chevron.down")
+                                .controlSize(.mini)
+                                .foregroundStyle(.primary)
+                                .bold()
+                                .background {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.regularMaterial)
+                                        .frame(width: 16, height: 16)
+                                }
+                        }
+                        .buttonStyle(.plain)
+                        .fixedSize(horizontal: true, vertical: false)
                     }
                 }
-                
-                Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
-                    ForEach(0..<ModelSelectionManager.shared.models.count) { index in
-                        Text(ModelSelectionManager.shared.models[index].name)
+               LabeledContent("接口格式") {
+                    HStack(alignment: .center) {
+                        Menu {
+                            ForEach(LLMModelsManager.shared.providers, id: \.self) { provider in
+                                Button {
+                                    selectedProvider = provider
+                                } label: {
+                                    Text(provider)
+                                }
+                            }
+                        } label: {
+                            TextField("", text: $selectedProvider)
+                                .fixedSize(horizontal: true, vertical: true)
+                                .offset(x: 0, y: -2)
+                            Image(systemName: "chevron.down")
+                                .controlSize(.mini)
+                                .foregroundStyle(.primary)
+                                .bold()
+                                .background {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(.regularMaterial)
+                                        .frame(width: 16, height: 16)
+                                }
+                        }
+                        .buttonStyle(.plain)
+                        .fixedSize(horizontal: true, vertical: false)
                     }
                 }
-                
+                TextField("max_token", value: $maxToken, formatter: NumberFormatter())
+
+                TextField("Base URL", text: $proxyAddress)
+                    .focusable()
+                    .focused($focusField, equals: .proxyUrl)
+            }
+            
+            Section {
                 Toggle("开启语音聊天", isOn: $useVoice)
                     .focusable()
                     .focused($focusField, equals: .useVoice)
-            }
-            
-            Section("代理") {
-                VStack {
-                    Toggle("使用代理", isOn: $useProxy)
-                        .focusable(true)
-                        .focused($focusField, equals: .proxy)
-                    
-                    TextField("", text: $proxyAddress)
-                        .disabled(!useProxy)
-                        .focusable()
-                        .focused($focusField, equals: .proxyUrl)
-                }
             }
             
             Section("系统设置") {
@@ -160,9 +210,13 @@ struct SettingView: View {
                 Divider()
                     .opacity(0.3)
 
-                Picker(selection: $selectedModelIndex, label: Text("模型选择") ) {
-                    ForEach(0..<ModelSelectionManager.shared.models.count) { index in
-                        Text(ModelSelectionManager.shared.models[index].name)
+                Picker(selection: $selectedModelId, label: Text("模型选择")) {
+                    ForEach(LLMModelsManager.shared.modelCategories, id: \.name) { category in
+                        Section(category.name) {
+                            ForEach(category.models, id: \.id) { model in
+                                Text(model.name)
+                            }
+                        }
                     }
                 }
                 .buttonStyle(.borderless)

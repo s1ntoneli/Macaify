@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<providers>
+  <provider>openai</provider>
+  <provider>cohere</provider>
+  <provider>anthropic</provider>
+  <provider>azure-openai</provider>
+  <provider>huggingface</provider>
+  <provider>anyscale</provider>
+  <provider>palm</provider>
+  <provider>together-ai</provider>
+  <provider>google</provider>
+  <provider>vertex-ai</provider>
+  <provider>perplexity-ai</provider>
+  <provider>mistral-ai</provider>
+  <provider>deepinfra</provider>
+  <provider>stability-ai</provider>
+  <provider>nomic</provider>
+  <provider>ollama</provider>
+  <provider>ai21</provider>
+  <provider>bedrock</provider>
+  <provider>groq</provider>
+  <provider>segmind</provider>
+  <provider>jina</provider>
+  <provider>fireworks-ai</provider>
+  <provider>workers-ai</provider>
+  <provider>reka-ai</provider>
+  <provider>moonshot</provider>
+  <provider>openrouter</provider>
+  <provider>lingyi</provider>
+  <provider>zhipu</provider>
+  <provider>novita-ai</provider>
+  <provider>monsterapi</provider>
+  <provider>deepseek</provider>
+  <provider>predibase</provider>
+  <provider>triton</provider>
+  <provider>voyage</provider>
+  <provider>azure-ai</provider>
+  <provider>github</provider>
+  <provider>deepbricks</provider>
+  <provider>siliconflow</provider>
+  <provider>cerebras</provider>
+  <provider>inference-net</provider>
+  <provider>sambanova</provider>
+  <provider>upstage</provider>
+</providers>

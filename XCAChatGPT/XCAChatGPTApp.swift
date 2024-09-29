@@ -36,6 +36,7 @@ struct XCAChatGPTApp: App {
             .fullScreenCover(isPresented: $isShowingTokenizer) {
                 NavigationTokenView()
             }
+            .environmentObject(vm)
         }
     }
 }
