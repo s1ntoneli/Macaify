@@ -26,7 +26,7 @@ class LLMModelsManager: NSObject, XMLParserDelegate {
     }
     
     private func parseXML() {
-        guard let xmlPath = Bundle.main.path(forResource: "models", ofType: "xml"),
+        guard let xmlPath = Bundle.main.path(forResource: "models", ofType: "xml")?.string,
               let xmlData = try? Data(contentsOf: URL(fileURLWithPath: xmlPath)) else {
             print("无法加载XML文件")
             return
@@ -39,7 +39,7 @@ class LLMModelsManager: NSObject, XMLParserDelegate {
     
     // 新增方法来解析 providers.xml
     private func parseProvidersXML() {
-        guard let xmlPath = Bundle.main.path(forResource: "providers", ofType: "xml"),
+        guard let xmlPath = Bundle.main.path(forResource: "providers", ofType: "xml")?.string,
               let xmlData = try? Data(contentsOf: URL(fileURLWithPath: xmlPath)) else {
             print("无法加载providers.xml文件")
             return

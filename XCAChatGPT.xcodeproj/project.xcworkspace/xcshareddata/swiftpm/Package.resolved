@@ -1,5 +1,4 @@
 {
-  "originHash" : "bc450e7b3f355016c9c7d0c0858983c0bfb61a21f2493634dd23dc1b8605bb3b",
   "pins" : [
     {
       "identity" : "abseil-cpp-swiftpm",
@@ -164,6 +163,15 @@
       }
     },
     {
+      "identity" : "path.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/Path.swift.git",
+      "state" : {
+        "revision" : "8e355c28e9393c42e58b18c54cace2c42c98a616",
+        "version" : "1.4.1"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
@@ -198,7 +206,16 @@
         "branch" : "master",
         "revision" : "116229dec3b970a18b8c38480167d7ed22861988"
       }
+    },
+    {
+      "identity" : "version",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/Version.git",
+      "state" : {
+        "revision" : "303a0f916772545e1e8667d3104f83be708a723c",
+        "version" : "2.1.0"
+      }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

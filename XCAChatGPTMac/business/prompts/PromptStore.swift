@@ -97,7 +97,7 @@ class PromptStore: ObservableObject {
 
 func parseJSONFile(filename: String) throws -> [PromptCategory] {
     if let path = Bundle.main.path(forResource: filename, ofType: "json") {
-        let url = URL(fileURLWithPath: path)
+        let url = URL(fileURLWithPath: path.string)
         do {
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()

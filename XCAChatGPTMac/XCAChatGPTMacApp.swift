@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import AppUpdater
 //import FirebaseCore
 
 @main
@@ -27,24 +28,16 @@ struct XCAChatGPTMacApp: App {
     @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
 
     let globalConfig = GlobalConfig()
+    
+    @StateObject var updater = AppUpdaterHelper.shared.updater
 
     var body: some Scene {
         windowView
-//        menuView
+        menuView
     }
 
     private var windowView: some Scene {
         WindowGroup {
-//            ZStack {
-//                EmptyView()
-//                Image("background")
-//                    .resizable()
-//                    .edgesIgnoringSafeArea(.all)
-//                    .onDrag {
-//                        let url = Bundle.main.bundleURL
-//                        return NSItemProvider(object: url as NSItemProviderWriting)
-//                    }
-//            }
             MacContentView()
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
@@ -137,12 +130,19 @@ struct XCAChatGPTMacApp: App {
             }
             .buttonStyle(.borderless)
             
+            Divider()
+            
+            AppUpdaterLink()
+                .environmentObject(updater)
+            
+            Divider()
             Button {
                 NSApplication.shared.terminate(nil)
             } label: {
                 Text("Quit")
             }
             .buttonStyle(.borderless)
+            .keyboardShortcut(.init("q"))
         } label: {
             if TypingInPlace.shared.typing {
                 Text("Typing\(dots)🖌️")
@@ -275,7 +275,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("application did finish launching")
 //        FirebaseApp.configure()
-        MenuBarManager.shared.setupMenus()
+//        MenuBarManager.shared.setupMenus()
+        AULog.printLog = true
+        AppUpdaterHelper.shared.initialize()
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         print("applicationShouldTerminateAfterLastWindowClosed")

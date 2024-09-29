@@ -15,6 +15,11 @@
 		694053752C7ACB200015191D /* Compacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694053742C7ACB200015191D /* Compacts.swift */; };
 		694053782C7AF3A50015191D /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 694053772C7AF3A50015191D /* Defaults */; };
 		694D07462CA95E4D0091156D /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 694D07452CA95E4D0091156D /* OpenAI */; };
+		694D074A2CA986750091156D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07492CA986710091156D /* SettingsView.swift */; };
+		694D074C2CA986B00091156D /* AppUpdater in Frameworks */ = {isa = PBXBuildFile; productRef = 694D074B2CA986B00091156D /* AppUpdater */; };
+		694D074E2CA989750091156D /* GithubProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D074D2CA989750091156D /* GithubProxy.swift */; };
+		694D07502CA9AADA0091156D /* AppUpdaterLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */; };
+		694D07522CA9AF290091156D /* AppUpdaterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07512CA9AF260091156D /* AppUpdaterHelper.swift */; };
 		695C8A1F2A6A0DA600C621E2 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */; };
 		695C8A2B2A6B892F00C621E2 /* MSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2A2A6B892F00C621E2 /* MSection.swift */; };
 		695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2E2A6BCCD000C621E2 /* Constants.swift */; };
@@ -205,6 +210,10 @@
 		694053742C7ACB200015191D /* Compacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compacts.swift; sourceTree = "<group>"; };
 		694D07442CA95E3B0091156D /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OpenAI; sourceTree = "<group>"; };
 		694D07472CA982A40091156D /* AppUpdater */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppUpdater; sourceTree = "<group>"; };
+		694D07492CA986710091156D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		694D074D2CA989750091156D /* GithubProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubProxy.swift; sourceTree = "<group>"; };
+		694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdaterLink.swift; sourceTree = "<group>"; };
+		694D07512CA9AF260091156D /* AppUpdaterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdaterHelper.swift; sourceTree = "<group>"; };
 		695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		695C8A2A2A6B892F00C621E2 /* MSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSection.swift; sourceTree = "<group>"; };
 		695C8A2E2A6BCCD000C621E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -345,6 +354,7 @@
 				696B6B7229E16FF100845C71 /* KeyboardShortcuts in Frameworks */,
 				694D07462CA95E4D0091156D /* OpenAI in Frameworks */,
 				696B6BB129EC424400845C71 /* MarkdownUI in Frameworks */,
+				694D074C2CA986B00091156D /* AppUpdater in Frameworks */,
 				690934952C67BF0400797D60 /* AULog in Frameworks */,
 				696B6BBD29F10A8000845C71 /* GPTEncoder in Frameworks */,
 				696EEC6A2C68D03A006B27B5 /* SwiftDiff in Frameworks */,
@@ -396,6 +406,17 @@
 			path = Packages;
 			sourceTree = "<group>";
 		};
+		694D07482CA9866C0091156D /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				694D07512CA9AF260091156D /* AppUpdaterHelper.swift */,
+				694D074D2CA989750091156D /* GithubProxy.swift */,
+				694D07492CA986710091156D /* SettingsView.swift */,
+				694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */,
+			);
+			path = settings;
+			sourceTree = "<group>";
+		};
 		695C8A1C2A6A0CE200C621E2 /* menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +436,7 @@
 		696B6B6C29E16F7C00845C71 /* business */ = {
 			isa = PBXGroup;
 			children = (
+				694D07482CA9866C0091156D /* settings */,
 				696EEC612C6853A5006B27B5 /* cmdk */,
 				695C8A1C2A6A0CE200C621E2 /* menu */,
 				698C5AD02A108DEC007C046A /* tutorial */,
@@ -824,6 +846,7 @@
 				696EEC692C68D03A006B27B5 /* SwiftDiff */,
 				694053772C7AF3A50015191D /* Defaults */,
 				694D07452CA95E4D0091156D /* OpenAI */,
+				694D074B2CA986B00091156D /* AppUpdater */,
 			);
 			productName = XCAChatGPTMac;
 			productReference = 8B057582298E52C000A56C9A /* Macaify.app */;
@@ -1040,6 +1063,7 @@
 				696EEC862C690F8E006B27B5 /* NestedExtendedDiff.swift in Sources */,
 				696B6BFA29FB969100845C71 /* EmojiCategoryView.swift in Sources */,
 				696EEC7B2C690F8E006B27B5 /* BatchUpdate.swift in Sources */,
+				694D07502CA9AADA0091156D /* AppUpdaterLink.swift in Sources */,
 				696B6B7429E1702500845C71 /* HotKeyConstants.swift in Sources */,
 				696B6BCA29F23D4100845C71 /* AppQuickOpen.swift in Sources */,
 				698C5AE62A1698A9007C046A /* LanguageOptions.swift in Sources */,
@@ -1068,7 +1092,9 @@
 				696B6BC429F21B7600845C71 /* PromptStore.swift in Sources */,
 				696B6B8B29E1A34A00845C71 /* ConversationViewModel.swift in Sources */,
 				696B6BA329EB10E600845C71 /* KeyAction.swift in Sources */,
+				694D074A2CA986750091156D /* SettingsView.swift in Sources */,
 				696B6BF929FB969100845C71 /* EmojiPickerView.swift in Sources */,
+				694D074E2CA989750091156D /* GithubProxy.swift in Sources */,
 				698C5AD22A108E09007C046A /* NewFeatureIntroductionView.swift in Sources */,
 				696B6BA729EB29AD00845C71 /* PlainButton.swift in Sources */,
 				696B6BA529EB26D900845C71 /* ConfigurableHeaderView.swift in Sources */,
@@ -1093,6 +1119,7 @@
 				696B6B8329E188B500845C71 /* DataManager.swift in Sources */,
 				696B6BC229F219A800845C71 /* PromptPlayground.swift in Sources */,
 				8B057592298E52D900A56C9A /* DotLoadingView.swift in Sources */,
+				694D07522CA9AF290091156D /* AppUpdaterHelper.swift in Sources */,
 				698C5ADA2A13D10B007C046A /* Utils.swift in Sources */,
 				696B6BC629F21B9D00845C71 /* PromptTemplate.swift in Sources */,
 				698C5ACF2A0F1D60007C046A /* Initializer.swift in Sources */,
@@ -1230,7 +1257,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;
@@ -1263,7 +1290,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;
@@ -1738,6 +1765,10 @@
 		694D07452CA95E4D0091156D /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OpenAI;
+		};
+		694D074B2CA986B00091156D /* AppUpdater */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppUpdater;
 		};
 		696B6B6A29E16F5900845C71 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
