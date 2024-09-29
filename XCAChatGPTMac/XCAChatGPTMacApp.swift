@@ -13,6 +13,7 @@ import AppUpdater
 @main
 struct XCAChatGPTMacApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openWindow) private var openWindow
 //    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
@@ -37,7 +38,7 @@ struct XCAChatGPTMacApp: App {
     }
 
     private var windowView: some Scene {
-        WindowGroup {
+        WindowGroup(id: "main_window") {
             MacContentView()
                 .environmentObject(vm)
                 .environmentObject(globalConfig)
@@ -105,6 +106,13 @@ struct XCAChatGPTMacApp: App {
                 }
                 .buttonStyle(.borderless)
             }
+            Button {
+                openWindow(id: "main_window")
+                resume()
+            } label: {
+                Text("open_macaify")
+            }
+            Divider()
             Button {
                 if let url = URL(string: "https://macaify.com") {
                     NSWorkspace.shared.open(url)

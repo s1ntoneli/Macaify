@@ -8,6 +8,7 @@
 import Foundation
 import KeyboardShortcuts
 import AppKit
+import SwiftUI
 
 class HotKeyManager {
     
@@ -110,7 +111,18 @@ func resume(bundleId: String = Bundle.main.bundleIdentifier ?? "") {
     let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleId).first
     print("app is nil ? \(app)")
     app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])
+    app?.activate()
 
-    guard let window = NSApplication.shared.windows.first else { return }
+    NSApplication.shared.activate(ignoringOtherApps: true)
+//            self.window.makeKeyAndOrderFront(nil)
+    app?.activate(options: [.activateAllWindows])
+
+    // 唤起主窗口
+    print("windows count", NSApplication.shared.windows.count)
+    guard let window = NSApplication.shared.windows.first(where: { NSStringFromClass(type(of: $0)) != "NSStatusBarWindow" && $0.canBecomeKey && $0.canBecomeMain  }) else {
+        return
+    }
+    print("top is found \(window.title)", window.frame, NSStringFromClass(type(of: window)))
+    window.makeKeyAndOrderFront(nil)
     window.deminiaturize(nil)
 }
