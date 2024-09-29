@@ -1,0 +1,6 @@
+[submodule "Packages/AULog"]
+	path = Packages/AULog
+	url = git@github.com:s1ntoneli/AULog.git
+[submodule "Packages/Curosr"]
+	path = Packages/Curosr
+	url = git@github.com:s1ntoneli/Cursor.git
