@@ -204,6 +204,7 @@
 		694053722C6AF1410015191D /* Prompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompts.swift; sourceTree = "<group>"; };
 		694053742C7ACB200015191D /* Compacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compacts.swift; sourceTree = "<group>"; };
 		694D07442CA95E3B0091156D /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OpenAI; sourceTree = "<group>"; };
+		694D07472CA982A40091156D /* AppUpdater */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppUpdater; sourceTree = "<group>"; };
 		695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		695C8A2A2A6B892F00C621E2 /* MSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSection.swift; sourceTree = "<group>"; };
 		695C8A2E2A6BCCD000C621E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -390,6 +391,7 @@
 				694D07442CA95E3B0091156D /* OpenAI */,
 				690934922C67BCBC00797D60 /* AULog */,
 				690934902C67BB0000797D60 /* Curosr */,
+				694D07472CA982A40091156D /* AppUpdater */,
 			);
 			path = Packages;
 			sourceTree = "<group>";

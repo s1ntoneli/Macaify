@@ -7,3 +7,6 @@
 [submodule "Packages/OpenAI"]
 	path = Packages/OpenAI
 	url = git@github.com:s1ntoneli/OpenAI.git
+[submodule "Packages/AppUpdater"]
+	path = Packages/AppUpdater
+	url = git@github.com:s1ntoneli/AppUpdater.git
