@@ -90,10 +90,19 @@ needed.
 # 
 https://docs.fastlane.tools/best-practices/source-control/#source-control
 
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots/**/*.png
-fastlane/test_output
+# fastlane specific
+**/fastlane/report.xml
+
+# deliver temporary files
+**/fastlane/Preview.html
+
+# snapshot generated screenshots
+**/fastlane/screenshots
+
+# scan temporary files
+**/fastlane/test_output
+
+**/fastlane/.env.*
 
 # Code Injection
 #
@@ -105,3 +114,4 @@ iOSInjectionProject/
 
 # python
 __pycache__/
+

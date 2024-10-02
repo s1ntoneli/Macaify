@@ -1,0 +1,80 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      commitash:
+        description: 'The commitash to build'
+        required: true
+        default: 'test'
+        type: string
+
+  create:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build package and upload to Github Release
+    runs-on: macos-latest
+
+    steps:
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ vars.BUILD_CERTIFICATE_BASE64 }}
+          BUILD_CERTIFICATE_DID_BASE64: ${{ vars.BUILD_CERTIFICATE_DID_BASE64 }}
+          P12_PASSWORD: ${{ vars.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ vars.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          CERTIFICATE_DID_PATH=$RUNNER_TEMP/build_did_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_CERTIFICATE_DID_BASE64" | base64 --decode -o $CERTIFICATE_DID_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $CERTIFICATE_DID_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ vars.FASTLANE_GITHUB_API_TOKEN }}
+      - run: |
+          if [ -n "${{ vars.FASTLANE_GITHUB_REPOSITORY }}" ]; then
+            echo "Using FASTLANE GitHub repository: ${{ vars.FASTLANE_GITHUB_REPOSITORY }}"
+            export GITHUB_REPOSITORY=${{ vars.FASTLANE_GITHUB_REPOSITORY }}
+          fi
+          if [ "${{ github.event.ref_type }}" = "tag" ]; then
+            tag=${{ github.ref }}
+            version=$(echo $tag | cut -d'/' -f 3)
+            echo "Extracted version: $version"
+
+            fastlane release tag:$version --verbose
+          else
+            fastlane release tag:${{ inputs.commitash }} --verbose
+          fi
+        env:
+          FASTLANE_GITHUB_API_TOKEN: ${{ vars.FASTLANE_GITHUB_API_TOKEN }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ vars.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          FASTLANE_PASSWORD: ${{ vars.FASTLANE_PASSWORD }}
+          FASTLANE_APP_ID: ${{ vars.FASTLANE_APP_ID }}
+          FASTLANE_APPLE_ID: ${{ vars.FASTLANE_APPLE_ID }}
+          FASTLANE_TEAM_ID: ${{ vars.FASTLANE_TEAM_ID }}
+          FASTLANE_BUILD_SCHEME: ${{ vars.FASTLANE_BUILD_SCHEME }}
+          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: ${{ vars.FASTLANE_XCODEBUILD_SETTINGS_RETRIES }}
+          FASTLANE_OUTPUT_NAME: ${{ vars.FASTLANE_OUTPUT_NAME }}

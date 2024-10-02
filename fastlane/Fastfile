@@ -1,0 +1,97 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+fastlane_require 'dotenv'
+
+before_all do
+  Dotenv.overload '.env.secrets'
+end
+
+default_platform(:mac)
+
+platform :mac do
+  desc "Push a new release build to the App Store"
+
+  lane :release do |options|
+    setup_ci if ENV['CI']
+	tag = options[:tag]
+
+	raise 'Argument tag is Missing' if tag.to_s.empty?
+	raise 'FASTLANE_APP_ID is Missing' if ENV['FASTLANE_APP_ID'].nil?
+	raise 'FASTLANE_APPLE_ID is Missing' if ENV['FASTLANE_APPLE_ID'].nil?
+	raise 'FASTLANE_TEAM_ID is Missing' if ENV['FASTLANE_TEAM_ID'].nil?
+	raise 'FASTLANE_GITHUB_API_TOKEN is Missing' if ENV['FASTLANE_GITHUB_API_TOKEN'].nil?
+	raise 'FASTLANE_BUILD_SCHEME is Missing' if ENV['FASTLANE_BUILD_SCHEME'].nil?
+
+	#app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+	#apple_id = CredentialsManager::AppfileConfig.try_fetch_value(:apple_id)
+	#team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+	app_identifier = ENV['FASTLANE_APP_ID']
+	apple_id = ENV['FASTLANE_APPLE_ID']
+	team_id = ENV['FASTLANE_TEAM_ID']
+
+	output_name=ENV['FASTLANE_OUTPUT_NAME'] || ENV['GITHUB_REPOSITORY'].split('/').last
+	output_path="build"
+
+	output_name_with_tag="#{output_name}-#{tag}"
+	output_path_with_tag="#{output_path}/#{output_name_with_tag}"
+	puts("output path")
+	puts(output_path_with_tag)
+	puts(output_name_with_tag)
+
+	path=build_mac_app(
+        configuration: 'Release',
+		scheme: ENV['FASTLANE_BUILD_SCHEME'],
+        export_method: "developer-id",
+		output_directory: output_path,
+		output_name: output_name,
+		export_options: { signingStyle: "automatic", team_id: team_id }
+	)
+	puts(path)
+	notarizedPath=notarize(
+      asc_provider: team_id,
+      username: apple_id,
+      print_log: true,
+      package: path,
+      verbose: true # Useful for showing notarization logs if it fails
+    )
+	puts(notarizedPath)
+	dmgPath=dmg(path: path, output_path: "#{output_path_with_tag}.dmg", volume_name: output_name_with_tag)
+	puts("dmgPath")
+	puts(dmgPath)
+	notarize(
+      asc_provider: team_id,
+      username: apple_id,
+      print_log: true,
+      package: dmgPath,
+	  bundle_id: app_identifier,
+      verbose: true # Useful for showing notarization logs if it fail
+    )
+
+	sh("mv ../build/#{output_name}.app.zip ../build/#{output_name_with_tag}.zip")
+
+    # tag 是否包含 beta 字段
+    has_beta = tag.include?("beta")
+	github_release = set_github_release(
+      repository_name: ENV['GITHUB_REPOSITORY'],
+      api_token: ENV['FASTLANE_GITHUB_API_TOKEN'],
+      name: tag,
+      tag_name: tag,
+      description: (File.read("changelog") rescue "No changelog provided"),
+      commitish: "main",
+      is_prerelease: has_beta,
+      upload_assets: ["build/#{output_name_with_tag}.zip", dmgPath]
+    )
+  end
+end
