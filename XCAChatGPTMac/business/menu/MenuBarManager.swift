@@ -46,28 +46,28 @@ class MenuBarManager {
     }
     
     private func addMenuItems() {
-        let website = NSMenuItem(title: "Website", action: #selector(goWebsite), keyEquivalent: "")
+        let website = NSMenuItem(title: "website", action: #selector(goWebsite), keyEquivalent: "")
         website.target = self
         menu.addItem(website)
         
-        let twitter = NSMenuItem(title: "Twitter", action: #selector(goTwitter) , keyEquivalent: "")
+        let twitter = NSMenuItem(title: "twitter", action: #selector(goTwitter) , keyEquivalent: "")
         twitter.target = self
         menu.addItem(twitter)
         
-        let telegram = NSMenuItem(title: "Telegram", action: #selector(goTelegram) , keyEquivalent: "")
+        let telegram = NSMenuItem(title: "telegram", action: #selector(goTelegram) , keyEquivalent: "")
         telegram.target = self
         menu.addItem(telegram)
         
-        let feedback = NSMenuItem(title: "Feedback", action: #selector(self.goFeedback) , keyEquivalent: "")
+        let feedback = NSMenuItem(title: "feedback", action: #selector(self.goFeedback) , keyEquivalent: "")
         feedback.target = self
         menu.addItem(feedback)
 
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     }
     
     private func stopTypingItem() -> NSMenuItem {
-        let stop = NSMenuItem(title: "Stop ", action: #selector(stopTyping) , keyEquivalent: "")
+        let stop = NSMenuItem(title: "stop ", action: #selector(stopTyping) , keyEquivalent: "")
         stop.image = NSImage(systemSymbolName: "stop.circle", accessibilityDescription: "stop typing")
         stop.target = self
         

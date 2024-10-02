@@ -12,7 +12,7 @@ struct AppShortcuts: View {
                                         .init(name: "double_click_option", id: "option"),
                                         .init(name: "double_click_control", id: "control"),
                                         .init(name: "double_click_fn", id: "function"),
-                                        .init(name: "自定义", id: "custom")]
+                                        .init(name: "customize", id: "custom")]
     @AppStorage("appShortcutOption") var appShortcutOption: String = "option"
 
     var body: some View {

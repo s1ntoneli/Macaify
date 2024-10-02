@@ -24,6 +24,8 @@ struct XCAChatGPTMacApp: App {
     @State var commandKeyDownTimestamp: TimeInterval = 0
     
     @StateObject var updater = AppUpdaterHelper.shared.updater
+    
+    @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
 
     var body: some Scene {
         windowView
@@ -65,7 +67,7 @@ struct XCAChatGPTMacApp: App {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
-                Text("Website")
+                Text("website")
             }
             .buttonStyle(.borderless)
             Button {
@@ -73,7 +75,7 @@ struct XCAChatGPTMacApp: App {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
-                Text("Twitter")
+                Text("twitter")
             }
             .buttonStyle(.borderless)
             Button {
@@ -81,7 +83,7 @@ struct XCAChatGPTMacApp: App {
                     NSWorkspace.shared.open(url)
                 }
             } label: {
-                Text("Feedback")
+                Text("feedback")
             }
             .buttonStyle(.borderless)
             
@@ -133,76 +135,7 @@ struct XCAChatGPTMacApp: App {
             }
         }
         .menuBarExtraStyle(.menu)
-    }
-//
-//    private var menuView: some Scene {
-//        MenuBarExtra("XCA ChatGPT", image: "icon") {
-//            VStack(spacing: 0) {
-//                HStack {
-//                    Text("XCA ChatGPT")
-//                        .font(.title)
-//                    Spacer()
-//
-//                    Button {
-//                        guard !vm.isInteractingWithChatGPT else { return }
-//                        vm.clearMessages()
-//                    } label: {
-//                        Image(systemName: "trash")
-//                            .symbolRenderingMode(.multicolor)
-//                            .font(.system(size: 24))
-//                    }
-//                    .buttonStyle(.borderless)
-//
-//                    Button {
-//                        exit(0)
-//                    } label: {
-//                        Image(systemName: "xmark.circle.fill")
-//                            .symbolRenderingMode(.multicolor)
-//                            .font(.system(size: 24))
-//                    }
-//
-//                    .buttonStyle(.borderless)
-//                }
-//                .padding()
-//
-//                ContentView(vm: vm)
-//            }
-//            .frame(width: 480, height: 576)
-//        }.menuBarExtraStyle(.window)
-//    }
-}
-
-struct BackgroundView: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSView {
-        let view = NSView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }
-    
-    func updateNSView(_ nsView: NSView, context: Context) {
-        hideTitleBar(window: nsView.window)
-    }
-    
-    func hideTitleBar(window: NSWindow?) {
-        guard let window else {  return }
-//        window.standardWindowButton(.closeButton)?.isHidden = true
-//        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-//        window.standardWindowButton(.zoomButton)?.isHidden = true
-//        window.standardWindowButton(.documentIconButton)?.isHidden = true
-        window.styleMask = .hudWindow
-        window.titleVisibility = .hidden
-        window.toolbar = nil
-        window.isReleasedWhenClosed = false
-        
-        let screenWidth: CGFloat = NSScreen.main?.frame.width ?? 0
-        let screenHeight: CGFloat = NSScreen.main?.frame.height ?? 0
-        let height: CGFloat = 500
-        let width: CGFloat = height / 0.618
-        let y: CGFloat = (screenHeight - height) / 2
-        let x: CGFloat = (screenWidth - width) / 2
-        print("height \(screenHeight)")
-        window.setFrame(CGRect(x: x, y: y, width: width, height: height), display: true)
-        window.makeKeyAndOrderFront(nil)
+        .environment(\.locale, .init(identifier: userDefaultsSelectedLanguage ?? "en"))
     }
 }
 
@@ -245,6 +178,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidReceiveMemoryWarning(_ application: NSApplication) {
         print("log-DidReceiveMemoryWarning")
     }
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        MainWindowController.shared.showWindow()
+        return true
+    }
 }
 
 extension AppDelegate: NSWindowDelegate {
@@ -256,48 +193,3 @@ extension AppDelegate: NSWindowDelegate {
         return false
     }
 }
-//
-//import Cocoa
-//
-//class CustomWindow: NSWindow {
-//    override func keyDown(with event: NSEvent) {
-//        NotificationCenter.default.post(name: .keyPressed, object: event)
-//    }
-//}
-//
-//extension Notification.Name {
-//    static let keyPressed = Notification.Name("keyPressed")
-//}
-//
-//class AppDelegate: NSObject, NSApplicationDelegate {
-//    var window: NSWindow!
-//
-//    func applicationDidFinishLaunching(_ aNotification: Notification) {
-//        let contentView = TContentView()
-//
-//        window = CustomWindow(contentRect: NSRect(x: 0, y: 0, width: 480, height: 300), styleMask: [], backing: .buffered, defer: false)
-//        window.center()
-//        window.setFrameAutosaveName("Main Window1")
-//        window.setFrame(NSRect(x: 0, y: 0, width: 1000, height: 1000), display: true)
-//        window.contentView = NSHostingView(rootView: contentView)
-//        window.makeKeyAndOrderFront(nil)
-//    }
-//}
-//
-////import SwiftUI
-//
-//struct TContentView: View {
-//    @State private var key: String = ""
-//
-//    var body: some View {
-//        VStack {
-//            Text("Hello, World!")
-//            Text("Key pressed: \(key)")
-//        }.onReceive(NotificationCenter.default.publisher(for: .keyPressed)) { event in
-//            if let event = event.object as? NSEvent {
-//                key = event.characters!
-//            }
-//        }
-//        .frame(width: 1000, height: 1000)
-//    }
-//}

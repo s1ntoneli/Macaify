@@ -53,8 +53,9 @@
 "cancel_selection"="取消选择";
 "bots"="常用";
 "feedback"="反馈";
-"twitter"="Twitter";
-"weibo"="Weibo";
+"website"="官方网站";
+"twitter"="推特";
+"weibo"="微博";
 "tip"="TIP";
 "hotkey_settings"="热键设置";
 "model_selection"="模型";
@@ -104,3 +105,8 @@
 "system_settings"="系统设置";
 "prompt_placeholder"="设定这个机器人的系统 Prompt";
 "delete"="删除";
+"max_token" = "最大 Token";
+"base_url" = "代理地址";
+"app_updates" = "应用更新";
+"check_for_updates" = "检查更新";
+"open_macaify" = "打开 Macaify";
