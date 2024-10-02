@@ -272,7 +272,6 @@ struct MainView: View {
                 .frame(width: 20, height: 20)
             TextField(placeholder, text: $searchText)
                 .disabled(!isEnabled)
-                .focusable()
                 .focused($focus, equals: .name)
                 .textFieldStyle(.plain)
                 .padding()

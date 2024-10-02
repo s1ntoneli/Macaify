@@ -35,10 +35,8 @@
 "hotkey" = "Hotkey";
 "use_context" = "Use Context";
 "enable" = "Enable";
-"auto_add_selected_text" = "Automatically add selected text";
 "tip_mode" = "TIP mode";
 "experimental_function" = "Experimental function";
-"tip_mode_description" = "Typing In Place. After opening, when you press the shortcut key after selecting the text in the input box of a third-party app, the window will not be opened, but the bot's reply will be used to directly replace the original text.";
 "cmd_n" = "⌘N";
 "cmd_press_and_hold" = "⌘ Press and hold";
 "create_bot" = "Create a Bot";
@@ -110,3 +108,11 @@
 "app_updates" = "App Updates";
 "check_for_updates" = "Check for updates";
 "open_macaify" = "Open Macaify";
+
+// bot
+"bot_type" = "Mode";
+"bot_type_edit" = "Edit Mode";
+"bot_type_chat" = "Chat Mode";
+"chat_mode_description" = "In Chat Mode, pressing the shortcut key will open the specified chat dialog.";
+"tip_mode_description" = "In Edit Mode, pressing the shortcut key will directly modify the text at the original location. This is often used for content translation and similar scenarios.";
+"auto_add_selected_text" = "Automatically Add Selected Text to Chats";

@@ -31,12 +31,11 @@
 "custom_bots_description"="快速添加你的自定义机器人🤖️助理，完成多种复杂操作";
 "ok"="确定";
 "add_icon"="􀎸 添加图标";
-"bot_name"="机器人名字";
-"system_prompt"="系统提示";
-"hotkey"="热键";
+"bot_name"="名字";
+"system_prompt"="系统指令";
+"hotkey"="快捷键";
 "use_context"="使用上下文";
 "enable"="启用";
-"auto_add_selected_text"="自动添加选中文本";
 "tip_mode"="TIP 模式";
 "experimental_function"="实验功能";
 "tip_mode_description"="Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字";
@@ -110,3 +109,12 @@
 "app_updates" = "应用更新";
 "check_for_updates" = "检查更新";
 "open_macaify" = "打开 Macaify";
+
+// bot
+"bot_type" = "模式";
+"bot_type_edit" = "编辑模式";
+"bot_type_chat" = "聊天模式";
+"chat_mode_description" = "聊天模式下，按下快捷键会打开指定的聊天对话框";
+"tip_mode_description" = "编辑模式下，按下快捷键会直接修改原处的文字，多用于内容翻译等场景";
+"auto_add_selected_text"="自动添加选中文本到聊天框";
+"icon"="图标";

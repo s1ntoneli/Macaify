@@ -69,22 +69,23 @@ struct ConversationPreferenceView: View {
                         Alert(title: Text("error"), message: Text("user_cannot_empty"), dismissButton: .default(Text("ok")))
                     }
 
-            List {
-                VStack(alignment: .leading, spacing: 12) {
-                    iconView
+            Form {
+                iconView
+                
+                Section {
                     name
                     systemProtmp
-                    
-                    hotkey
-                    useContext
-
-                    autoAddText
-                    
-                    typingInPlaceItem
                 }
-                .padding(.top, 12)
+                
+                useContext
+
+                hotkey
+                
+                typingInPlaceItem
             }
-            .padding(.horizontal)
+            .background(.white)
+            .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
 
             Spacer()
 
@@ -127,25 +128,24 @@ struct ConversationPreferenceView: View {
     }
     
     var iconView: some View {
-        Group {
-            Group {
-                VStack {
-                    if (!conversation.icon.isEmpty) {
-                        ConversationIconView(conversation: conversation, size: 40).id(conversation.icon)
-                            .onTapGesture {
-                                isShowingPopover.toggle()
-                            }
-                    } else {
-                        Text("add_icon")
-                            .font(.body)
-                            .opacity(0.5)
-                            .onTapGesture {
-                                icon = EmojiManager.shared.randomOnce()
-                                isShowingPopover.toggle()
-                            }
-                    }
+        LabeledContent("icon") {
+            Button {
+                if !conversation.icon.isEmpty {
+                    isShowingPopover.toggle()
+                } else {
+                    icon = EmojiManager.shared.randomOnce()
+                    isShowingPopover.toggle()
+                }
+            } label: {
+                if (!conversation.icon.isEmpty) {
+                    ConversationIconView(conversation: conversation, size: 40).id(conversation.icon)
+                } else {
+                    Text("add_icon")
+                        .font(.body)
+                        .opacity(0.5)
                 }
             }
+            .buttonStyle(.plain)
             .popover(isPresented: $isShowingPopover) {
                 EmojiPickerView(selectedEmoji: $icon)
             }
@@ -158,114 +158,67 @@ struct ConversationPreferenceView: View {
     }
     
     var name: some View {
-        Group {
-            Text("bot_name").font(.headline)
-            TextField("input_bot_name", text: $conversation.name, onCommit: {
-                print("onCommit")
-            })
-            .focusable(true)
-            .onSubmit {
-                print("onSumbit")
-                focusField = .prompt
-            }
-            .textFieldStyle(CustomTextFieldStyle())
-            .focused($focusField, equals: .title)
-            .background(Color.white)
-        }
+        TextField("bot_name", text: $conversation.name)
     }
     
     var systemProtmp: some View {
         Group {
-            Text("system_prompt").font(.headline)
-            ZStack(alignment: .topLeading) {
-                TextEditor(text: $prompt)
-                    .padding(.vertical, 12)
-                    .padding(.horizontal, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.white)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color(.systemGray).opacity(0.3), lineWidth: 1)
-                            )
-                    )
-                    .foregroundColor(.text)
-                    .font(.body)
-//                    .lineLimit(4...6)
-                    .frame(maxHeight: 160)
-                    .frame(minHeight: 64)
-                    .focusable(true) { focused in
-                        focusField = .prompt
-                    }
-                    .focused($focusField, equals: .prompt)
-                    .onChange(of: prompt) { newValue in
-                        print("prompt changed")
-                        conversation.prompt = prompt
-                    }
-                if prompt.isEmpty {
-                    Text("prompt_placeholder")
-                        .opacity(0.4)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 10)
+            Text("system_prompt")
+            TextEditor(text: $prompt)
+                .onChange(of: prompt) { newValue in
+                    print("prompt changed")
+                    conversation.prompt = prompt
                 }
-            }
         }
     }
     
     var hotkey: some View {
-        Group {
-            Text("hotkey").font(.headline)
-            Form {
-                KeyboardShortcuts.Recorder(for: conversation.Name) { shortcut in
-                    print("shortcut \(shortcut) \(conversation.uuid.uuidString)")
-                    if shortcut != nil {
-                        HotKeyManager.register(conversation)
-                    } else {
-                        KeyboardShortcuts.reset(conversation.Name)
-                    }
+        Section("hotkey") {
+            KeyboardShortcuts.Recorder(for: conversation.Name) { shortcut in
+                print("shortcut \(shortcut) \(conversation.uuid.uuidString)")
+                if shortcut != nil {
+                    HotKeyManager.register(conversation)
+                } else {
+                    KeyboardShortcuts.reset(conversation.Name)
                 }
             }
+            .controlSize(.large)
         }
     }
     
     var useContext: some View {
-        Group {
-            Text("use_context").font(.headline)
-            Toggle(isOn: $oneTimeChat) {
-                Text("enable")
-            }.onChange(of: oneTimeChat) { newValue in
-                conversation.withContext = newValue
-            }
+        Toggle(isOn: $oneTimeChat) {
+            Text("use_context")
+        }
+        .onChange(of: oneTimeChat) { newValue in
+            conversation.withContext = newValue
         }
     }
     
     var autoAddText: some View {
-        Group {
-            Text("auto_add_selected_text").font(.headline)
-            Toggle(isOn: $autoAddSelectedText) {
-                Text("enable")
-            }.onChange(of: autoAddSelectedText) { newValue in
-                conversation.autoAddSelectedText = newValue
-            }
+        Toggle(isOn: $autoAddSelectedText) {
+            Text("auto_add_selected_text")
+        }.onChange(of: autoAddSelectedText) { newValue in
+            conversation.autoAddSelectedText = newValue
         }
     }
     
     var typingInPlaceItem: some View {
-        Group {
-            HStack {
-                Text("tip_mode").font(.headline)
-                Text("experimental_function")
-                    .font(.footnote)
-                    .foregroundColor(.white)
-                    .padding(4)
-                    .background(Color.blue.cornerRadius(4))
+        Section {
+            Picker("bot_type", selection: $typingInPlace) {
+                Text("bot_type_edit").tag(true)
+                Text("bot_type_chat").tag(false)
             }
-            Text("tip_mode_description").font(.subheadline)
-                .opacity(0.7)
-            Toggle(isOn: $typingInPlace) {
-                Text("enable")
-            }.onChange(of: typingInPlace) { newValue in
+            .pickerStyle(.palette)
+            .fixedSize()
+            .onChange(of: typingInPlace) { newValue in
                 conversation.typingInPlace = newValue
+            }
+            Text(typingInPlace ? "tip_mode_description" : "chat_mode_description")
+                .opacity(0.7)
+            
+            if !typingInPlace {
+                autoAddText
             }
         }
     }
