@@ -1768,7 +1768,7 @@
 		};
 		696EEC682C68D03A006B27B5 /* XCRemoteSwiftPackageReference "SwiftDiff" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:cyber-fun/SwiftDiff.git";
+			repositoryURL = "https://github.com/cyber-fun/SwiftDiff";
 			requirement = {
 				branch = master;
 				kind = branch;

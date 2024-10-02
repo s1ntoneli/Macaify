@@ -201,7 +201,7 @@
     {
       "identity" : "swiftdiff",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:cyber-fun/SwiftDiff.git",
+      "location" : "https://github.com/cyber-fun/SwiftDiff.git",
       "state" : {
         "branch" : "master",
         "revision" : "116229dec3b970a18b8c38480167d7ed22861988"
