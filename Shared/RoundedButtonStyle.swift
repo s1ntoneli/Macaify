@@ -16,8 +16,8 @@ struct RoundedButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
             .frame(width: width, height: height)
             .background(
                 Group {
@@ -29,7 +29,7 @@ struct RoundedButtonStyle: ButtonStyle {
                             .fill(backgroundColor)
                             .overlay(
                                 RoundedRectangle(cornerRadius: cornerRadius)
-                                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                                    .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                             )
                     }
                 }

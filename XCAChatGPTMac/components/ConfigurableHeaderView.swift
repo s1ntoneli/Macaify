@@ -30,15 +30,15 @@ struct ConfigurableView<Content: View>: View {
                 Spacer()
                 
                 Text(LocalizedStringKey(title))
-                    .font(.headline)
+                    .font(.subheadline)
                     .fontWeight(.bold)
 
                 Spacer()
             }
         }
         .padding(.horizontal)
-        .padding(.top)
-        .padding(.bottom, 8)
+        .padding(.top, 4)
+        .padding(.bottom, 4)
     }
 }
 

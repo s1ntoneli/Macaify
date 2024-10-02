@@ -11,6 +11,7 @@ import SwiftUI
 struct ChatView: View {
     let conversation: GPTConversation
     let mode: ChatMode
+    let onBack: () -> Void
     var id: UUID {
         get {
             conversation.id
@@ -25,9 +26,10 @@ struct ChatView: View {
 
     @State private var showToast = false
 
-    init(command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal) {
+    init(command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal, onBack: @escaping () -> Void) {
         self.conversation = command
         self.mode = mode
+        self.onBack = onBack
         let useVoice = UserDefaults.standard.object(forKey: "useVoice") as? Bool ?? false
         let api = command.API
 //        self.vm = ViewModel(conversation: command, api: api, enableSpeech: useVoice)
@@ -40,19 +42,24 @@ struct ChatView: View {
     var body: some View {
 //        let _ = Self._printChanges() // ✅ Dump the information that triggered the View update.
 
-        VStack {
-            titleBar
-                .zIndex(100)
-//                .toast(isPresenting: $showToast){
-                    // `.alert` is the default displayMode
-//                    AlertToast(displayMode: .hud, type: .regular, title: "Added to favorites", style: .style(backgroundColor: .white))
-                    
-                    //Choose .hud to toast alert from the top of the screen
-                    //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
-//                }
-
-            ContentView(vm: self.vm)
-        }
+        ContentView(vm: self.vm)
+            .safeAreaInset(edge: .top, content: {
+                VStack(spacing: 0) {
+                    titleBar
+                        .background(.white.opacity(0.95))
+                        .background(.regularMaterial)
+                        .shadow(color: .gray.opacity(0.05), radius: 20)
+                    Divider()
+        //                .toast(isPresenting: $showToast){
+                            // `.alert` is the default displayMode
+        //                    AlertToast(displayMode: .hud, type: .regular, title: "Added to favorites", style: .style(backgroundColor: .white))
+                            
+                            //Choose .hud to toast alert from the top of the screen
+                            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
+        //                }
+                }
+            })
+        .ignoresSafeArea(.all)
         .background(.white)
         .onKeyPressed(.escape) { event in
             print("escape")
@@ -63,7 +70,7 @@ struct ChatView: View {
 
     var titleBar: some View {
         ConfigurableView(onBack: {
-            pathManager.back()
+            onBack()
         }, title: "\(conversation.iconOrDefault) \(conversation.name)", showLeftButton: true, actions: {
             switch mode {
             case .normal: normalActions

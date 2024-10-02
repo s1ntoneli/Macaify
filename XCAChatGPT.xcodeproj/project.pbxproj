@@ -14,12 +14,21 @@
 		694053732C6AF1410015191D /* Prompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694053722C6AF1410015191D /* Prompts.swift */; };
 		694053752C7ACB200015191D /* Compacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694053742C7ACB200015191D /* Compacts.swift */; };
 		694053782C7AF3A50015191D /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 694053772C7AF3A50015191D /* Defaults */; };
+		694931562CACE23500C344BD /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694931552CACE23400C344BD /* MainWindowController.swift */; };
 		694D07462CA95E4D0091156D /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 694D07452CA95E4D0091156D /* OpenAI */; };
 		694D074A2CA986750091156D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07492CA986710091156D /* SettingsView.swift */; };
 		694D074C2CA986B00091156D /* AppUpdater in Frameworks */ = {isa = PBXBuildFile; productRef = 694D074B2CA986B00091156D /* AppUpdater */; };
 		694D074E2CA989750091156D /* GithubProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D074D2CA989750091156D /* GithubProxy.swift */; };
 		694D07502CA9AADA0091156D /* AppUpdaterLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */; };
 		694D07522CA9AF290091156D /* AppUpdaterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07512CA9AF260091156D /* AppUpdaterHelper.swift */; };
+		694D07552CABA1B40091156D /* View+Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07542CABA1B40091156D /* View+Base.swift */; };
+		694D07562CABA1B40091156D /* View+Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07542CABA1B40091156D /* View+Base.swift */; };
+		694D07592CABA1D00091156D /* SelectedEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07582CABA1D00091156D /* SelectedEffect.swift */; };
+		694D075A2CABA1D00091156D /* HoveredEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07572CABA1D00091156D /* HoveredEffect.swift */; };
+		694D075B2CABA1D00091156D /* SelectedEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07582CABA1D00091156D /* SelectedEffect.swift */; };
+		694D075C2CABA1D00091156D /* HoveredEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D07572CABA1D00091156D /* HoveredEffect.swift */; };
+		694D075E2CABA1E40091156D /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D075D2CABA1E40091156D /* Environments.swift */; };
+		694D075F2CABA1E40091156D /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D075D2CABA1E40091156D /* Environments.swift */; };
 		695C8A1F2A6A0DA600C621E2 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */; };
 		695C8A2B2A6B892F00C621E2 /* MSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2A2A6B892F00C621E2 /* MSection.swift */; };
 		695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695C8A2E2A6BCCD000C621E2 /* Constants.swift */; };
@@ -208,12 +217,17 @@
 		693AF6B42CA95CDA00477550 /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = OpenAI; path = Packages/OpenAI; sourceTree = "<group>"; };
 		694053722C6AF1410015191D /* Prompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompts.swift; sourceTree = "<group>"; };
 		694053742C7ACB200015191D /* Compacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compacts.swift; sourceTree = "<group>"; };
+		694931552CACE23400C344BD /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		694D07442CA95E3B0091156D /* OpenAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OpenAI; sourceTree = "<group>"; };
 		694D07472CA982A40091156D /* AppUpdater */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppUpdater; sourceTree = "<group>"; };
 		694D07492CA986710091156D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		694D074D2CA989750091156D /* GithubProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubProxy.swift; sourceTree = "<group>"; };
 		694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdaterLink.swift; sourceTree = "<group>"; };
 		694D07512CA9AF260091156D /* AppUpdaterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdaterHelper.swift; sourceTree = "<group>"; };
+		694D07542CABA1B40091156D /* View+Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Base.swift"; sourceTree = "<group>"; };
+		694D07572CABA1D00091156D /* HoveredEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoveredEffect.swift; sourceTree = "<group>"; };
+		694D07582CABA1D00091156D /* SelectedEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEffect.swift; sourceTree = "<group>"; };
+		694D075D2CABA1E40091156D /* Environments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environments.swift; sourceTree = "<group>"; };
 		695C8A1D2A6A0CFE00C621E2 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		695C8A2A2A6B892F00C621E2 /* MSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSection.swift; sourceTree = "<group>"; };
 		695C8A2E2A6BCCD000C621E2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -398,6 +412,7 @@
 		6909348F2C67B66B00797D60 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				694D07532CABA19E0091156D /* SwiftEx */,
 				694D07442CA95E3B0091156D /* OpenAI */,
 				690934922C67BCBC00797D60 /* AULog */,
 				690934902C67BB0000797D60 /* Curosr */,
@@ -415,6 +430,17 @@
 				694D074F2CA9AADA0091156D /* AppUpdaterLink.swift */,
 			);
 			path = settings;
+			sourceTree = "<group>";
+		};
+		694D07532CABA19E0091156D /* SwiftEx */ = {
+			isa = PBXGroup;
+			children = (
+				694D07572CABA1D00091156D /* HoveredEffect.swift */,
+				694D07582CABA1D00091156D /* SelectedEffect.swift */,
+				694D07542CABA1B40091156D /* View+Base.swift */,
+				694D075D2CABA1E40091156D /* Environments.swift */,
+			);
+			path = SwiftEx;
 			sourceTree = "<group>";
 		};
 		695C8A1C2A6A0CE200C621E2 /* menu */ = {
@@ -481,6 +507,7 @@
 				696B6BB729EC4BE100845C71 /* MainViewModel.swift */,
 				698C5AE52A1698A9007C046A /* LanguageOptions.swift */,
 				698C5AE72A16A719007C046A /* AppShortcuts.swift */,
+				694931552CACE23400C344BD /* MainWindowController.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -1082,6 +1109,7 @@
 				8B057593298E52D900A56C9A /* ChatGPTAPI.swift in Sources */,
 				696B6BF729FB969100845C71 /* Emoji.swift in Sources */,
 				8B82463529B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
+				694D07562CABA1B40091156D /* View+Base.swift in Sources */,
 				696B6B8129E187B000845C71 /* AppInfo.swift in Sources */,
 				696B6BAC29EC160700845C71 /* StartupPasteboardManager.swift in Sources */,
 				696B6BA929EC055C00845C71 /* SelectedText.swift in Sources */,
@@ -1140,8 +1168,11 @@
 				69A6D4A12CA7E4920038B745 /* Defaults+Base.swift in Sources */,
 				695C8A2F2A6BCCD000C621E2 /* Constants.swift in Sources */,
 				696EEC872C690F8E006B27B5 /* Patch.swift in Sources */,
+				694D07592CABA1D00091156D /* SelectedEffect.swift in Sources */,
+				694D075A2CABA1D00091156D /* HoveredEffect.swift in Sources */,
 				8B057595298E52D900A56C9A /* MessageRowView.swift in Sources */,
 				696B6C0329FBA7F300845C71 /* EmojiPickerPopoverView.swift in Sources */,
+				694D075F2CABA1E40091156D /* Environments.swift in Sources */,
 				696B6B7929E179BC00845C71 /* SettingView.swift in Sources */,
 				8B057585298E52C000A56C9A /* XCAChatGPTMacApp.swift in Sources */,
 				698C5AE82A16A719007C046A /* AppShortcuts.swift in Sources */,
@@ -1157,6 +1188,7 @@
 				698C5AEE2A19C5EF007C046A /* StartUpView.swift in Sources */,
 				8B057596298E52DD00A56C9A /* ViewModel.swift in Sources */,
 				696EEC672C6855CE006B27B5 /* CMDKService.swift in Sources */,
+				694931562CACE23500C344BD /* MainWindowController.swift in Sources */,
 				696B6B8729E1911300845C71 /* PathManager.swift in Sources */,
 				696B6BB829EC4BE100845C71 /* MainViewModel.swift in Sources */,
 				696B6BE829FAEB9C00845C71 /* KeyUtils.swift in Sources */,
@@ -1200,7 +1232,10 @@
 			files = (
 				8B91C012298AD0CE0079AF26 /* ChatGPTAPI.swift in Sources */,
 				8B91C006298AD09E0079AF26 /* ContentView.swift in Sources */,
+				694D075E2CABA1E40091156D /* Environments.swift in Sources */,
 				8B612E2629D68CC9008DF5AF /* TokenizerView.swift in Sources */,
+				694D075B2CABA1D00091156D /* SelectedEffect.swift in Sources */,
+				694D075C2CABA1D00091156D /* HoveredEffect.swift in Sources */,
 				8B612E2729D68CC9008DF5AF /* TokenizerViewModel.swift in Sources */,
 				8B82463429B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
 				8B91C014298ADC560079AF26 /* ViewModel.swift in Sources */,
@@ -1209,6 +1244,7 @@
 				8B612E2529D68CC9008DF5AF /* TextView.swift in Sources */,
 				8B91C01A298ADF7F0079AF26 /* MessageRowView.swift in Sources */,
 				8B91C016298ADC9D0079AF26 /* MessageRow.swift in Sources */,
+				694D07552CABA1B40091156D /* View+Base.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1703,7 +1739,7 @@
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 2.4.0;
 			};
 		};
 		696B6BCB29F418B100845C71 /* XCRemoteSwiftPackageReference "AlertToast" */ = {

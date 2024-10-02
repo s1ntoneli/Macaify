@@ -48,6 +48,7 @@ func appShortcutKey() -> NSEvent.ModifierFlags? {
     case "command": return .command
     case "option": return .option
     case "control": return .control
+    case "function": return .function
     default: return nil
     }
 }

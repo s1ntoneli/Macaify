@@ -27,7 +27,7 @@ struct MessageRowView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            messageRow(text: message.sendText, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5), isResponse: false)
+            messageRow(text: message.sendText, image: message.sendImage, bgColor: colorScheme == .light ? .white.opacity(0.8) : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5), isResponse: false)
             
             if let text = message.responseText {
 //                Divider().padding(.horizontal)
@@ -60,7 +60,6 @@ struct MessageRowView: View {
         .padding(16)
         #endif
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(bgColor)
         #endif
     }
     
@@ -82,23 +81,14 @@ struct MessageRowView: View {
         }
         
         VStack(alignment: .leading) {
-            if !text.isEmpty, let attr = try? AttributedString(markdown: text) {
-//                #if os(tvOS)
-//                responseTextView(text: text)
-//                #else
-//                Text(text)
-//                    .multilineTextAlignment(.leading)
-//                    #if os(iOS) || os(macOS)
-//                    .textSelection(.enabled)
-//                    #endif
-//                #endif
-                Text(attr)
-//                Markdown {
-//                    text
-//                }
-//                .markdownTheme(.gitHub)
-                .textSelection(.enabled)
+            Markdown {
+                text
             }
+            .markdownTextStyle(textStyle: {
+                FontSize(.em(0.55))
+                ForegroundColor(Color.hex(0x37414F))
+            })
+            .textSelection(.enabled)
             
             if let error = responseError {
                 Text("Error: \(error)")

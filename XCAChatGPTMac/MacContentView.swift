@@ -25,13 +25,13 @@ struct MacContentView: View {
     
     var content: some View {
         ZStack {
-            mainView
+            makeMainView()
             switch pathManager.top {
-            case .main: mainView
+//            case .main(let command): makeMainView(command)
             case .addCommand: addCommandView
             case .editCommand(let command): makeEditCommandView(command)
             case .setting: settingView
-            case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
+//            case .chat(let command, let msg, let mode): makeChatView(command, msg: msg, mode: mode)
             case .playground: playground
             default: EmptyView()
             }
@@ -62,8 +62,12 @@ struct MacContentView: View {
         }
     }
     
-    var mainView: some View {
+    @ViewBuilder
+    func makeMainView(_ command: GPTConversation? = nil) -> some View {
         MainView()
+            .onChange(of: command) { oldValue, newValue in
+                ConversationViewModel.shared.currentChat = newValue
+            }
     }
     
     var addCommandView: some View {
@@ -83,7 +87,9 @@ struct MacContentView: View {
 
     func makeChatView(_ command: GPTConversation, msg: String?, mode: ChatMode = .normal) -> some View {
         print("makeChatView \(command.name) \(msg) \(mode)")
-        return ChatView(command: command, msg: msg, mode: mode).id(command.id)
+        return ChatView(command: command, msg: msg, mode: mode) {
+            pathManager.back()
+        }.id(command.id)
     }
 
     func makeEditCommandView(_ command: GPTConversation)-> some View {
@@ -92,7 +98,7 @@ struct MacContentView: View {
 }
 
 enum Target: Hashable {
-    case main
+    case main(command: GPTConversation? = nil)
     case setting
     case addCommand
     case playground

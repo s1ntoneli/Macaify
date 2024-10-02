@@ -21,6 +21,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
+            Color.clear
             chatListView
         }
     }
@@ -30,12 +31,12 @@ struct ContentView: View {
             Color.clear
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("⌘D").font(.title3).foregroundColor(.text)
-                    Text("⌘N").font(.title3).foregroundColor(.text)
+                    Text("⌘D").font(.body).foregroundColor(.text)
+                    Text("⌘N").font(.body).foregroundColor(.text)
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("删除聊天记录").font(.title3).foregroundColor(.text)
-                    Text("清除上下文，开始新聊天").font(.title3).foregroundColor(.text)
+                    Text("删除聊天记录").font(.body).foregroundColor(.text)
+                    Text("清除上下文，开始新聊天").font(.body).foregroundColor(.text)
                 }
             }
         }
@@ -60,15 +61,17 @@ struct ContentView: View {
                         }
                     }
                 }
-//                .background(GeometryReader {
-//                                Color.clear.preference(key: ScrollOffsetPreferenceKey.self, value: $0.frame(in: .global).minY)
-//                })
-#if os(iOS) || os(macOS)
-                Divider()
-                bottomView(image: "profile", proxy: proxy)
-                Spacer()
-#endif
             }
+            .safeAreaInset(edge: .bottom, content: {
+                VStack(spacing: 0) {
+                    Divider()
+                    bottomView(image: "profile", proxy: proxy)
+                        .padding(4)
+                }
+                .background(.white)
+                .background(.regularMaterial)
+                .shadow(color: .gray.opacity(0.05), radius: 20, x: 0, y: 2)
+            })
             .onChange(of: vm.messages.last?.responseText) { _ in
                 if (!scrolledByUser) {
                     scrollToBottom(proxy: proxy)
@@ -86,6 +89,7 @@ struct ContentView: View {
             }
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
+//        .background(.regularMaterial)
     }
     
     
@@ -139,7 +143,7 @@ struct ContentView: View {
                     self.textWidth = height
                 }
                 .frame(maxHeight: CGFloat(vm.inputMessage.lineCount(frameWidth: self.textWidth)) * 20)
-                .animation(.easeInOut)
+//                .animation(.easeInOut)
 #if os(iOS) || os(macOS)
                 .textFieldStyle(.roundedBorder)
 #endif
@@ -187,9 +191,8 @@ struct ContentView: View {
                 }
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 8)
-        .animation(.easeInOut)
+        .padding(.horizontal, 8)
+//        .animation(.easeInOut)
     }
 
     private func scrollToBottom(proxy: ScrollViewProxy) {

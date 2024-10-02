@@ -39,12 +39,7 @@ class HotKeyManager {
             NSLog("key pressed \(Bundle.main.bundleIdentifier)")
             
             if appShortcutOption() == "custom" {
-                let app = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "").first
-                print("app is nil ? \(app)")
-                app?.activate(options: [.activateAllWindows, .activateIgnoringOtherApps])
-                
-                guard let window = NSApplication.shared.windows.first else {  return }
-                window.deminiaturize(nil)
+                MainWindowController.shared.toggle()
             }
         }
 
@@ -67,7 +62,7 @@ class HotKeyManager {
             NSLog("key pressed \(conversation.autoAddSelectedText) conversation \(conversation.id) autoAdd \(conversation.autoAddSelectedText)")
 
             print("top is found \(NSApplication.shared.isActive)")
-            print("top is Main \(PathManager.shared.top == .main)")
+//            print("top is Main \(case .main = PathManager.shared.top)")
 
             let isActive = NSApplication.shared.isActive
 
@@ -107,22 +102,6 @@ class HotKeyManager {
     }
 }
 
-func resume(bundleId: String = Bundle.main.bundleIdentifier ?? "") {
-    let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleId).first
-    print("app is nil ? \(app)")
-    app?.activate(options: [ .activateIgnoringOtherApps, .activateAllWindows])
-    app?.activate()
-
-    NSApplication.shared.activate(ignoringOtherApps: true)
-//            self.window.makeKeyAndOrderFront(nil)
-    app?.activate(options: [.activateAllWindows])
-
-    // 唤起主窗口
-    print("windows count", NSApplication.shared.windows.count)
-    guard let window = NSApplication.shared.windows.first(where: { NSStringFromClass(type(of: $0)) != "NSStatusBarWindow" && $0.canBecomeKey && $0.canBecomeMain  }) else {
-        return
-    }
-    print("top is found \(window.title)", window.frame, NSStringFromClass(type(of: window)))
-    window.makeKeyAndOrderFront(nil)
-    window.deminiaturize(nil)
+func resume() {
+    MainWindowController.shared.showWindow()
 }

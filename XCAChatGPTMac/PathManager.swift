@@ -18,7 +18,7 @@ class PathManager: ObservableObject {
 
     var top: Target? {
         get {
-            pathStack.last as? Target ?? .main
+            pathStack.last as? Target ?? .main()
         }
     }
     
@@ -28,7 +28,7 @@ class PathManager: ObservableObject {
                 guard let self = self else { return }
                 print("top changed")
                 DispatchQueue.main.async {
-                    if self.top == .main {
+                    if case .main(_) = self.top {
                         print("new to Main")
                         NotificationCenter.default.post(name: .init("toMain"), object: self)
                     }
@@ -50,21 +50,14 @@ class PathManager: ObservableObject {
         pathStack.append(target)
     }
     
-    func toMain() {
-        while (path.count > 0) {
-            path.removeLast()
-            pathStack.removeLast()
-        }
+    func toMain(command: GPTConversation? = nil) {
+        pathStack.removeAll()
+        
+        path.append(Target.main(command: command))
+        pathStack.append(Target.main(command: command))
     }
 
     func toChat(_ command: GPTConversation, msg: String? = nil, mode: ChatMode = .normal) {
-        print("toChat")
-        switch top {
-        case .chat(_,_,_):
-            path.removeLast()
-            pathStack.removeLast()
-        default: break
-        }
-        self.to(target: .chat(command: command, msg: msg, mode: mode))
+        toMain(command: command)
     }
 }

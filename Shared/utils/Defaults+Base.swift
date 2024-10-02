@@ -12,4 +12,7 @@ extension Defaults.Keys {
     static let selectedProvider = Key<String>("selectedProvider", default: "")
     static let apiKey = Key<String>("apiKey", default: "")
     static let proxyAddress = Key<String>("proxyAddress", default: "")
+    
+    // 侧边栏默认收起
+    static let collapsed = Key<Bool>("collapsed", default: false)
 }

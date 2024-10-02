@@ -63,16 +63,18 @@ struct PlainButton: View, Identifiable {
                 }
                 if showLabel && !label.isEmpty {
                     Text(LocalizedStringKey(label))
+                        .lineLimit(1)
                 }
                 if autoShowShortcutHelp, let shortcut = shortcut, globalConfig.showShortcutHelp  {
                     Text(shortcut.description.uppercased())
                         .modifier(EventModifierSymbolModifier(modifiers))
+                        .lineLimit(1)
                 }
             }
         }
             .frame(minHeight: 32)
             .frame(width: width, height: height)
-            .buttonStyle(RoundedButtonStyle(cornerRadius: 6, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor, width: width, height: height))
+            .buttonStyle(RoundedButtonStyle(cornerRadius: cornerRadius, backgroundColor: backgroundColor, pressedBackgroundColor: pressedBackgroundColor, width: width, height: height))
             .cornerRadius(cornerRadius)
             .foregroundColor(foregroundColor)
             .onHover { hover in

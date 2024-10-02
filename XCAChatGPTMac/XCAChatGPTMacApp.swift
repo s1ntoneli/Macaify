@@ -18,17 +18,10 @@ struct XCAChatGPTMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
 //    @StateObject var vm = CommandStore.shared.menuViewModel
-    @StateObject var vm = ConversationViewModel.shared
     @StateObject private var appState = AppState()
     @StateObject private var typingInPlace = TypingInPlace.shared
     @State var commandKeyDown: Bool = false
     @State var commandKeyDownTimestamp: TimeInterval = 0
-    @State var commandLocalMonitor = KeyMonitor(.command)
-    @State var globalMonitor = KeyMonitorManager.shared
-    @StateObject private var emojiViewModel = EmojiPickerViewModel()
-    @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
-
-    let globalConfig = GlobalConfig()
     
     @StateObject var updater = AppUpdaterHelper.shared.updater
 
@@ -38,56 +31,11 @@ struct XCAChatGPTMacApp: App {
     }
 
     private var windowView: some Scene {
-        WindowGroup(id: "main_window") {
-            MacContentView()
-                .environmentObject(vm)
-                .environmentObject(globalConfig)
-                .environmentObject(emojiViewModel)
-                .environment(\.locale, .init(identifier: userDefaultsSelectedLanguage ?? "en"))
-                .ignoresSafeArea(.all)
-                .onAppear {
-                    commandLocalMonitor.handler = {
-                        print("Command key was held down for 1 second")
-                        withAnimation {
-                            globalConfig.showShortcutHelp = true
-                        }
-                    }
-                    commandLocalMonitor.onKeyUp = {
-                        withAnimation {
-                            globalConfig.showShortcutHelp = false
-                        }
-                    }
-                    commandLocalMonitor.start()
-                    globalMonitor.start()
-                    globalMonitor.updateModifier(appShortcutKey())
-                }
-                .onDisappear {
-                    commandLocalMonitor.stop()
-                    globalMonitor.stop()
-                }
-                .background(BackgroundView())
+        WindowGroup {
+            EmptyView()
+                .frame(width: 0, height: 0)
         }
-//        .commands {
-//            CommandGroup(replacing: .newItem) {}
-//        }
-        .windowStyle(.hiddenTitleBar) // Hide the title bar
-        .onChange(of: scenePhase) { s in
-            switch s {
-            case .background:
-                print("background")
-                commandLocalMonitor.stop()
-                globalMonitor.stop()
-            case .inactive:
-                print("inactive")
-                commandLocalMonitor.stop()
-                globalMonitor.stop()
-            case .active:
-                print("active")
-                
-            @unknown default:
-                print("default")
-            }
-        }
+        .windowResizability(.contentSize)
     }
     @State private var dots = ""
     @State var menuAnimateTimer: Timer? = nil
@@ -107,7 +55,6 @@ struct XCAChatGPTMacApp: App {
                 .buttonStyle(.borderless)
             }
             Button {
-                openWindow(id: "main_window")
                 resume()
             } label: {
                 Text("open_macaify")
@@ -270,6 +217,7 @@ final class AppState: ObservableObject {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    var globalMonitor = KeyMonitorManager.shared
 
     func application(_ application: NSApplication, open urls: [URL]) {
         print("application")
@@ -286,6 +234,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        MenuBarManager.shared.setupMenus()
         AULog.printLog = true
         AppUpdaterHelper.shared.initialize()
+        globalMonitor.start()
+        globalMonitor.updateModifier(appShortcutKey())
+        MainWindowController.shared.showWindow()
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         print("applicationShouldTerminateAfterLastWindowClosed")

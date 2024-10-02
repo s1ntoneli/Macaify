@@ -17,9 +17,24 @@ class ConversationViewModel: ObservableObject {
     @Published var conversations: [GPTConversation] = []
     @Published var filteredConvs: [GPTConversation] = []
     
-    // 选中的列表项下标
-    @Published var selectedItemIndex = -1
+    // 当前进行的聊天
+    @Published var currentChat: GPTConversation?
     
+    // 选中的列表项下标
+    @Published var hoveredCommand: GPTConversation?
+    var selectedItemIndex: Int {
+        get {
+            if let hoveredCommand {
+                return conversations.firstIndex(of: hoveredCommand) ?? -1
+            } else {
+                return -1
+            }
+        }
+        set {
+            hoveredCommand = conversations.indices.contains(newValue) ? conversations[newValue] : nil
+        }
+    }
+
     private let userDefaults = UserDefaults.standard
     private let commandsKey = "commands"
     private var viewModels: [UUID: ViewModel] = [:]
@@ -36,6 +51,10 @@ class ConversationViewModel: ObservableObject {
 
     var selectedCommandOrDefault: GPTConversation {
         conversations.indices.contains(selectedItemIndex) ? conversations[selectedItemIndex] : GPTConversation.empty
+    }
+
+    var selectedCommand: GPTConversation? {
+        conversations.indices.contains(selectedItemIndex) ? conversations[selectedItemIndex] : nil
     }
     
     init() {

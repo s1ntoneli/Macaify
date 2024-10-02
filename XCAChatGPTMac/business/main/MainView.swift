@@ -8,10 +8,12 @@
 import Foundation
 import SwiftUI
 import KeyboardShortcuts
+import Defaults
 
 struct MainView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.isEnabled) private var isEnabled: Bool
+    @Environment(\.hoveredColor) private var hoveredColor: Color
 
     @EnvironmentObject var convViewModel: ConversationViewModel
 
@@ -23,9 +25,21 @@ struct MainView: View {
     @State private var isAddCommandViewPresented = false
     @FocusState private var focus:FocusedField?
     @State private var indexChangedSource: IndexChangeEvent = .none
-    @State private var animating = true
     
-    @State var hoveredIndex = -1
+    @Default(.collapsed)
+    private var collapsed: Bool
+    
+    @State
+    private var shouldCollapsedCommands: Bool = false
+    
+    private var currentChat: GPTConversation? {
+        get {
+            convViewModel.currentChat
+        }
+        set {
+            convViewModel.currentChat = newValue
+        }
+    }
     
     var selectedItemIndex: Int {
         get {
@@ -34,70 +48,67 @@ struct MainView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // 搜索框
-            HStack(alignment: .center, spacing: 0) {
-                Spacer(minLength: 6)
-                Image(systemName: "magnifyingglass")
-                    .resizable()
-                    .foregroundColor(Color.text)
-                    .frame(width: 20, height: 20)
-                TextField(placeholder, text: $searchText)
-                    .disabled(!isEnabled)
-                    .focusable()
-                    .focused($focus, equals: .name)
-                    .textFieldStyle(.plain)
-                    .padding()
-                    .font(.system(size: 18))
-                    .foregroundColor(Color.text)
-                    .onChange(of: searchText) { newValue in
-                        Task {
-                            MainViewModel.shared.searchText = newValue
-                        }
-                    }
-                    .onSubmit {
-                        print("onSubmit")
-                        startChat(convViewModel.selectedCommandOrDefault, searchText)
-                    }
-                    .task {
-                        print("search is going to appear")
-                        focus = .name
-                    }
-                Spacer()
-                rightTips
-            }
-            .padding(.horizontal)
-
-            Divider().background(Color.divider)
-            
+        Group {
             if convViewModel.conversations.isEmpty {
                 emptyView
             } else {
-                HStack(spacing: 0) {
-                    GeometryReader { reader in
-                        HStack(spacing: 0) {
-                            commands
-                                .frame(width: reader.size.width * 0.7)
-                            
+                GeometryReader { reader in
+                    HStack(spacing: 0) {
+                        commands
+                            .if(!shouldCollapsedCommands, {
+                                $0.frame(width: currentChat == nil ? reader.size.width * 1 : reader.size.width * 0.3)
+                            })
+                        if let currentChat {
                             Divider()
-                                .background(Color.divider)
-                            
-                            details
-                                .frame(width: reader.size.width * 0.3)
+                                .shadow(color: .gray.opacity(0.05), radius: 10, x: -5, y: 0)
+                                .shadow(color: .gray.opacity(0.05), radius: 10, x: 5, y: 0)
+                            makeChatView(currentChat, msg: nil)
                         }
                     }
                 }
             }
-
-            // 底部信息栏
-            bottomBar
         }
-        .background(.white)
+        .onChange(of: convViewModel.currentChat, { oldValue, newValue in
+            withAnimation {
+                shouldCollapsedCommands = collapsed && newValue != nil
+            }
+        })
+        .onChange(of: collapsed, { oldValue, newValue in
+            withAnimation {
+                shouldCollapsedCommands = newValue && convViewModel.currentChat != nil
+            }
+        })
+        .background(.white.opacity(0.95))
+        .background(.gray)
+        .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
+            // 搜索框
+            if currentChat == nil {
+                VStack(spacing: 0) {
+                    searchBar
+                    Divider().background(Color.divider)
+                }
+                .background(.white.opacity(0.8))
+                .background(.regularMaterial)
+//                .shadow(color: .gray.opacity(0.05), radius: 20)
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            // 底部信息栏
+            if currentChat == nil {
+                VStack(spacing: 0) {
+                    Divider()
+                        .opacity(0.5)
+                    bottomBar
+                }
+                .background(.white.opacity(0.7))
+                .background(.regularMaterial)
+                .shadow(color: .gray.opacity(0.05), radius: 20, y: -10)
+            }
+        }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 print("onAppear")
                 self.focus = .name
-                self.animating = false
             }
         }
         .onKeyPressed(.upArrow) { event in
@@ -118,17 +129,21 @@ struct MainView: View {
         }
         .onKeyPressed(.escape) { event in
             print("escape")
-            indexChangedSource = .escape
-            convViewModel.selectedItemIndex = -1
-            return true
+            if convViewModel.selectedItemIndex != -1 {
+                indexChangedSource = .escape
+                convViewModel.selectedItemIndex = -1
+                return true
+            } else {
+                MainWindowController.shared.closeWindow()
+                return false
+            }
         }
         .onKeyPressed(.enter) { event in
             print("enter")
-            if focus != .name {
-                startChat(convViewModel.selectedCommandOrDefault, searchText)
-                return true
+            withAnimation {
+                convViewModel.currentChat = convViewModel.selectedCommandOrDefault
             }
-            return false
+            return true
         }
         .onReceive(NotificationCenter.default.publisher(for: .init("toMain"))) { notification in
             DispatchQueue.main.async {
@@ -146,12 +161,12 @@ struct MainView: View {
             Color.clear
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("⌘N").font(.title3).foregroundColor(.text)
-                    Text("⌘按住").font(.title3).foregroundColor(.text)
+                    Text("⌘N").font(.body).foregroundColor(.text)
+                    Text("⌘按住").font(.body).foregroundColor(.text)
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("添加机器人").font(.title3).foregroundColor(.text)
-                    Text("显示快捷提示").font(.title3).foregroundColor(.text)
+                    Text("添加机器人").font(.body).foregroundColor(.text)
+                    Text("显示快捷提示").font(.body).foregroundColor(.text)
                 }
             }
         }
@@ -179,63 +194,104 @@ struct MainView: View {
     
     var commands: some View {
         // 列表
-        ScrollViewReader { proxy in
-            List {
-                Text("常用操作")
-                    .padding(.bottom, 6)
-                    .foregroundColor(.text)
-//                    .bold()
-                    .font(.headline)
-                ForEach(convViewModel.conversations) { command in
-                    let index = convViewModel.indexOf(conv: command)
-                    let selected = convViewModel.conversations.indices.contains(selectedItemIndex) && index == selectedItemIndex || (convViewModel.conversations.indices.contains(hoveredIndex) && hoveredIndex == index)
-                    makeCommandItem(command, selected: selected)
-                        .onTapGesture {
-                            pathManager.toChat(command, msg: searchText)
-                        }
-                        .onHover(perform: { hovered in
-                            if (hovered && !animating) {
-//                                indexChangedSource = .none
-//                                convViewModel.selectedItemIndex = (convViewModel.conversations.firstIndex(of: command) ?? -1)
-                                hoveredIndex = convViewModel.indexOf(conv: command)
-                            } else {
-                                hoveredIndex = -1
+        ScrollViewReader { reader in
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    Text("常用操作")
+                        .padding(.bottom, 6)
+                        .foregroundColor(.text)
+                        .font(.headline)
+                    ForEach(convViewModel.conversations) { command in
+                        makeCommandItem(command, selected: convViewModel.hoveredCommand == command)
+                            .if(shouldCollapsedCommands, { $0.help(command.name) })
+                            .contentShape(.rect)
+                            .onTapGesture {
+                                withAnimation(.easeInOut) {
+                                    convViewModel.currentChat = command
+                                }
                             }
-                        })
-                        .id(command.id)
-                }
-                .onDelete(perform: convViewModel.removeCommand)
-                .onChange(of: convViewModel.selectedItemIndex) { newValue in
-                    print("selectedItem changed newValue \(newValue)")
-                    if [.upArrow, .downArrow].contains(indexChangedSource) && convViewModel.conversations.indices.contains(selectedItemIndex)  {
-                        withAnimation {
-                            animating = true
-                            print("animating")
-                            proxy.scrollTo(convViewModel.conversations[selectedItemIndex].id, anchor: .bottom)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                animating = false
-                                print("end of animating")
+                            .id(command.id)
+                            .listRowSeparator(visibility: .hidden)
+                    }
+                    .onDelete(perform: convViewModel.removeCommand)
+                    .contentMargins(0)
+                    .onChange(of: convViewModel.selectedCommand) { newValue in
+                        print("selectedItem changed newValue \(newValue)")
+                        if [.upArrow, .downArrow].contains(indexChangedSource), let newValue {
+                            withAnimation {
+                                reader.scrollTo(newValue.id, anchor: .bottom)
                             }
                         }
                     }
                 }
-                .listRowSeparator(visibility: .hidden)
+                .if(shouldCollapsedCommands, { $0.fixedSize() })
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal, 0)
-            .padding(.vertical, 8)
+            .scrollIndicators(.never)
+            .contentMargins(0)
+            .padding(.horizontal)
+            .safeAreaInset(edge: .bottom, alignment: .trailing) {
+                if currentChat != nil {
+                    HStack {
+                        Button {
+                            withAnimation(.easeInOut) {
+                                self.collapsed.toggle()
+                            }
+                        } label: {
+                            Image(systemName: collapsed ? "arrow.right.to.line" : "arrow.left.to.line")
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(.white.opacity(0.7))
+                    .background(.regularMaterial)
+                    .fixedSize()
+                }
+            }
         }
     }
     
     var details: some View {
         ZStack {
-            if convViewModel.conversations.indices.contains(hoveredIndex) {
-                CommandDetailView(command: convViewModel.conversations[hoveredIndex])
-                    .id(convViewModel.conversations[hoveredIndex].id)
-            } else {
-                CommandDetailView(command: convViewModel.selectedCommandOrDefault)
-                    .id(convViewModel.selectedCommandOrDefault.id)
-            }
+            let command = convViewModel.hoveredCommand ?? convViewModel.selectedCommandOrDefault
+            CommandDetailView(command: command)
+                .id(command.id)
         }
+    }
+    
+    var searchBar: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Spacer(minLength: 6)
+            Image(systemName: "magnifyingglass")
+                .resizable()
+                .foregroundColor(Color.text)
+                .frame(width: 20, height: 20)
+            TextField(placeholder, text: $searchText)
+                .disabled(!isEnabled)
+                .focusable()
+                .focused($focus, equals: .name)
+                .textFieldStyle(.plain)
+                .padding()
+                .font(.system(size: 18))
+                .foregroundColor(Color.text)
+                .onChange(of: searchText) { newValue in
+                    Task {
+                        MainViewModel.shared.searchText = newValue
+                    }
+                }
+                .onSubmit {
+                    print("onSubmit")
+                    startChat(convViewModel.selectedCommandOrDefault, searchText)
+                }
+                .task {
+                    print("search is going to appear")
+                    focus = .name
+                }
+            Spacer()
+            rightTips
+        }
+        .padding(.horizontal)
     }
     
     var bottomBar: some View {
@@ -268,63 +324,61 @@ struct MainView: View {
             }
             Spacer()
             HStack {
-                PlainButton(icon: "gear", label: "全局设置", shortcut: .init(","), modifiers: .command) {
+                PlainButton(icon: "gear", label: "全局设置", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init(","), modifiers: .command) {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }
-                PlainButton(icon: "sparkles.rectangle.stack", label: "机器人广场", shortcut: .init("l"), modifiers: .command) {
+                PlainButton(icon: "sparkles.rectangle.stack", label: "机器人广场", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("l"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .playground)
                 }
-                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加机器人", shortcut: .init("n"), modifiers: .command) {
+                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加机器人", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("n"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .addCommand)
                 }
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 10)
+        .padding(.vertical, 4)
     }
     
     func makeCommandItem(_ command: GPTConversation, selected: Bool) -> some View {
-        return ZStack {
-            Color.clear
-            HStack(alignment: .center) {
-                Group {
-                    ConversationIconView(conversation: command, size: 24).id(command.icon)
-                }
-
-                HStack(alignment: .center, spacing: 8) {
-                    Text(command.name)
-                        .font(.title2)
-                        .foregroundColor(Color.hex(0x37414F))
-                    if command.typingInPlace {
-                        Text("TIP")
-                            .font(.footnote)
-                            .foregroundColor(.white)
-                            .padding(2)
-                            .background(Color.purple.cornerRadius(4))
-                            .help("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字")
-                    }
-
-                    Spacer()
-                    Text(KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(command.id.uuidString))?.description ?? "")
-                        .font(.body)
-                        .foregroundColor(Color.hex(0x37414F).opacity(0.5))
-                }
-                .padding(.leading)
-                Spacer()
-            }
-            .padding(.leading, 8)
+        CommandItem(state: commandsViewState)
+            .environmentObject(command)
+            .if(shouldCollapsedCommands, { $0.padding(.horizontal, 4) }, else: { $0.padding(.horizontal, currentChat != nil ? 8 : 12) })
+            .padding(.vertical, 8)
+            .hoveredEffect()
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(selected ? hoveredColor : .clear)
+            )
+    }
+    
+    var commandsViewState: CommandItem.ViewState {
+        if currentChat == nil {
+            return .normal
         }
-        .padding(12)
-        .background(selected ? Color.hex(0xF9FAFC) : Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        if collapsed {
+            return .collapsed
+        }
+        return .simple
     }
     
     func startChat(_ command: GPTConversation,_ searchText: String) {
         pathManager.toChat(command, msg: searchText)
         self.searchText.removeAll()
+    }
+    
+    func makeChatView(_ command: GPTConversation, msg: String?, mode: ChatMode = .normal) -> some View {
+        return ChatView(command: command, msg: msg, mode: mode) {
+            if case .main(_) = pathManager.top {
+                withAnimation {
+                    convViewModel.currentChat = nil
+                }
+            }
+        }
+        .id(command.id)
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -348,4 +402,47 @@ enum IndexChangeEvent {
     case escape
     case hover
     case none
+}
+
+struct CommandItem: View {
+    let state: ViewState
+    @EnvironmentObject var command: GPTConversation
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Group {
+                ConversationIconView(conversation: command, size: 16).id(command.icon)
+            }
+
+            if state != .collapsed {
+                HStack(alignment: .center, spacing: 8) {
+                    Text(command.name)
+                        .foregroundColor(Color.hex(0x37414F))
+                        .lineLimit(1)
+                    if state == .normal && command.typingInPlace {
+                        Text("TIP")
+                            .font(.footnote)
+                            .foregroundColor(.white)
+                            .padding(2)
+                            .background(Color.purple.cornerRadius(4))
+                            .help("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字")
+                    }
+                    
+                    Spacer()
+                    if state == .normal {
+                        Text(KeyboardShortcuts.getShortcut(for: KeyboardShortcuts.Name(command.id.uuidString))?.description ?? "")
+                            .font(.body)
+                            .foregroundColor(Color.hex(0x37414F).opacity(0.5))
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+        }
+    }
+    
+    enum ViewState {
+        case normal
+        case simple
+        case collapsed
+    }
 }
