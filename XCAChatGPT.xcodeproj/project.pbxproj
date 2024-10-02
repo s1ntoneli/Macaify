@@ -412,6 +412,7 @@
 		6909348F2C67B66B00797D60 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				694931572CAD3C9E00C344BD /* Localizables */,
 				694D07532CABA19E0091156D /* SwiftEx */,
 				694D07442CA95E3B0091156D /* OpenAI */,
 				690934922C67BCBC00797D60 /* AULog */,
@@ -419,6 +420,15 @@
 				694D07472CA982A40091156D /* AppUpdater */,
 			);
 			path = Packages;
+			sourceTree = "<group>";
+		};
+		694931572CAD3C9E00C344BD /* Localizables */ = {
+			isa = PBXGroup;
+			children = (
+				698C5ADE2A14D919007C046A /* en.lproj */,
+				698C5ADD2A14D90B007C046A /* zh-Hans.lproj */,
+			);
+			path = Localizables;
 			sourceTree = "<group>";
 		};
 		694D07482CA9866C0091156D /* settings */ = {
@@ -734,8 +744,6 @@
 			isa = PBXGroup;
 			children = (
 				69A6D4992CA7C51D0038B745 /* Resources */,
-				698C5ADE2A14D919007C046A /* en.lproj */,
-				698C5ADD2A14D90B007C046A /* zh-Hans.lproj */,
 				696B6BFE29FB9AB200845C71 /* emoji_metadata.json */,
 				696B6BEE29FB969100845C71 /* Helpers */,
 				696B6BF029FB969100845C71 /* Models */,

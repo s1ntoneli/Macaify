@@ -17,7 +17,7 @@ struct AppShortcuts: View {
 
     var body: some View {
         HStack {
-            Picker("全局唤醒热键", selection: $appShortcutOption) {
+            Picker("global_wakeup_hotkey", selection: $appShortcutOption) {
                 ForEach(options, id: \.id) { option in
                     Text(LocalizedStringKey(option.name))
                 }
