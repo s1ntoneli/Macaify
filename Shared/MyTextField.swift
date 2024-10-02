@@ -60,7 +60,7 @@ struct MyTextField: View {
             
             // 显示占位符文本
             if text.isEmpty {
-                Text("Placeholder Text")
+                Text("placeholder_text")
                     .foregroundColor(Color(.placeholderTextColor))
                     .padding(.horizontal, 4.0)
                     .padding(.vertical, 8.0)

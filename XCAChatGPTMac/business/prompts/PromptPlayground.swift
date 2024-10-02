@@ -85,7 +85,7 @@ struct PromptPlayground: View {
     
     var category: some View {
         List {
-            CategoryItem(name: "全部", selected: selected == 0)
+            CategoryItem(name: "all", selected: selected == 0)
                 .onTapGesture {
                     promptStore.selected = 0
                 }

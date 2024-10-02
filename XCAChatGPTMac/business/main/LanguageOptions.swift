@@ -14,10 +14,10 @@ struct LanguageOptions: View {
 
     @AppStorage("selectedLanguage") var userDefaultsSelectedLanguage: String?
     
-    private let options = [Lang(name: "English", localeIdentifier: "en"), Lang(name: "简体中文", localeIdentifier: "zh-cn")]
+    private let options = [Lang(name: "English", localeIdentifier: "en"), Lang(name: "简体中文", localeIdentifier: "zh-hans")]
     
     var body: some View {
-        Picker("选择语言", selection: $selectedLanguage) {
+        Picker("select_language", selection: $selectedLanguage) {
             ForEach(options, id: \.localeIdentifier) { language in
                 Text(language.name).tag(language.localeIdentifier)
             }

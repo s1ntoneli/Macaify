@@ -175,7 +175,7 @@ struct MessageRowView: View {
             Rectangle()
                 .frame(height: 1)
                 .foregroundColor(.divider)
-            Text("新聊天")
+            Text("new_chat")
                 .font(.body)
                 .foregroundColor(.text)
                 .opacity(0.5)

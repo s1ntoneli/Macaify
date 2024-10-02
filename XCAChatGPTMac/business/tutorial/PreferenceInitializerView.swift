@@ -24,7 +24,7 @@ struct PreferenceInitializerView: View {
 
     var body: some View {
         VStack {
-            Text("初始设置")
+            Text("initial_setup")
                 .font(.largeTitle)
                 .bold()
                 .padding(.top, 20)
@@ -32,7 +32,7 @@ struct PreferenceInitializerView: View {
 
             Spacer()
             List {
-                MSection("完成设置以开始使用") {
+                MSection("complete_setup_to_start") {
                     lang
                         .buttonStyle(.borderless)
 
@@ -49,7 +49,7 @@ struct PreferenceInitializerView: View {
                     Divider()
                         .opacity(0.3)
 
-                    Item("输入 API 密钥") {
+                    Item("enter_api_key") {
                         TextField("sk-xxxxxxxxxxxxxxxxxxxxx", text: $apiKey)
                             .textFieldStyle(.plain)
                             .multilineTextAlignment(.trailing)
@@ -70,7 +70,7 @@ struct PreferenceInitializerView: View {
     }
     
     var submit: some View {
-        PlainButton(label: "完成设置", width: 300, height: 40, backgroundColor: .blue.opacity(0.9), pressedBackgroundColor: .blue, foregroundColor: .white, cornerRadius: 8, shortcut: .init("s"), modifiers: .command, action: {
+        PlainButton(label: "finish", width: 300, height: 40, backgroundColor: .blue.opacity(0.9), pressedBackgroundColor: .blue, foregroundColor: .white, cornerRadius: 8, shortcut: .init("s"), modifiers: .command, action: {
             showPreferenceInitializer = false
             initializeIfNeeded(language)
             self.presentationMode.wrappedValue.dismiss()

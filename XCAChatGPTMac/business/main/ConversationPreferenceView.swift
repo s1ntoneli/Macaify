@@ -56,7 +56,7 @@ struct ConversationPreferenceView: View {
                     commandStore.updateCommand(command: conversation)
                 }
                 pathManager.back()
-            }, title: isNew ? "添加机器人" : "编辑机器人", showLeftButton: true) {
+            }, title: isNew ? "create_bot" : "edit_bot", showLeftButton: true) {
                 if !isNew {
                     PlainButton(icon: "trash", foregroundColor: .red, shortcut: .init("d"), modifiers: .command) {
                         // 删除按钮的响应
@@ -66,7 +66,7 @@ struct ConversationPreferenceView: View {
                 }
             }
             .alert(isPresented: $showingAlert) {
-                        Alert(title: Text("错误"), message: Text("用户名不能为空"), dismissButton: .default(Text("确定")))
+                        Alert(title: Text("error"), message: Text("user_cannot_empty"), dismissButton: .default(Text("ok")))
                     }
 
             List {
@@ -91,7 +91,7 @@ struct ConversationPreferenceView: View {
             // 底部信息栏
             HStack {
                 Spacer()
-                PlainButton(icon: "tray.full", label: "完成", shortcut: .init("s"), modifiers: .command) {
+                PlainButton(icon: "tray.full", label: "done", shortcut: .init("s"), modifiers: .command) {
                     // 保存按钮的响应
                     switch (mode) {
                     case .add:
@@ -136,7 +136,7 @@ struct ConversationPreferenceView: View {
                                 isShowingPopover.toggle()
                             }
                     } else {
-                        Text("􀎸 添加图标")
+                        Text("add_icon")
                             .font(.body)
                             .opacity(0.5)
                             .onTapGesture {
@@ -159,8 +159,8 @@ struct ConversationPreferenceView: View {
     
     var name: some View {
         Group {
-            Text("机器人名字").font(.headline)
-            TextField("输入机器人名称方便记忆", text: $conversation.name, onCommit: {
+            Text("bot_name").font(.headline)
+            TextField("input_bot_name", text: $conversation.name, onCommit: {
                 print("onCommit")
             })
             .focusable(true)
@@ -176,7 +176,7 @@ struct ConversationPreferenceView: View {
     
     var systemProtmp: some View {
         Group {
-            Text("系统提示").font(.headline)
+            Text("system_prompt").font(.headline)
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $prompt)
                     .padding(.vertical, 12)
@@ -214,7 +214,7 @@ struct ConversationPreferenceView: View {
     
     var hotkey: some View {
         Group {
-            Text("热键").font(.headline)
+            Text("hotkey").font(.headline)
             Form {
                 KeyboardShortcuts.Recorder(for: conversation.Name) { shortcut in
                     print("shortcut \(shortcut) \(conversation.uuid.uuidString)")
@@ -230,9 +230,9 @@ struct ConversationPreferenceView: View {
     
     var useContext: some View {
         Group {
-            Text("使用上下文").font(.headline)
+            Text("use_context").font(.headline)
             Toggle(isOn: $oneTimeChat) {
-                Text("启用")
+                Text("enable")
             }.onChange(of: oneTimeChat) { newValue in
                 conversation.withContext = newValue
             }
@@ -241,9 +241,9 @@ struct ConversationPreferenceView: View {
     
     var autoAddText: some View {
         Group {
-            Text("自动添加选中文本").font(.headline)
+            Text("auto_add_selected_text").font(.headline)
             Toggle(isOn: $autoAddSelectedText) {
-                Text("启用")
+                Text("enable")
             }.onChange(of: autoAddSelectedText) { newValue in
                 conversation.autoAddSelectedText = newValue
             }
@@ -253,17 +253,17 @@ struct ConversationPreferenceView: View {
     var typingInPlaceItem: some View {
         Group {
             HStack {
-                Text("TIP 模式").font(.headline)
-                Text("实验功能")
+                Text("tip_mode").font(.headline)
+                Text("experimental_function")
                     .font(.footnote)
                     .foregroundColor(.white)
                     .padding(4)
                     .background(Color.blue.cornerRadius(4))
             }
-            Text("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字").font(.subheadline)
+            Text("tip_mode_description").font(.subheadline)
                 .opacity(0.7)
             Toggle(isOn: $typingInPlace) {
-                Text("启用")
+                Text("enable")
             }.onChange(of: typingInPlace) { newValue in
                 conversation.typingInPlace = newValue
             }

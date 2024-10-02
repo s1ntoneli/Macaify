@@ -38,7 +38,7 @@ struct EmojiPickerView: View {
             // Emoji 列表
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 4) {
-                    Text("最近使用").font(.body)
+                    Text("recently_used").font(.body)
                         .opacity(0.5)
                         .padding(.horizontal)
                         .padding(.top, 8)
@@ -59,7 +59,7 @@ struct EmojiPickerView: View {
                     .padding(.horizontal)
                     .padding(.top, 0)
                     
-                    Text("全部").font(.body)
+                    Text("all").font(.body)
                         .opacity(0.5)
                         .padding(.horizontal)
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 10), spacing: 4) {

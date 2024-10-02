@@ -10,10 +10,10 @@ import SwiftUI
 
 struct MSection<Content>: View where Content: View {
     
-    var title: String
+    var title: LocalizedStringKey
     @ViewBuilder var content: Content
     
-    init(_ title: String, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
     }

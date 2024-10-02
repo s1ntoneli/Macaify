@@ -48,7 +48,7 @@ struct SettingView: View {
     var body: some View {
         VStack {
             // 顶部导航栏
-            ConfigurableView(onBack: { onBackButtonTap() }, title: "全局设置", showLeftButton: true) {}
+            ConfigurableView(onBack: { onBackButtonTap() }, title: "global_settings", showLeftButton: true) {}
             
             // 设置项
             settingItems
@@ -57,7 +57,7 @@ struct SettingView: View {
             // 底部按钮
             HStack {
                 Spacer()
-                PlainButton(icon: "tray.full",label: "完成设置", shortcut: .init("s"), modifiers: .command, action: {
+                PlainButton(icon: "tray.full",label: "finish", shortcut: .init("s"), modifiers: .command, action: {
                     // 保存 openai-api-key 到 Keychain
                     APIKeyManager.shared.setAPIKey(apiKey)
                     onBackButtonTap()
@@ -76,7 +76,7 @@ struct SettingView: View {
     
     var settingItems: some View {
         Form {
-            Section("基础设置") {
+            Section("basic_settings") {
                 VStack {
                     AppShortcuts()
                     if appShortcutOption == "custom" {
@@ -86,11 +86,11 @@ struct SettingView: View {
                 }
             }
             
-            Section("AI 设置") {
-                TextField("输入API密钥", text: $apiKey)
+            Section("ai_settings") {
+                TextField("enter_api_key", text: $apiKey)
                     .focused($focusField, equals: .title)
                 
-                LabeledContent("选择模型") {
+                LabeledContent("model_selection") {
                     HStack(alignment: .center) {
                         Menu {
                             ForEach(LLMModelsManager.shared.modelCategories, id: \.name) { category in
@@ -125,7 +125,7 @@ struct SettingView: View {
                         .fixedSize(horizontal: true, vertical: false)
                     }
                 }
-               LabeledContent("接口格式") {
+               LabeledContent("api_format") {
                     HStack(alignment: .center) {
                         Menu {
                             ForEach(LLMModelsManager.shared.providers, id: \.self) { provider in
@@ -155,18 +155,18 @@ struct SettingView: View {
                 }
                 TextField("max_token", value: $maxToken, formatter: NumberFormatter())
 
-                TextField("Base URL", text: $proxyAddress)
+                TextField("base_url", text: $proxyAddress)
                     .focusable()
                     .focused($focusField, equals: .proxyUrl)
             }
             
             Section {
-                Toggle("开启语音聊天", isOn: $useVoice)
+                Toggle("voice_chat", isOn: $useVoice)
                     .focusable()
                     .focused($focusField, equals: .useVoice)
             }
             
-            Section("系统设置") {
+            Section("system_settings") {
                 LanguageOptions()
             }
             

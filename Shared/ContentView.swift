@@ -31,12 +31,12 @@ struct ContentView: View {
             Color.clear
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("⌘D").font(.body).foregroundColor(.text)
-                    Text("⌘N").font(.body).foregroundColor(.text)
+                    Text("cmd_d").font(.body).foregroundColor(.text)
+                    Text("cmd_n").font(.body).foregroundColor(.text)
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("删除聊天记录").font(.body).foregroundColor(.text)
-                    Text("清除上下文，开始新聊天").font(.body).foregroundColor(.text)
+                    Text("delete_chat_history").font(.body).foregroundColor(.text)
+                    Text("clear_context_start_new_chat").font(.body).foregroundColor(.text)
                 }
             }
         }

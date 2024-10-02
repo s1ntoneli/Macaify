@@ -140,10 +140,13 @@ struct MainView: View {
         }
         .onKeyPressed(.enter) { event in
             print("enter")
-            withAnimation {
-                convViewModel.currentChat = convViewModel.selectedCommandOrDefault
+            if currentChat == nil {
+                withAnimation {
+                    convViewModel.currentChat = convViewModel.selectedCommandOrDefault
+                }
+                return true
             }
-            return true
+            return false
         }
         .onReceive(NotificationCenter.default.publisher(for: .init("toMain"))) { notification in
             DispatchQueue.main.async {
@@ -162,11 +165,11 @@ struct MainView: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("⌘N").font(.body).foregroundColor(.text)
-                    Text("⌘按住").font(.body).foregroundColor(.text)
+                    Text("cmd_press_and_hold").font(.body).foregroundColor(.text)
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     Text("添加机器人").font(.body).foregroundColor(.text)
-                    Text("显示快捷提示").font(.body).foregroundColor(.text)
+                    Text("display_shortcut_tips").font(.body).foregroundColor(.text)
                 }
             }
         }
@@ -174,20 +177,20 @@ struct MainView: View {
     
     var rightTips: some View {
         HStack {
-            Text("↩")
+            Text("enter")
                 .padding(4)
                 .background(Color.gray.opacity(0.1).cornerRadius(4))
-            Text("提问")
+            Text("ask")
 
-            Text("↑↓")
+            Text("up_down_arrows")
                 .padding(4)
                 .background(Color.gray.opacity(0.1).cornerRadius(4))
-            Text("选择")
+            Text("select")
 
             Text("esc")
                 .padding(4)
                 .background(Color.gray.opacity(0.1).cornerRadius(4))
-            Text("取消选择")
+            Text("cancel_selection")
         }
         .foregroundColor(.gray)
     }
@@ -197,7 +200,7 @@ struct MainView: View {
         ScrollViewReader { reader in
             ScrollView {
                 LazyVStack(alignment: .leading) {
-                    Text("常用操作")
+                    Text("bots")
                         .padding(.bottom, 6)
                         .foregroundColor(.text)
                         .font(.headline)
@@ -297,7 +300,7 @@ struct MainView: View {
     var bottomBar: some View {
         HStack {
             HStack(alignment: .center) {
-                Text("反馈")
+                Text("feedback")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
@@ -305,7 +308,7 @@ struct MainView: View {
                             NSWorkspace.shared.open(url)
                         }
                     }
-                Text("Twitter")
+                Text("twitter")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
@@ -313,7 +316,7 @@ struct MainView: View {
                             NSWorkspace.shared.open(url)
                         }
                     }
-                Text("Weibo")
+                Text("weibo")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .onTapGesture {
@@ -324,15 +327,15 @@ struct MainView: View {
             }
             Spacer()
             HStack {
-                PlainButton(icon: "gear", label: "全局设置", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init(","), modifiers: .command) {
+                PlainButton(icon: "gear", label: "global_settings", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init(","), modifiers: .command) {
                     // 点击设置按钮
                     pathManager.to(target: .setting)
                 }
-                PlainButton(icon: "sparkles.rectangle.stack", label: "机器人广场", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("l"), modifiers: .command) {
+                PlainButton(icon: "sparkles.rectangle.stack", label: "bots_plaza", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("l"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .playground)
                 }
-                PlainButton(icon: "square.stack.3d.up.badge.a", label: "添加机器人", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("n"), modifiers: .command) {
+                PlainButton(icon: "square.stack.3d.up.badge.a", label: "create_bot", backgroundColor: Color.gray.opacity(0.05), pressedBackgroundColor: .gray.opacity(0.1), shortcut: .init("n"), modifiers: .command) {
                     // 点击添加指令按钮
                     pathManager.to(target: .addCommand)
                 }
@@ -420,12 +423,12 @@ struct CommandItem: View {
                         .foregroundColor(Color.hex(0x37414F))
                         .lineLimit(1)
                     if state == .normal && command.typingInPlace {
-                        Text("TIP")
+                        Text("tip")
                             .font(.footnote)
                             .foregroundColor(.white)
                             .padding(2)
                             .background(Color.purple.cornerRadius(4))
-                            .help("Typing In Place. 开启后，选中第三方 App 输入框中的文字按下快捷键后不会打开窗口，而是会用机器人的回复直接替换原有文字")
+                            .help("tip_mode_description")
                     }
                     
                     Spacer()

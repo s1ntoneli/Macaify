@@ -40,7 +40,7 @@ struct StartUpButtonStyle_Previews: PreviewProvider {
         Button(action: {
                     print("Button pressed")
                 }) {
-                    Text("Press me")
+                    Text("press_me")
                         .font(.headline)
                         .foregroundColor(.black)
                 }

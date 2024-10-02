@@ -64,7 +64,7 @@ struct TokenizerView: View {
             }
             .padding(.vertical, 2)
         } header: {
-            Text("Input")
+            Text("input")
         }
         
     }
@@ -75,7 +75,7 @@ struct TokenizerView: View {
                 VStack(alignment: .leading) {
                     HStack {
                         VStack {
-                            Text("Tokens").font(.subheadline)
+                            Text("tokens").font(.subheadline)
                             Text("\(output.tokens.count)").font(.headline)
                         }
                         
@@ -83,14 +83,14 @@ struct TokenizerView: View {
                             .frame(height: 32)
                         
                         VStack {
-                            Text("Characters").font(.subheadline)
+                            Text("characters").font(.subheadline)
                             Text("\(output.text.count)").font(.headline)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     
                     Picker("Output Type", selection: $vm.outputType) {
-                        Text("Text").tag(OutputType.text)
+                        Text("text").tag(OutputType.text)
                         Text("Token Ids").tag(OutputType.tokenIds)
                     }
                     .pickerStyle(.segmented)
@@ -110,7 +110,7 @@ struct TokenizerView: View {
             }
         } header: {
             if vm.output != nil {
-                Text("Output")
+                Text("output")
             }
         } footer: {
             Text(footerText).padding(.top, vm.output != nil ? 8 : 0)
