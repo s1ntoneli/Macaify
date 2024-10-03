@@ -65,7 +65,7 @@ struct MacContentView: View {
     @ViewBuilder
     func makeMainView(_ command: GPTConversation? = nil) -> some View {
         MainView()
-            .onChange(of: command) { oldValue, newValue in
+            .compactOnChange(of: command) { oldValue, newValue in
                 ConversationViewModel.shared.currentChat = newValue
             }
     }

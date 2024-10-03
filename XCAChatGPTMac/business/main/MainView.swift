@@ -68,12 +68,12 @@ struct MainView: View {
                 }
             }
         }
-        .onChange(of: convViewModel.currentChat, { oldValue, newValue in
+        .compactOnChange(of: convViewModel.currentChat, { oldValue, newValue in
             withAnimation(.easeInOut.speed(2)) {
                 shouldCollapsedCommands = collapsed && newValue != nil
             }
         })
-        .onChange(of: collapsed, { oldValue, newValue in
+        .compactOnChange(of: collapsed, { oldValue, newValue in
             withAnimation(.easeInOut.speed(2)) {
                 shouldCollapsedCommands = newValue && convViewModel.currentChat != nil
             }
@@ -217,8 +217,7 @@ struct MainView: View {
                             .listRowSeparator(visibility: .hidden)
                     }
                     .onDelete(perform: convViewModel.removeCommand)
-                    .contentMargins(0)
-                    .onChange(of: convViewModel.selectedCommand) { newValue in
+                    .compactOnChange(of: convViewModel.selectedCommand) { _, newValue in
                         print("selectedItem changed newValue \(newValue)")
                         if [.upArrow, .downArrow].contains(indexChangedSource), let newValue {
                             withAnimation {
@@ -231,7 +230,6 @@ struct MainView: View {
                 .padding(.vertical, 8)
             }
             .scrollIndicators(.never)
-            .contentMargins(0)
             .padding(.horizontal)
             .safeAreaInset(edge: .bottom, alignment: .trailing) {
                 if currentChat != nil {

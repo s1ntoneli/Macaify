@@ -1287,7 +1287,7 @@
 				CODE_SIGN_ENTITLEMENTS = XCAChatGPTMac/XCAChatGPTMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1020000;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPTMac/Preview Content\"";
 				DEVELOPMENT_TEAM = JDZMWLF652;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1301,8 +1301,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;
 				SDKROOT = macosx;
@@ -1320,7 +1320,7 @@
 				CODE_SIGN_ENTITLEMENTS = XCAChatGPTMac/XCAChatGPTMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1020000;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPTMac/Preview Content\"";
 				DEVELOPMENT_TEAM = JDZMWLF652;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1334,8 +1334,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.antiless.macaify.mac;
 				PRODUCT_NAME = Macaify;
 				SDKROOT = macosx;

@@ -18,4 +18,17 @@ extension View {
             self
         }
     }
+    
+    @ViewBuilder
+    func compactOnChange<T: Equatable>(of value: T, _ perform: @escaping (T, T) -> Void) -> some View {
+        if #available(macOS 14.0, *) {
+            onChange(of: value) { oldValue, newValue in
+                perform(oldValue, newValue)
+            }
+        } else {
+            onChange(of: value) { newValue in
+                perform(value, newValue)
+            }
+        }
+    }
 }

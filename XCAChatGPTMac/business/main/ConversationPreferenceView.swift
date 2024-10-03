@@ -205,11 +205,21 @@ struct ConversationPreferenceView: View {
     
     var typingInPlaceItem: some View {
         Section {
-            Picker("bot_type", selection: $typingInPlace) {
-                Text("bot_type_edit").tag(true)
-                Text("bot_type_chat").tag(false)
+            Group {
+                if #available(macOS 14, *) {
+                    Picker("bot_type", selection: $typingInPlace) {
+                        Text("bot_type_edit").tag(true)
+                        Text("bot_type_chat").tag(false)
+                    }
+                    .pickerStyle(.segmented)
+                } else {
+                    Picker("bot_type", selection: $typingInPlace) {
+                        Text("bot_type_edit").tag(true)
+                        Text("bot_type_chat").tag(false)
+                    }
+                    .pickerStyle(.segmented)
+                }
             }
-            .pickerStyle(.palette)
             .fixedSize()
             .onChange(of: typingInPlace) { newValue in
                 conversation.typingInPlace = newValue
