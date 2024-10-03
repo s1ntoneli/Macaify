@@ -1,4 +1,7 @@
-## 2.2.5
+## 1.2.1
+
+### Features
+- Increase a large number of new models
 
 ### Fixes
-- Fix the position of the QuickMenu in FCP
+- The issue of the editing mode being ineffective
