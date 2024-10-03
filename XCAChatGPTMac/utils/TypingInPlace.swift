@@ -34,7 +34,7 @@ class TypingInPlace: ObservableObject {
                         guard let api = self.api else { return }
                         TypingInPlace.shared.typing = true
                         api.systemPrompt += "用户输入："
-                        let stream = try await api.sendMessageStream(text: newValue)
+                        let stream = try await api.chatsStream(text: newValue)
                         var sentence = ""
                         var puncted = false
                         let isNotion = isInNotion()
@@ -47,7 +47,8 @@ class TypingInPlace: ObservableObject {
                             }
                         }
                         for try await answer in stream {
-                            sentence += answer
+                            sentence += answer.choices.first?.delta.content ?? ""
+                            print("sentence \(sentence)", answer.choices.first?.delta.content)
                         }
                         
                         self.interupt()
@@ -76,7 +77,7 @@ class TypingInPlace: ObservableObject {
                 Task { @MainActor in
                     TypingInPlace.shared.typing = true
                 }
-                let stream = try await api.sendMessageStream(text: command)
+                let stream = try await api.chatsStream(text: command)
                 var sentence = ""
                 var puncted = false
                 let isNotion = isInNotion()
@@ -89,7 +90,7 @@ class TypingInPlace: ObservableObject {
                     }
                 }
                 for try await answer in stream {
-                    sentence += answer
+                    sentence += answer.choices.first?.delta.content ?? ""
                 }
                 
                 self.interupt()
