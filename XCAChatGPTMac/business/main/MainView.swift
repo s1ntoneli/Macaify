@@ -69,12 +69,12 @@ struct MainView: View {
             }
         }
         .onChange(of: convViewModel.currentChat, { oldValue, newValue in
-            withAnimation {
+            withAnimation(.easeInOut.speed(2)) {
                 shouldCollapsedCommands = collapsed && newValue != nil
             }
         })
         .onChange(of: collapsed, { oldValue, newValue in
-            withAnimation {
+            withAnimation(.easeInOut.speed(2)) {
                 shouldCollapsedCommands = newValue && convViewModel.currentChat != nil
             }
         })
